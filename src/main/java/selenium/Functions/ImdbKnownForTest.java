@@ -33,7 +33,7 @@ public class ImdbKnownForTest extends BasedSharedMethods {
         ));
 
         Assertions.assertTrue(result.isDisplayed(), "Reese Witherspoon nebyla nalezena ve výsledcích hledání.");
-    }
+     }
 
 
     @Test
