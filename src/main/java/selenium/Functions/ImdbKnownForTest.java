@@ -1,18 +1,15 @@
-package selenium.TaskCheckConfig;
+package selenium.Functions;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.*;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import selenium.BasedSharedMethods;
 
 import java.time.Duration;
-import java.util.ArrayList;
-import java.util.List;
 
-public class IMDBTests extends BasedSharedMethods {
+public class ImdbKnownForTest extends BasedSharedMethods {
 
 
 
@@ -40,22 +37,56 @@ public class IMDBTests extends BasedSharedMethods {
 
 
     @Test
-    public void imdbSearchTestElvis() {
+    public void imdbSearchTestSuperman() {
         driver.get("https://www.imdb.com/");
 
         WebElement searchBox = driver.findElement(By.name("q"));
         wait.until(ExpectedConditions.elementToBeClickable(searchBox));
         searchBox.clear();
-        searchBox.sendKeys("Elvis Presley");
+        searchBox.sendKeys("Superman");
         searchBox.submit();
 
         // počkej, až se výsledky načtou (hledání přes selector nebo text)
         WebElement result = wait.until(ExpectedConditions.visibilityOfElementLocated(
-                By.xpath("//a[contains(text(), 'Elvis Presley')]")
+                By.xpath("//a[contains(text(), 'Superman')]")
         ));
 
-        Assertions.assertTrue(result.isDisplayed(), "Elvis Presley nebyl nalezen ve výsledcích hledání.");
+        Assertions.assertTrue(result.isDisplayed(), "Superman nebyl nalezen ve výsledcích hledání.");
     }
+
+    @Test
+    public void imdbClickWildThenWild() {
+        driver.get("https://www.imdb.com/");
+
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+
+        // Do vyhledávání napiš "Wild"
+        WebElement searchBox = wait.until(ExpectedConditions.elementToBeClickable(By.name("q")));
+        searchBox.clear();
+        searchBox.sendKeys("Divočina");
+        searchBox.submit();
+
+        // Klikni na film "Wild"
+        WebElement wildLink = wait.until(ExpectedConditions.elementToBeClickable(
+                By.xpath("//a[contains(text(),'Divočina')]")
+        ));
+        wildLink.click();
+
+        // Počkej, až se načte stránka filmu (titul by měl obsahovat "Wild")
+        wait.until(ExpectedConditions.titleContains("Divočina"));
+
+        // Najdi a klikni na herečku "Reese Witherspoon" na stránce filmu
+        WebElement reeseLink = wait.until(ExpectedConditions.elementToBeClickable(
+                By.xpath("//a[contains(text(),'Reese Witherspoon')]")
+        ));
+        reeseLink.click();
+
+        // Počkej na načtení profilu herečky
+        wait.until(ExpectedConditions.titleContains("Reese Witherspoon"));
+        Assertions.assertTrue(driver.getTitle().contains("Reese Witherspoon"),
+                "Na profil herečky nebyla načtena správná stránka.");
+    }
+
 
 
     @Test
@@ -504,14 +535,6 @@ public class IMDBTests extends BasedSharedMethods {
     }
 
 
-        }
-
-
-
-
-
-
-
-
+}
 
 
