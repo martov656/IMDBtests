@@ -88,6 +88,40 @@ public class ImdbKnownForTest extends BasedSharedMethods {
      }
 
 
+    @Test
+    public void imdbClickWildThenMotel()  {
+        driver.get("https://www.imdb.com/");
+
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+
+        // Do vyhledávání napiš "Wild"
+        WebElement searchBox = wait.until(ExpectedConditions.elementToBeClickable(By.name("q")));
+        searchBox.clear();
+        searchBox.sendKeys("Motel smrti");
+        searchBox.submit();
+
+        // Klikni na film "Wild"
+        WebElement wildLink = wait.until(ExpectedConditions.elementToBeClickable(
+                By.xpath("//a[contains(text(),'Motel smrti')]")
+        ));
+        wildLink.click();
+
+        // Počkej, až se načte stránka filmu (titul by měl obsahovat "Wild")
+        wait.until(ExpectedConditions.titleContains("Motel smrti"));
+
+        // Najdi a klikni na herečku "Reese Witherspoon" na stránce filmu
+        WebElement reeseLink = wait.until(ExpectedConditions.elementToBeClickable(
+                By.xpath("//a[contains(text(),'Kate Beckinsale')]")
+        ));
+        reeseLink.click();
+
+        // Počkej na načtení profilu herečky
+        wait.until(ExpectedConditions.titleContains("Kate Beckinsale"));
+        Assertions.assertTrue(driver.getTitle().contains("Kate Beckinsale"),
+                "Na profil herečky nebyla načtena správná stránka.");
+    }
+
+
 
     @Test
     public void imdbSearchTestKate() throws InterruptedException {

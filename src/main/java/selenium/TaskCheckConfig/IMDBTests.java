@@ -59,7 +59,7 @@ public class IMDBTests extends BasedSharedMethods {
 
 
     @Test
-    public void imdbSearchTestKate() throws InterruptedException {
+    public void imdbSearchTestKate() throws InterruptedException  {
         driver.get("https://www.imdb.com/");
         Thread.sleep(5000);
         ((JavascriptExecutor) driver).executeScript(
