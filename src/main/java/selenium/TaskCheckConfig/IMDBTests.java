@@ -64,7 +64,7 @@ public class IMDBTests extends BasedSharedMethods {
         Thread.sleep(5000);
         ((JavascriptExecutor) driver).executeScript(
                 "const el = document.querySelector('div[role=dialog], iframe'); if(el) el.style.display='none';"
-         );
+        );
         WebElement searchBox = driver.findElement(By.name("q"));
         wait.until(ExpectedConditions.elementToBeClickable(searchBox));
         searchBox.clear();
