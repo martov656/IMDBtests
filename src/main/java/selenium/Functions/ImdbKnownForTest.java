@@ -85,7 +85,7 @@ public class ImdbKnownForTest extends BasedSharedMethods {
         wait.until(ExpectedConditions.titleContains("Reese Witherspoon"));
         Assertions.assertTrue(driver.getTitle().contains("Reese Witherspoon"),
                 "Na profil herečky nebyla načtena správná stránka.");
-    }
+     }
 
 
 

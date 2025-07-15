@@ -17,7 +17,7 @@ public class IMDBTests extends BasedSharedMethods {
 
 
     @Test
-    public void imdbSearchTestReese() throws InterruptedException {
+    public void imdbSearchTestReese() throws InterruptedException  {
         driver.get("https://www.imdb.com/");
         Thread.sleep(5000);
         ((JavascriptExecutor) driver).executeScript(
