@@ -23,17 +23,59 @@ public class ImdbKnownForTest extends BasedSharedMethods {
         WebElement searchBox = driver.findElement(By.name("q"));
         wait.until(ExpectedConditions.elementToBeClickable(searchBox));
         searchBox.clear();
-        searchBox.sendKeys("Reese Witherspoon");
+        searchBox.sendKeys("Keira Knightly");
         Thread.sleep(5000);
         searchBox.submit();
         Thread.sleep(5000);
         // počkej, až se výsledky načtou (hledání přes selector nebo text)
         WebElement result = wait.until(ExpectedConditions.visibilityOfElementLocated(
-                By.xpath("//a[contains(text(), 'Reese Witherspoon')]")
+                By.xpath("//a[contains(text(), 'Keira Knightly')]")
         ));
 
-        Assertions.assertTrue(result.isDisplayed(), "Reese Witherspoon nebyla nalezena ve výsledcích hledání.");
+        Assertions.assertTrue(result.isDisplayed(), "Keira Knightly  nebyla nalezena ve výsledcích hledání.");
     }
+
+
+    @Test
+    public void imdbClickWildThenMotel2() throws InterruptedException {
+        driver.get("https://www.imdb.com/");
+
+
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+
+
+        // Do vyhledávání napiš "Wild"
+        WebElement searchBox = wait.until(ExpectedConditions.elementToBeClickable(By.name("q")));
+        searchBox.clear();
+        searchBox.sendKeys("Motel smrti");
+        searchBox.submit();
+
+
+        // Klikni na film "Wild"
+        WebElement wildLink = wait.until(ExpectedConditions.elementToBeClickable(
+                By.xpath("//a[contains(text(),'Motel smrti')]")
+        ));
+        wildLink.click();
+
+
+        // Počkej, až se načte stránka filmu (titul by měl obsahovat "Wild")
+        wait.until(ExpectedConditions.titleContains("Motel smrti"));
+
+
+        // Najdi a klikni na herečku "Reese Witherspoon" na stránce filmu
+        WebElement reeseLink = wait.until(ExpectedConditions.elementToBeClickable(
+                By.xpath("//a[contains(text(),'Kate Beckinsale')]")
+        ));
+        reeseLink.click();
+
+
+        // Počkej na načtení profilu herečky
+        wait.until(ExpectedConditions.titleContains("Kate Beckinsale"));
+        Assertions.assertTrue(driver.getTitle().contains("Kate Beckinsale"),
+                "Na profil herečky nebyla načtena správná stránka.");
+        Thread.sleep(5000);
+    }
+
 
 
     @Test
@@ -55,10 +97,10 @@ public class ImdbKnownForTest extends BasedSharedMethods {
     }
 
     @Test
-    public void imdbClickWildThenWild() {
+    public void imdbClickWildThenWild() throws InterruptedException {
         driver.get("https://www.imdb.com/");
 
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
         // Do vyhledávání napiš "Wild"
         WebElement searchBox = wait.until(ExpectedConditions.elementToBeClickable(By.name("q")));
@@ -85,27 +127,36 @@ public class ImdbKnownForTest extends BasedSharedMethods {
         wait.until(ExpectedConditions.titleContains("Reese Witherspoon"));
         Assertions.assertTrue(driver.getTitle().contains("Reese Witherspoon"),
                 "Na profil herečky nebyla načtena správná stránka.");
+        Thread.sleep(5000);
+        WebElement knownForMovie = wait.until(ExpectedConditions.elementToBeClickable(
+                By.cssSelector(".ipc-primary-image-list-card__title")
+        ));
+        String movieTitle = knownForMovie.getText().trim();
+        System.out.println("První film v sekci 'Known for': " + movieTitle);
+
+        // Scroll a klik
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", knownForMovie);
+        Thread.sleep(1000);
+        knownForMovie.click();
+
+        // Ověření titulku stránky
+        wait.until(ExpectedConditions.titleContains(movieTitle));
+        Assertions.assertTrue(driver.getTitle().toLowerCase().contains(movieTitle.toLowerCase()),
+                "Po kliknutí na film nebyla načtena správná stránka.");
      }
 
 
-
-
     @Test
-    public void imdbClickWildThenMotel3()  {
+    public void imdbClickWildThenMotel() throws InterruptedException {
         driver.get("https://www.imdb.com/");
 
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
 
         // Do vyhledávání napiš "Wild"
         WebElement searchBox = wait.until(ExpectedConditions.elementToBeClickable(By.name("q")));
         searchBox.clear();
         searchBox.sendKeys("Motel smrti");
         searchBox.submit();
-
-        WebElement link = driver.findElement(By.xpath("//a[contains(text(),'Kate Beckinsale')]"));
-        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", link);
-        link.click();
 
         // Klikni na film "Wild"
         WebElement wildLink = wait.until(ExpectedConditions.elementToBeClickable(
@@ -126,104 +177,25 @@ public class ImdbKnownForTest extends BasedSharedMethods {
         wait.until(ExpectedConditions.titleContains("Kate Beckinsale"));
         Assertions.assertTrue(driver.getTitle().contains("Kate Beckinsale"),
                 "Na profil herečky nebyla načtena správná stránka.");
+
+        WebElement knownForMovie = wait.until(ExpectedConditions.elementToBeClickable(
+                By.cssSelector(".ipc-primary-image-list-card__title")
+        ));
+        String movieTitle = knownForMovie.getText().trim();
+        System.out.println("První film v sekci 'Known for': " + movieTitle);
+
+        // Scroll a klik
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", knownForMovie);
+        Thread.sleep(1000);
+        knownForMovie.click();
+
+        // Ověření titulku stránky
+        wait.until(ExpectedConditions.titleContains(movieTitle));
+        Assertions.assertTrue(driver.getTitle().toLowerCase().contains(movieTitle.toLowerCase()),
+                "Po kliknutí na film nebyla načtena správná stránka.");
     }
 
-    @Test
-    public void imdbClickWildThenMotel1() {
-        driver.manage().window().maximize(); // Pomůže u různých rozlišení
-        driver.get("https://www.imdb.com/");
 
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-
-        // Najdi a napiš do vyhledávacího pole
-        WebElement searchBox = wait.until(ExpectedConditions.elementToBeClickable(By.name("q")));
-        searchBox.clear();
-        searchBox.sendKeys("Motel smrti");
-        searchBox.submit();
-
-        // Počkej, až bude kliknutelný odkaz na film "Motel smrti"
-        WebElement motelLink = wait.until(ExpectedConditions.elementToBeClickable(
-                By.xpath("//a[contains(text(),'Motel smrti')]")
-        ));
-
-        // Scrollni k odkazu a klikni
-        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", motelLink);
-        motelLink.click();
-
-        // Počkej na načtení stránky filmu
-        wait.until(ExpectedConditions.titleContains("Motel smrti"));
-
-        // Najdi a klikni na herečku "Kate Beckinsale"
-        WebElement kateLink = wait.until(ExpectedConditions.elementToBeClickable(
-                By.xpath("//a[contains(text(),'Kate Beckinsale')]")
-        ));
-        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", kateLink);
-        kateLink.click();
-
-        // Ověř, že jsme na správné stránce
-        wait.until(ExpectedConditions.titleContains("Kate Beckinsale"));
-        Assertions.assertTrue(driver.getTitle().contains("Kate Beckinsale"),
-                "Na profil herečky nebyla načtena správná stránka.");
-    }
-
-    @Test
-    public void testMotelSmrtiClickOnly() {
-        driver.manage().window().maximize();
-        driver.get("https://www.imdb.com/");
-
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-
-        WebElement searchBox = wait.until(ExpectedConditions.elementToBeClickable(By.name("q")));
-        searchBox.clear();
-        searchBox.sendKeys("Motel smrti");
-        searchBox.submit();
-
-        WebElement resultLink = wait.until(ExpectedConditions.elementToBeClickable(
-                By.xpath("//a[contains(text(),'Motel smrti')]")
-        ));
-
-        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", resultLink);
-        resultLink.click();
-
-        wait.until(ExpectedConditions.titleContains("Motel smrti"));
-        Assertions.assertTrue(driver.getTitle().contains("Motel smrti"));
-    }
-
-    @Test
-    public void imdbClickMotelThenKate() {
-        driver.manage().window().maximize();
-        driver.get("https://www.imdb.com/");
-
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-
-        // Vyhledání "Motel smrti"
-        WebElement searchBox = wait.until(ExpectedConditions.elementToBeClickable(By.name("q")));
-        searchBox.clear();
-        searchBox.sendKeys("Motel smrti");
-        searchBox.submit();
-
-        // Kliknutí na výsledek "Motel smrti"
-        WebElement motelLink = wait.until(ExpectedConditions.elementToBeClickable(
-                By.xpath("//a[contains(text(),'Motel smrti')]")
-        ));
-        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", motelLink);
-        motelLink.click();
-
-        // Počkej na načtení stránky filmu
-        wait.until(ExpectedConditions.titleContains("Motel smrti"));
-
-        // Klikni na herečku "Kate Beckinsale"
-        WebElement kateLink = wait.until(ExpectedConditions.elementToBeClickable(
-                By.xpath("//a[contains(text(),'Kate Beckinsale')]")
-        ));
-        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", kateLink);
-        kateLink.click();
-
-        // Ověření, že jsme na profilu herečky
-        wait.until(ExpectedConditions.titleContains("Kate Beckinsale"));
-        Assertions.assertTrue(driver.getTitle().contains("Kate Beckinsale"),
-                "Na profil herečky nebyla načtena správná stránka.");
-    }
 
     @Test
     public void imdbSearchTestKate() throws InterruptedException {
