@@ -20,6 +20,7 @@ public class BasedSharedMethods {
     @BeforeEach
     public void setUp() {
         // Inicializace driveru před každým testem
+        System.setProperty("webdriver.gecko.driver", "C:\\CodersLabSelenium\\geckodriver-v0.36.0-win64\\geckodriver.exe");
         driver = new ChromeDriver();
         //driver = new EdgeDriver();
         //driver = new FirefoxDriver();

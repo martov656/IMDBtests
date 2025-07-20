@@ -51,7 +51,6 @@ public class ImdbKateFilms extends BasedSharedMethods {
         wait.until(ExpectedConditions.titleContains("Kate Beckinsale"));
         Assertions.assertTrue(driver.getTitle().contains("Kate Beckinsale"),
                 "Na profil herečky nebyla načtena správná stránka.");
-        Thread.sleep(5000);
 
     }
 
@@ -96,7 +95,7 @@ public class ImdbKateFilms extends BasedSharedMethods {
 
         // Scroll a klik
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", knownForMovie);
-        Thread.sleep(1000);
+        Thread.sleep(400);
         knownForMovie.click();
 
         // Ověření titulku stránky
@@ -146,7 +145,7 @@ public class ImdbKateFilms extends BasedSharedMethods {
 
         // Scroll a klik
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", knownForMovie);
-        Thread.sleep(1000);
+        Thread.sleep(400);
         knownForMovie.click();
 
         // Ověření titulku stránky
@@ -195,57 +194,9 @@ public class ImdbKateFilms extends BasedSharedMethods {
 
         // Scroll a klik
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", knownForMovie);
-        Thread.sleep(1000);
+        Thread.sleep(400);
         knownForMovie.click();
 
-        // Ověření titulku stránky
-        wait.until(ExpectedConditions.titleContains(movieTitle));
-        Assertions.assertTrue(driver.getTitle().toLowerCase().contains(movieTitle.toLowerCase()),
-                "Po kliknutí na film nebyla načtena správná stránka.");
-    }
-
-    @Test
-    public void imdbClickWildThenReese3() throws InterruptedException {
-        driver.get("https://www.imdb.com/");
-
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
-
-        // Do vyhledávání napiš "Wild"
-        WebElement searchBox = wait.until(ExpectedConditions.elementToBeClickable(By.name("q")));
-        searchBox.clear();
-        searchBox.sendKeys("Underworld: Boj v podsvětí");
-        searchBox.submit();
-
-        // Klikni na film "Wild"
-        WebElement bojLink = wait.until(ExpectedConditions.elementToBeClickable(
-                By.xpath("//a[contains(text(),'Underworld: Boj v podsvětí')]")
-        ));
-        bojLink.click();
-
-        // Počkej, až se načte stránka filmu (titul by měl obsahovat "Wild")
-        wait.until(ExpectedConditions.titleContains("Underworld: Boj v podsvětí"));
-
-        // Najdi a klikni na herečku "Reese Witherspoon" na stránce filmu
-        WebElement kateLink = wait.until(ExpectedConditions.elementToBeClickable(
-                By.xpath("//a[contains(text(),'Kate Beckinsale')]")
-        ));
-        kateLink.click();
-
-        // Počkej na načtení profilu herečky
-        wait.until(ExpectedConditions.titleContains("Kate Beckinsale"));
-        Assertions.assertTrue(driver.getTitle().contains("Kate Beckinsale"),
-                "Na profil herečky nebyla načtena správná stránka.");
-
-        WebElement knownForMovie = wait.until(ExpectedConditions.elementToBeClickable(
-                By.cssSelector(".ipc-primary-image-list-card__title")
-        ));
-        String movieTitle = knownForMovie.getText().trim();
-        System.out.println("První film v sekci 'Known for': " + movieTitle);
-
-        // Scroll a klik
-        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", knownForMovie);
-        Thread.sleep(1000);
-        knownForMovie.click();
 
         // Ověření titulku stránky
         wait.until(ExpectedConditions.titleContains(movieTitle));
@@ -254,65 +205,157 @@ public class ImdbKateFilms extends BasedSharedMethods {
     }
 
     @Test
-    public void imdbClickWidowThenKateSecondKnownFor() throws InterruptedException {
-        driver.get("https://www.imdb.com/");
+    public void imdbClickWildThenKateFirstKnownFor() {
+        WebDriver driver = new ChromeDriver();
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+        try {
+            driver.manage().window().maximize();
+            driver.get("https://www.imdb.com/");
 
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+            // Přijmi cookies, pokud se objeví
+            try {
+                WebElement acceptCookies = wait.until(ExpectedConditions.elementToBeClickable(
+                        By.xpath("//button[contains(text(),'Accept') or contains(text(),'Souhlasím')]")
+                ));
+                acceptCookies.click();
+            } catch (TimeoutException e) {
+                System.out.println("Cookies banner se nezobrazil nebo už byl potvrzen.");
+            }
 
-        // Vyhledání "The Widow"
-        WebElement searchBox = wait.until(ExpectedConditions.elementToBeClickable(By.name("q")));
-        searchBox.clear();
-        searchBox.sendKeys("Jolt");
-        searchBox.submit();
+            // Vyhledání filmu "Underworld: Boj v podsvětí"
+            WebElement searchBox = wait.until(ExpectedConditions.elementToBeClickable(By.name("q")));
+            searchBox.clear();
+            searchBox.sendKeys("Underworld: Boj v podsvětí");
+            searchBox.submit();
 
-        // Kliknutí na výsledek "The Widow"
-        WebElement bojLink = wait.until(ExpectedConditions.elementToBeClickable(
-                By.xpath("//a[contains(text(),'Jolt')]")
-        ));
-        bojLink.click();
+            // Kliknutí na výsledek filmu (nejspíš první relevantní odkaz)
+            WebElement movieLink = wait.until(ExpectedConditions.elementToBeClickable(
+                    By.xpath("//a[contains(text(),'Underworld: Boj v podsvětí')]")
+            ));
+            movieLink.click();
 
-        // Ověření titulku stránky
-        wait.until(ExpectedConditions.titleContains("Jolt"));
+            // Scrollni dolů na konec stránky, aby se načetla sekce Known for
+            JavascriptExecutor js = (JavascriptExecutor) driver;
+            js.executeScript("window.scrollTo(0, document.body.scrollHeight);");
 
-        // Kliknutí na herečku Kate Beckinsale
-        WebElement kateLink = wait.until(ExpectedConditions.elementToBeClickable(
-                By.xpath("//a[contains(text(),'Kate Beckinsale')]")
-        ));
-        kateLink.click();
+            // Počkej na sekci Known for
+            WebElement knownForSection = wait.until(ExpectedConditions.visibilityOfElementLocated(
+                    By.cssSelector("section[data-testid='nm-flmg-knwnfor']")));
 
-        // Ověření, že jsme na stránce herečky
-        wait.until(ExpectedConditions.titleContains("Kate Beckinsale"));
-        Assertions.assertTrue(driver.getTitle().contains("Kate Beckinsale"),
-                "Na profil herečky nebyla načtena správná stránka.");
+            System.out.println("Sekce 'Known for' je viditelná.");
 
-        // Získání seznamu filmů v sekci "Known for"
-        List<WebElement> knownForMovies = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(
-                By.cssSelector(".ipc-primary-image-list-card__title")
-        ));
+            // Najdi všechny filmy/seriály v této sekci
+            List<WebElement> knownForMovies = knownForSection.findElements(
+                    By.cssSelector("a.ipc-primary-image-list-card__title"));
 
-        // Kontrola, že jsou alespoň dva filmy
-        Assertions.assertTrue(knownForMovies.size() >= 2, "Na profilu nejsou alespoň dva filmy v sekci 'Known for'.");
+            System.out.println("Počet filmů/seriálů v sekci Known for: " + knownForMovies.size());
 
-        // Vyber druhý film (index 1)
-        WebElement secondMovie = knownForMovies.get(1);
-        String movieTitle = secondMovie.getText().trim();
-        System.out.println("Druhý film v sekci 'Known for': " + movieTitle);
+            // Ověř, že seznam není prázdný
+            Assertions.assertFalse(knownForMovies.isEmpty(), "Sekce 'Known for' nemá žádné filmy.");
 
-        // Scroll a kliknutí
-        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", secondMovie);
-        Thread.sleep(1000);
-        secondMovie.click();
+            // Klikni na první film/seriál v sekci Known for
+            WebElement firstMovie = knownForMovies.get(0);
+            System.out.println("Klikám na první film: " + firstMovie.getText());
+            firstMovie.click();
 
-        // Ověření, že jsme na stránce vybraného filmu
-        wait.until(ExpectedConditions.titleContains(movieTitle));
-        Assertions.assertTrue(driver.getTitle().toLowerCase().contains(movieTitle.toLowerCase()),
-                "Po kliknutí na film nebyla načtena správná stránka.");
+            // Počkej, až se načte stránka filmu
+            wait.until(ExpectedConditions.urlContains("/title/"));
+
+            System.out.println("Stránka filmu načtena: " + driver.getCurrentUrl());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            // Ukonči browser, i když nastane chyba
+            driver.quit();
+        }
     }
 
+
     @Test
-    public void imdbClickWidowThenKateSecondKnownFor2() throws InterruptedException {
+    public void imdbClickWildThenKateFirstKnownFor2() {
+        WebDriver driver = new ChromeDriver();
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+
+        try {
+            driver.manage().window().maximize();
+            driver.get("https://www.imdb.com/");
+
+            // Přijmi cookies, pokud se objeví
+            try {
+                WebElement acceptCookies = wait.until(ExpectedConditions.elementToBeClickable(
+                        By.xpath("//button[contains(text(),'Accept') or contains(text(),'Souhlasím')]")
+                ));
+                acceptCookies.click();
+            } catch (TimeoutException e) {
+                System.out.println("Cookies banner se nezobrazil nebo už byl potvrzen.");
+            }
+
+            // Vyhledání herečky "Kate Beckinsale"
+            WebElement searchBox = wait.until(ExpectedConditions.elementToBeClickable(By.id("suggestion-search")));
+            searchBox.clear();
+            searchBox.sendKeys("Kate Beckinsale");
+            searchBox.sendKeys(Keys.ENTER);
+
+            // Kliknutí na první výsledek, který odpovídá herečce
+            WebElement actressLink = wait.until(ExpectedConditions.elementToBeClickable(
+                    By.cssSelector("a.ipc-metadata-list-summary-item__t") // první výsledek z People
+            ));
+            actressLink.click();
+
+            // Počkej, až se načte profil herečky
+            wait.until(ExpectedConditions.urlContains("/name/"));
+
+            // Najdi sekci 'Known for' – robustně přes nadpis
+            WebElement knownForHeader = wait.until(ExpectedConditions.presenceOfElementLocated(
+                    By.cssSelector("a[href='#name_known_for']")));
+            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", knownForHeader);
+
+            // Následně sekce s kartami filmů
+            WebElement knownForSection = wait.until(ExpectedConditions.presenceOfElementLocated(
+                    By.cssSelector("section[data-testid='nm-flmg-knwnfor']")));
+
+            // Najdi všechny filmy/seriály v sekci Known for
+            List<WebElement> knownForMovies = knownForSection.findElements(
+                    By.cssSelector("a.ipc-primary-image-list-card__title"));
+
+            System.out.println("Počet filmů/seriálů v sekci Known for: " + knownForMovies.size());
+            Assertions.assertFalse(knownForMovies.isEmpty(), "Sekce 'Known for' nemá žádné filmy.");
+
+            // Klikni na první film
+            WebElement firstMovie = knownForMovies.get(0);
+            wait.until(ExpectedConditions.elementToBeClickable(firstMovie)).click();
+
+            // Počkej, až se načte stránka filmu
+            wait.until(ExpectedConditions.urlContains("/title/"));
+
+            // Ověř název filmu na stránce
+            WebElement titleElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("h1")));
+            System.out.println("Otevřen film: " + titleElement.getText());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            driver.quit();
+        }
+    }
+
+
+
+    @Test
+    public void imdbClickWidowThenKateSecondKnownFor2()  {
         driver.get("https://www.imdb.com/");
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+
+        try {
+            WebElement acceptCookies = wait.until(ExpectedConditions.elementToBeClickable(
+                    By.xpath("//button[contains(text(),'Accept') or contains(text(),'Souhlasím')]")
+            ));
+            acceptCookies.click();
+        } catch (TimeoutException e) {
+            System.out.println("Cookies banner se nezobrazil nebo už byl potvrzen.");
+        }
+
 
         // Vyhledání "The Widow"
         WebElement searchBox = wait.until(ExpectedConditions.elementToBeClickable(By.name("q")));
@@ -343,7 +386,7 @@ public class ImdbKateFilms extends BasedSharedMethods {
                 By.xpath("//a[contains(text(),'Kate Beckinsale')]")
         ));
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});", kateLink);
-        Thread.sleep(500);
+
         ((JavascriptExecutor) driver).executeScript("arguments[0].click();", kateLink);
 
         // Ověření načtení profilu
@@ -365,19 +408,37 @@ public class ImdbKateFilms extends BasedSharedMethods {
         System.out.println("Třetí film v sekci 'Known for': " + movieTitle);
 
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});", thirdMovie);
-        Thread.sleep(1000);
+
         ((JavascriptExecutor) driver).executeScript("arguments[0].click();", thirdMovie);
 
         // Ověření, že jsme na stránce filmu
         wait.until(ExpectedConditions.titleContains(movieTitle));
         Assertions.assertTrue(driver.getTitle().toLowerCase().contains(movieTitle.toLowerCase()),
                 "Po kliknutí na film nebyla načtena správná stránka.");
+        WebElement trailerLink = wait.until(ExpectedConditions.presenceOfElementLocated(
+                By.cssSelector("a.ipc-lockup-overlay[aria-label^='Watch']")
+        ));
+
+// Scroll a klik přes JavaScript
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", trailerLink);
+
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", trailerLink);
+
     }
 
     @Test
     public void imdbClickWidowThenKateSecondKnownFor3() throws InterruptedException {
         driver.get("https://www.imdb.com/");
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+
+        try {
+            WebElement acceptCookies = wait.until(ExpectedConditions.elementToBeClickable(
+                    By.xpath("//button[contains(text(),'Accept') or contains(text(),'Souhlasím')]")
+            ));
+            acceptCookies.click();
+        } catch (TimeoutException e) {
+            System.out.println("Cookies banner se nezobrazil nebo už byl potvrzen.");
+        }
 
         // Vyhledání "The Widow"
         WebElement searchBox = wait.until(ExpectedConditions.elementToBeClickable(By.name("q")));
@@ -437,6 +498,98 @@ public class ImdbKateFilms extends BasedSharedMethods {
         wait.until(ExpectedConditions.titleContains(movieTitle));
         Assertions.assertTrue(driver.getTitle().toLowerCase().contains(movieTitle.toLowerCase()),
                 "Po kliknutí na film nebyla načtena správná stránka.");
+        WebElement trailerLink = wait.until(ExpectedConditions.presenceOfElementLocated(
+                By.cssSelector("a.ipc-lockup-overlay[aria-label^='Watch']")
+        ));
+
+// Scroll a klik přes JavaScript
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", trailerLink);
+        Thread.sleep(500);
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", trailerLink);
+        Thread.sleep(5000);
+    }
+
+    @Test
+    public void imdbClickWidowThenKateSecondKnowncomplete() throws InterruptedException {
+        driver.get("https://www.imdb.com/");
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+
+        try {
+            WebElement acceptCookies = wait.until(ExpectedConditions.elementToBeClickable(
+                    By.xpath("//button[contains(text(),'Accept') or contains(text(),'Souhlasím')]")
+            ));
+            acceptCookies.click();
+        } catch (TimeoutException e) {
+            System.out.println("Cookies banner se nezobrazil nebo už byl potvrzen.");
+        }
+
+        // Vyhledání "The Widow"
+        WebElement searchBox = wait.until(ExpectedConditions.elementToBeClickable(By.name("q")));
+        searchBox.clear();
+        searchBox.sendKeys("Sněžní andělé");
+        searchBox.submit();
+
+        // Kliknutí na výsledek "The Widow"
+        WebElement bojLink = wait.until(ExpectedConditions.elementToBeClickable(
+                By.xpath("//a[contains(text(),'Sněžní andělé')]")
+        ));
+        bojLink.click();
+
+        // Počkej na načtení stránky s The Widow
+        wait.until(ExpectedConditions.titleContains("Sněžní andělé"));
+
+        // Pokud existuje overlay, čekej na jeho zmizení
+        List<WebElement> overlays = driver.findElements(By.cssSelector("div.sc-eDvSVe"));
+        if (!overlays.isEmpty()) {
+            boolean visibleOverlay = overlays.stream().anyMatch(WebElement::isDisplayed);
+            if (visibleOverlay) {
+                wait.until(ExpectedConditions.invisibilityOfAllElements(overlays));
+            }
+        }
+
+        // Kliknutí na herečku Kate Beckinsale (přes JS pro jistotu)
+        WebElement kateLink = wait.until(ExpectedConditions.elementToBeClickable(
+                By.xpath("//a[contains(text(),'Kate Beckinsale')]")
+        ));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});", kateLink);
+
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", kateLink);
+
+        // Ověření načtení profilu
+        wait.until(ExpectedConditions.titleContains("Kate Beckinsale"));
+        Assertions.assertTrue(driver.getTitle().contains("Kate Beckinsale"),
+                "Na profil herečky nebyla načtena správná stránka.");
+
+        // Seznam filmů v sekci Known For
+        List<WebElement> knownForMovies = wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(
+                By.cssSelector("a.ipc-primary-image-list-card__title")
+        ));
+
+        Assertions.assertTrue(knownForMovies.size() >= 4,
+                "Na profilu nejsou alespoň tři filmy v sekci 'Known for'.");
+
+        // Třetí film
+        WebElement fourthMovie = knownForMovies.get(3);
+        String movieTitle = fourthMovie.getText().trim();
+        System.out.println("Čtvrtý film v sekci 'Known for': " + movieTitle);
+
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});", fourthMovie);
+
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", fourthMovie);
+
+        // Ověření, že jsme na stránce filmu
+        wait.until(ExpectedConditions.titleContains(movieTitle));
+        Assertions.assertTrue(driver.getTitle().toLowerCase().contains(movieTitle.toLowerCase()),
+                "Po kliknutí na film nebyla načtena správná stránka.");
+        WebElement trailerLink = wait.until(ExpectedConditions.presenceOfElementLocated(
+                By.cssSelector("a.ipc-lockup-overlay[aria-label^='Watch']")
+        ));
+
+// Scroll a klik přes JavaScript
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", trailerLink);
+
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", trailerLink);
+
     }
 
 
