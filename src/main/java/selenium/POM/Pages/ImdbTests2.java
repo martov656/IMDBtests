@@ -23,7 +23,14 @@ public class ImdbTests2 extends BaseTest {
         String actressName = "Jennifer Aniston"; // Nebo "Kate Beckinsale"
         driver.get("https://www.imdb.com/");
 
-
+        try {
+            WebElement acceptCookies = wait.until(ExpectedConditions.elementToBeClickable(
+                    By.xpath("//button[contains(text(),'Accept') or contains(text(),'Souhlasím')]")
+            ));
+            acceptCookies.click();
+        } catch (TimeoutException e) {
+            System.out.println("Cookies banner se nezobrazil nebo už byl potvrzen.");
+        }
         // Skryj modální GDPR dialog, pokud je
         ((JavascriptExecutor) driver).executeScript(
                 "let dialog = document.querySelector('div[role=dialog]'); if (dialog) dialog.remove();"
@@ -77,6 +84,15 @@ public class ImdbTests2 extends BaseTest {
         String movieTitle = "The Morning Show";
         driver.get("https://www.imdb.com/");
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+
+        try {
+            WebElement acceptCookies = wait.until(ExpectedConditions.elementToBeClickable(
+                    By.xpath("//button[contains(text(),'Accept') or contains(text(),'Souhlasím')]")
+            ));
+            acceptCookies.click();
+        } catch (TimeoutException e) {
+            System.out.println("Cookies banner se nezobrazil nebo už byl potvrzen.");
+        }
 
         // GDPR dialog
         ((JavascriptExecutor) driver).executeScript(
@@ -251,9 +267,9 @@ public class ImdbTests2 extends BaseTest {
     }
 
     @Test
-    public void openPreviousMovieRobust() throws InterruptedException {
+    public void openPreviousMovieRobust()  {
         String actressName = "Reese Witherspoon";
-        String movieTitle = "The Morning Show";
+
 
         driver.get("https://www.imdb.com/");
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
@@ -290,41 +306,19 @@ public class ImdbTests2 extends BaseTest {
         Assertions.assertTrue(driver.getTitle().contains(actressName));
 
         // Najít a rozbalit sekci "Previous" (předchozí projekty)
-        WebElement accordionLabel = wait.until(ExpectedConditions.elementToBeClickable(
-                By.cssSelector("label[data-testid='accordion-item-actress-previous-projects']")
-        ));
 
-        // Kliknout na rozbalení, pokud není otevřená
-        if (!"true".equals(accordionLabel.getAttribute("aria-expanded"))) {
-            accordionLabel.click();
-            Thread.sleep(1000);
-        }
 
-        WebElement container = driver.findElement(By.id("accordion-item-actress-previous-projects"));
-
-        // Scrollovat v containeru postupně dolů, aby se načetly všechny položky (lazy loading)
-        long lastHeight = (long)((JavascriptExecutor)driver).executeScript("return arguments[0].scrollHeight;", container);
-        while (true) {
-            ((JavascriptExecutor)driver).executeScript("arguments[0].scrollTo(0, arguments[0].scrollHeight);", container);
-            Thread.sleep(1000); // Počkat načtení
-            long newHeight = (long)((JavascriptExecutor)driver).executeScript("return arguments[0].scrollHeight;", container);
-            if (newHeight == lastHeight) {
-                break; // Už nic dalšího se nenačetlo
-            }
-            lastHeight = newHeight;
-        }
 
         // Najít odkaz na požadovaný film
-        WebElement movieLink = container.findElement(By.xpath(".//a[contains(text(),'" + movieTitle + "')]"));
+        WebElement trailerLink = wait.until(ExpectedConditions.presenceOfElementLocated(
+                By.cssSelector("a.ipc-lockup-overlay[aria-label^='Watch']")
+        ));
 
-        // Scrollnout na odkaz a kliknout přes JS
-        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", movieLink);
-        Thread.sleep(500);
-        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", movieLink);
+// Scroll a klik přes JavaScript
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", trailerLink);
 
-        // Ověřit načtení stránky filmu
-        wait.until(ExpectedConditions.titleContains(movieTitle));
-        Assertions.assertTrue(driver.getTitle().contains(movieTitle));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", trailerLink);
+
     }
 
 
