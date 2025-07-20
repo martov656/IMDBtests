@@ -189,6 +189,15 @@ public class IMDBTests extends BasedSharedMethods {
     public void imdbSearchTesReeseProfileMetaKnownFor()  {
         driver.get("https://www.imdb.com/");
 
+        try {
+            WebElement acceptCookies = wait.until(ExpectedConditions.elementToBeClickable(
+                    By.xpath("//button[contains(text(),'Accept') or contains(text(),'Souhlasím')]")
+            ));
+            acceptCookies.click();
+        } catch (TimeoutException e) {
+            System.out.println("Cookies banner se nezobrazil nebo už byl potvrzen.");
+        }
+
 
         ((JavascriptExecutor) driver).executeScript(
                 "const el = document.querySelector('div[role=dialog], iframe'); if(el) el.style.display='none';"
@@ -236,7 +245,7 @@ public class IMDBTests extends BasedSharedMethods {
     }
 
     @Test
-    public void imdbSearchTestKateProfileAndClickMovie() {
+    public void imdbSearchTestKateProfileAndClickMovie() throws InterruptedException {
         driver.get("https://www.imdb.com/");
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
 
@@ -279,7 +288,7 @@ public class IMDBTests extends BasedSharedMethods {
 
 // Scroll k němu
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", movieLink);
-
+        Thread.sleep(450);
 
         movieLink.click();
 
@@ -293,7 +302,7 @@ public class IMDBTests extends BasedSharedMethods {
 
 
     @Test
-    public void imdbTestKnownForXPathClick()  {
+    public void imdbTestKnownForXPathClick() throws InterruptedException {
         String actressName = "Kate Beckinsale"; // nebo Reese Witherspoon
         driver.get("https://www.imdb.com/");
 
@@ -336,7 +345,7 @@ public class IMDBTests extends BasedSharedMethods {
 
         // Scroll a klik
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", knownForMovie);
-
+        Thread.sleep(350);
         knownForMovie.click();
 
         // Ověření titulku stránky
@@ -350,6 +359,14 @@ public class IMDBTests extends BasedSharedMethods {
         String actressName = "Reese Witherspoon"; // nebo Reese Witherspoon
         driver.get("https://www.imdb.com/");
 
+        try {
+            WebElement acceptCookies = wait.until(ExpectedConditions.elementToBeClickable(
+                    By.xpath("//button[contains(text(),'Accept') or contains(text(),'Souhlasím')]")
+            ));
+            acceptCookies.click();
+        } catch (TimeoutException e) {
+            System.out.println("Cookies banner se nezobrazil nebo už byl potvrzen.");
+        }
 
         // Skryj modální GDPR dialog
         ((JavascriptExecutor) driver).executeScript(
@@ -380,7 +397,7 @@ public class IMDBTests extends BasedSharedMethods {
 
         // Scroll a klik
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", knownForMovie);
-
+        Thread.sleep(350);
         knownForMovie.click();
 
         // Ověření titulku stránky
@@ -393,7 +410,14 @@ public class IMDBTests extends BasedSharedMethods {
     public void imdbTestClickFirstKnownForMovie() throws InterruptedException {
         String actressName = "Scarlett Johansson"; // Nebo "Kate Beckinsale"
         driver.get("https://www.imdb.com/");
-
+        try {
+            WebElement acceptCookies = wait.until(ExpectedConditions.elementToBeClickable(
+                    By.xpath("//button[contains(text(),'Accept') or contains(text(),'Souhlasím')]")
+            ));
+            acceptCookies.click();
+        } catch (TimeoutException e) {
+            System.out.println("Cookies banner se nezobrazil nebo už byl potvrzen.");
+        }
 
         // Skryj modální GDPR dialog, pokud je
         ((JavascriptExecutor) driver).executeScript(
@@ -424,7 +448,7 @@ public class IMDBTests extends BasedSharedMethods {
         System.out.println("První film v sekci 'Known For': " + movieTitle);
 
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", firstKnownForMovie);
-
+        Thread.sleep(400);
         firstKnownForMovie.click();
 
         // Ověření, že jsme na stránce filmu
@@ -438,7 +462,14 @@ public class IMDBTests extends BasedSharedMethods {
         String actressName = "Jennifer Aniston"; // Nebo "Kate Beckinsale"
         driver.get("https://www.imdb.com/");
 
-
+        try {
+            WebElement acceptCookies = wait.until(ExpectedConditions.elementToBeClickable(
+                    By.xpath("//button[contains(text(),'Accept') or contains(text(),'Souhlasím')]")
+            ));
+            acceptCookies.click();
+        } catch (TimeoutException e) {
+            System.out.println("Cookies banner se nezobrazil nebo už byl potvrzen.");
+        }
         // Skryj modální GDPR dialog, pokud je
         ((JavascriptExecutor) driver).executeScript(
                 "let dialog = document.querySelector('div[role=dialog]'); if (dialog) dialog.remove();"
@@ -468,7 +499,7 @@ public class IMDBTests extends BasedSharedMethods {
         System.out.println("První film v sekci 'Known For': " + movieTitle);
 
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", firstKnownForMovie);
-
+        Thread.sleep(400);
         firstKnownForMovie.click();
 
         // Ověření, že jsme na stránce filmu
@@ -512,7 +543,7 @@ public class IMDBTests extends BasedSharedMethods {
         System.out.println("První film v sekci 'Known For': " + movieTitle);
 
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", firstKnownForMovie);
-
+        Thread.sleep(1000);
         firstKnownForMovie.click();
 
         // Ověření, že jsme na stránce filmu

@@ -20,6 +20,15 @@ public class ImdbBaywatchserie extends BasedSharedMethods {
     public void imdbClickWildThenallienCarmen() throws InterruptedException {
         driver.get("https://www.imdb.com/");
 
+        try {
+            WebElement acceptCookies = wait.until(ExpectedConditions.elementToBeClickable(
+                    By.xpath("//button[contains(text(),'Accept') or contains(text(),'Souhlasím')]")
+            ));
+            acceptCookies.click();
+        } catch (TimeoutException e) {
+            System.out.println("Cookies banner se nezobrazil nebo už byl potvrzen.");
+        }
+
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
 
         // Do vyhledávání napiš "Wild"

@@ -652,6 +652,15 @@ public class ImdbTestFilms extends BasedSharedMethods {
         driver.get("https://www.imdb.com/");
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
 
+        try {
+            WebElement acceptCookies = wait.until(ExpectedConditions.elementToBeClickable(
+                    By.xpath("//button[contains(text(),'Accept') or contains(text(),'Souhlasím')]")
+            ));
+            acceptCookies.click();
+        } catch (TimeoutException e) {
+            System.out.println("Cookies banner se nezobrazil nebo už byl potvrzen.");
+        }
+
         // 1. Najdi film "Baywatch" (Pobřežní hlídka)
         WebElement searchBox = wait.until(ExpectedConditions.elementToBeClickable(By.name("q")));
         searchBox.clear();
@@ -715,6 +724,15 @@ public class ImdbTestFilms extends BasedSharedMethods {
     @Test
     public void imdbClickBaywatchThenKelly() throws InterruptedException {
         driver.get("https://www.imdb.com/");
+
+        try {
+            WebElement acceptCookies = wait.until(ExpectedConditions.elementToBeClickable(
+                    By.xpath("//button[contains(text(),'Accept') or contains(text(),'Souhlasím')]")
+            ));
+            acceptCookies.click();
+        } catch (TimeoutException e) {
+            System.out.println("Cookies banner se nezobrazil nebo už byl potvrzen.");
+        }
 
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
 
@@ -866,6 +884,15 @@ public class ImdbTestFilms extends BasedSharedMethods {
     public void imdbClickWildThendared() throws InterruptedException {
         driver.get("https://www.imdb.com/");
 
+        try {
+            WebElement acceptCookies = wait.until(ExpectedConditions.elementToBeClickable(
+                    By.xpath("//button[contains(text(),'Accept') or contains(text(),'Souhlasím')]")
+            ));
+            acceptCookies.click();
+        } catch (TimeoutException e) {
+            System.out.println("Cookies banner se nezobrazil nebo už byl potvrzen.");
+        }
+
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
 
         // Do vyhledávání napiš "Wild"
@@ -902,7 +929,7 @@ public class ImdbTestFilms extends BasedSharedMethods {
 
         // Scroll a klik
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", knownForMovie);
-        Thread.sleep(5000);
+        Thread.sleep(1450);
         knownForMovie.click();
 
         // Ověření titulku stránky
@@ -914,7 +941,7 @@ public class ImdbTestFilms extends BasedSharedMethods {
     }
 
     @Test
-    public void imdbClickWildThendared2() throws InterruptedException {
+    public void imdbClickWildThendared2()  {
         driver.get("https://www.imdb.com/");
 
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
@@ -937,9 +964,9 @@ public class ImdbTestFilms extends BasedSharedMethods {
 
 // Scroll a klik přes JavaScript
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", trailerLink);
-        Thread.sleep(500);
+
         ((JavascriptExecutor) driver).executeScript("arguments[0].click();", trailerLink);
-        Thread.sleep(5000);
+
 
 
         WebElement acceptCookies = driver.findElement(By.xpath("//button[contains(text(),'Accept')]"));
@@ -1163,6 +1190,134 @@ public class ImdbTestFilms extends BasedSharedMethods {
         ((JavascriptExecutor) driver).executeScript("arguments[0].click();", trailerLink);
 
     }
+
+    @Test
+    public void openPreviousMovieRobust()  {
+        String actressName = "Dakota Johnson";
+
+
+        driver.get("https://www.imdb.com/");
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+
+        // Přijmout cookies, pokud jsou
+        try {
+            WebElement acceptCookies = wait.until(ExpectedConditions.elementToBeClickable(
+                    By.xpath("//button[contains(text(),'Accept') or contains(text(),'Souhlasím')]")
+            ));
+            acceptCookies.click();
+        } catch (TimeoutException e) {
+            System.out.println("Cookies banner se nezobrazil nebo už byl potvrzen.");
+        }
+
+        // Odebrat GDPR dialog, pokud existuje
+        ((JavascriptExecutor) driver).executeScript(
+                "let dialog = document.querySelector('div[role=dialog]'); if (dialog) dialog.remove();"
+        );
+
+        // Vyhledat herečku
+        WebElement searchBox = wait.until(ExpectedConditions.elementToBeClickable(By.name("q")));
+        searchBox.clear();
+        searchBox.sendKeys(actressName);
+        searchBox.submit();
+
+        // Kliknout na profil herečky
+        WebElement profileLink = wait.until(ExpectedConditions.elementToBeClickable(
+                By.xpath("//a[contains(text(),'" + actressName + "')]")
+        ));
+        profileLink.click();
+
+        // Ověřit, že jsme na stránce herečky
+        wait.until(ExpectedConditions.titleContains(actressName));
+        Assertions.assertTrue(driver.getTitle().contains(actressName));
+
+        // Najít a rozbalit sekci "Previous" (předchozí projekty)
+
+
+
+        // Najít odkaz na požadovaný film
+        WebElement trailerLink = wait.until(ExpectedConditions.presenceOfElementLocated(
+                By.cssSelector("a.ipc-lockup-overlay[aria-label^='Watch']")
+        ));
+
+// Scroll a klik přes JavaScript
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", trailerLink);
+
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", trailerLink);
+
+    }
+
+    @Test
+    public void openShowFromJohnsonProfile2() throws InterruptedException {
+        String actressName = "Dakota Johnson";
+        String showTitle = "Dokonalá shoda";
+
+        driver.get("https://www.imdb.com/");
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+
+        try {
+            WebElement acceptCookies = wait.until(ExpectedConditions.elementToBeClickable(
+                    By.xpath("//button[contains(text(),'Accept') or contains(text(),'Souhlasím')]")
+            ));
+            acceptCookies.click();
+        } catch (TimeoutException e) {
+            System.out.println("Cookies banner se nezobrazil nebo už byl potvrzen.");
+        }
+
+
+        // Skryj GDPR dialog
+        ((JavascriptExecutor) driver).executeScript(
+                "let dialog = document.querySelector('div[role=dialog]'); if (dialog) dialog.remove();"
+        );
+
+        // Vyhledání herečky
+        WebElement searchBox = wait.until(ExpectedConditions.elementToBeClickable(By.name("q")));
+        searchBox.clear();
+        searchBox.sendKeys(actressName);
+        searchBox.submit();
+
+        // Klik na profil herečky
+        WebElement profileLink = wait.until(ExpectedConditions.elementToBeClickable(
+                By.xpath("//a[contains(text(),'" + actressName + "')]")
+        ));
+        profileLink.click();
+
+        // Ověř, že jsme na stránce herečky
+        wait.until(ExpectedConditions.titleContains(actressName));
+        Assertions.assertTrue(driver.getTitle().contains(actressName));
+
+        // Najdi odkaz na "The Morning Show" – hledání podle částečného textu (větší šance úspěchu)
+        WebElement showLink = wait.until(ExpectedConditions.presenceOfElementLocated(
+                By.partialLinkText("Dokonalá shoda")
+        ));
+
+        // Scroll na rodičovský element, aby se lazy-load načetl správně
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", showLink);
+
+        // Pár ms počkej, než stránka doroluje
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        // Klik přes JavaScript (lepší proti překrytým prvkům)
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", showLink);
+
+        // Ověření, že jsme na stránce seriálu
+        wait.until(ExpectedConditions.titleContains(showTitle));
+        Assertions.assertTrue(driver.getTitle().contains(showTitle), "Nebyla načtena stránka pro U tebe nebo u mě?");
+
+        // Trailer
+        WebElement trailerLink = wait.until(ExpectedConditions.presenceOfElementLocated(
+                By.cssSelector("a.ipc-lockup-overlay[aria-label^='Watch']")
+        ));
+
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", trailerLink);
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", trailerLink);
+
+    }
+
+
 
 }
 
