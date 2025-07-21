@@ -242,12 +242,6 @@ public class ImdbTests2 extends BaseTest {
         // Scroll na rodičovský element, aby se lazy-load načetl správně
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", showLink);
 
-        // Pár ms počkej, než stránka doroluje
-        try {
-            Thread.sleep(500);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
 
         // Klik přes JavaScript (lepší proti překrytým prvkům)
         ((JavascriptExecutor) driver).executeScript("arguments[0].click();", showLink);
@@ -322,7 +316,7 @@ public class ImdbTests2 extends BaseTest {
     }
 
     @Test
-    public void imdbClickWildThenMotel3() throws InterruptedException {
+    public void imdbClickWildThenMotel3()  {
         driver.get("https://www.imdb.com/");
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 

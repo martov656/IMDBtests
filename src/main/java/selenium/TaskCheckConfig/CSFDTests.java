@@ -70,30 +70,6 @@ public class CSFDTests extends BasedSharedMethods {
 
     }
 
-    @Test
-    public void divSearchTestCS() throws InterruptedException {
-        driver.get("https://csfd.cz/");
-
-        try {
-            // Přijetí cookies – podle ID a textu
-            WebElement acceptCookies = wait.until(ExpectedConditions.elementToBeClickable(
-                    By.xpath("//button[@id='didomi-notice-agree-button' or span[contains(text(),'Rozumím a přijímám')]]")
-            ));
-            acceptCookies.click();
-            System.out.println("Cookies byly přijaty.");
-        } catch (TimeoutException e) {
-            System.out.println("Cookies banner se nezobrazil nebo už byl potvrzen.");
-        }
-
-        WebElement element = driver.findElement(By.name("q"));
-        wait.until(ExpectedConditions.elementToBeClickable(element));
-        element.clear();
-        element.sendKeys("Scarlett Johansson");
-        element.submit();
-
-        wait.until(ExpectedConditions.titleContains("Scarlett Johansson"));
-        Assertions.assertTrue(driver.getPageSource().contains("Scarlett Johansson"), "Searched key not found ...");
-    }
 
     @Test
     public void divSearchTestsc2() {
@@ -127,54 +103,6 @@ public class CSFDTests extends BasedSharedMethods {
 
 
     @Test
-    public void testClickActressFromFilmCreators() {
-        driver.get("https://csfd.cz/");
-
-        try {
-            WebElement acceptCookies = wait.until(ExpectedConditions.elementToBeClickable(
-                    By.id("didomi-notice-agree-button")
-            ));
-            acceptCookies.click();
-        } catch (TimeoutException e) {
-            System.out.println("Cookies už byly potvrzeny nebo se nezobrazily.");
-        }
-
-        // Vyhledání filmu
-        WebElement searchBox = wait.until(ExpectedConditions.elementToBeClickable(By.name("q")));
-        searchBox.clear();
-        searchBox.sendKeys("Manželská historie"); // nebo jiný film s herečkou
-        searchBox.submit();
-
-        // Klik na odkaz filmu (pokud tam nejsme rovnou)
-        try {
-            WebElement filmLink = wait.until(ExpectedConditions.elementToBeClickable(
-                    By.xpath("//a[contains(@href,'/film/') and contains(.,'Manželská historie')]")
-            ));
-            filmLink.click();
-        } catch (Exception e) {
-            System.out.println("Zřejmě jsme už na stránce filmu.");
-        }
-
-        // Scroll dolů – pro jistotu
-        ((JavascriptExecutor) driver).executeScript("window.scrollTo(0, document.body.scrollHeight / 2);");
-
-        // Počkej na profil herečky ve tvůrcích
-        try {
-            WebElement actressLink = wait.until(ExpectedConditions.visibilityOfElementLocated(
-                    By.xpath("//section[contains(@class,'creators')]//a[contains(.,'Scarlett Johansson')]")
-            ));
-            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", actressLink);
-            wait.until(ExpectedConditions.elementToBeClickable(actressLink)).click();
-
-            // Ověření přesměrování
-            wait.until(ExpectedConditions.titleContains("Scarlett Johansson"));
-            System.out.println("Kliknutí na profil herečky proběhlo.");
-        } catch (Exception e) {
-            System.out.println("Herečka v sekci Tvůrci nebyla nalezena: " + e.getMessage());
-        }
-    }
-
-    @Test
     public void testClickActressFromCreatorsSection() {
         driver.get("https://csfd.cz/");
 
@@ -196,16 +124,12 @@ public class CSFDTests extends BasedSharedMethods {
         searchBox.submit();
 
         // Kliknutí na výsledek filmu
-        try {
+
             WebElement filmLink = wait.until(ExpectedConditions.elementToBeClickable(
                     By.xpath("//a[contains(@href,'/film/') and contains(.,'Black Widow')]")
             ));
             filmLink.click();
-            System.out.println("Kliknuto na odkaz filmu.");
-        } catch (Exception e) {
-            System.out.println("Film nebyl nalezen nebo kliknutí selhalo: " + e.getMessage());
-            return;
-        }
+
 
         // Scroll dolů – polovina stránky
         ((JavascriptExecutor) driver).executeScript("window.scrollTo(0, document.body.scrollHeight / 2);");
@@ -223,7 +147,7 @@ public class CSFDTests extends BasedSharedMethods {
             wait.until(ExpectedConditions.titleContains("Scarlett Johansson"));
             Assertions.assertTrue(driver.getPageSource().contains("Scarlett Johansson"), "Profil herečky nebyl načten.");
         } catch (Exception e) {
-            System.out.println("Herečka nebyla nalezena v sekci Tvůrci: " + e.getMessage());
+
         }
     }
 
@@ -243,13 +167,13 @@ public class CSFDTests extends BasedSharedMethods {
         // Vyhledání filmu
         WebElement searchBox = wait.until(ExpectedConditions.elementToBeClickable(By.name("q")));
         searchBox.clear();
-        searchBox.sendKeys("Scarlett Johansson");
+        searchBox.sendKeys("Jurský park");
         searchBox.submit();
 
         // Kliknutí na výsledek filmu
         try {
             WebElement filmLink = wait.until(ExpectedConditions.elementToBeClickable(
-                    By.xpath("//a[contains(@href,'/film/') and contains(.,'Scarlett Johansson')]")
+                    By.xpath("//a[contains(@href,'/film/') and contains(.,'Jurský park')]")
             ));
             filmLink.click();
         } catch (Exception e) {
@@ -268,16 +192,16 @@ public class CSFDTests extends BasedSharedMethods {
 
             // Najdeme herečku a klikneme
             WebElement actressLink = wait.until(ExpectedConditions.elementToBeClickable(
-                    By.xpath("//section//a[contains(.,'Scarlett Johansson')]")
+                    By.xpath("//section//a[contains(.,'Laura Dern')]")
             ));
             ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", actressLink);
             actressLink.click();
 
             // Ověříme, že jsme na profilu herečky
-            wait.until(ExpectedConditions.titleContains("Scarlett Johansson"));
-            Assertions.assertTrue(driver.getPageSource().contains("Scarlett Johansson"));
+            wait.until(ExpectedConditions.titleContains("Laura Dern"));
+            Assertions.assertTrue(driver.getPageSource().contains("Laura Dern"));
         } catch (Exception e) {
-            System.out.println("Herečka nebyla nalezena v sekci Tvůrci: " + e.getMessage());
+
         }
     }
 
@@ -297,13 +221,13 @@ public class CSFDTests extends BasedSharedMethods {
         // Vyhledání filmu
         WebElement searchBox = wait.until(ExpectedConditions.elementToBeClickable(By.name("q")));
         searchBox.clear();
-        searchBox.sendKeys("Kate Beckinsale");
+        searchBox.sendKeys("Šílený Max");
         searchBox.submit();
 
         // Kliknutí na výsledek filmu
         try {
             WebElement filmLink = wait.until(ExpectedConditions.elementToBeClickable(
-                    By.xpath("//a[contains(@href,'/film/') and contains(.,'Kate Beckinsale')]")
+                    By.xpath("//a[contains(@href,'/film/') and contains(.,'Šílený Max')]")
             ));
             filmLink.click();
         } catch (Exception e) {
@@ -322,21 +246,21 @@ public class CSFDTests extends BasedSharedMethods {
 
             // Najdeme herečku a klikneme
             WebElement actressLink = wait.until(ExpectedConditions.elementToBeClickable(
-                    By.xpath("//section//a[contains(.,'Kate Beckinsale')]")
+                    By.xpath("//section//a[contains(.,'Šílený Max')]")
             ));
             ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", actressLink);
             actressLink.click();
 
-            // Ověříme, že jsme na profilu herečky
-            wait.until(ExpectedConditions.titleContains("Kate Beckinsale"));
-            Assertions.assertTrue(driver.getPageSource().contains("Kate Beckinsale"));
+            // Ověříme, že jsme na profilu
+            wait.until(ExpectedConditions.titleContains("Mel Gibson"));
+            Assertions.assertTrue(driver.getPageSource().contains("Mel Gibson"));
         } catch (Exception e) {
-            System.out.println("Herečka nebyla nalezena v sekci Tvůrci: " + e.getMessage());
+
         }
     }
 
     @Test
-    public void testClickOnActressProfile() {
+    public void testClickOnActressProfile() throws InterruptedException {
         driver.get("https://www.csfd.cz/");
 
         // Přijetí cookies
@@ -348,25 +272,26 @@ public class CSFDTests extends BasedSharedMethods {
         } catch (TimeoutException ignored) {
         }
 
-        // Vyhledání herečky podle jména
+        // Vyhledání herece podle jména
         WebElement searchBox = wait.until(ExpectedConditions.elementToBeClickable(By.name("q")));
         searchBox.clear();
-        searchBox.sendKeys("Kate Beckinsale");
+        searchBox.sendKeys("Chuck Norris ");
         searchBox.submit();
 
-        // Kliknutí na odkaz vedoucí na profil herečky
+        // Kliknutí na odkaz vedoucí na profil herce
         try {
             WebElement actressProfileLink = wait.until(ExpectedConditions.elementToBeClickable(
-                    By.xpath("//a[contains(@href, '/tvurce/') and contains(.,'Kate Beckinsale')]")
+                    By.xpath("//a[contains(@href, '/tvurce/') and contains(.,'Chuck Norris')]")
             ));
             actressProfileLink.click();
 
-            // Ověříme, že jsme na profilu herečky
-            wait.until(ExpectedConditions.titleContains("Kate Beckinsale"));
-            Assertions.assertTrue(driver.getPageSource().contains("Kate Beckinsale"));
-            System.out.println("Test úspěšně prošel – profil herečky otevřen.");
+            // Ověříme, že jsme na profilu herce
+            wait.until(ExpectedConditions.titleContains("Chuck Norris"));
+            Assertions.assertTrue(driver.getPageSource().contains("Chuck Norris"));
+            System.out.println("Test úspěšně prošel – profil herce otevřen.");
         } catch (Exception e) {
-            System.out.println("Nepodařilo se najít nebo otevřít profil herečky: " + e.getMessage());
+
+            System.out.println("Nepodařilo se najít nebo otevřít profil herece: " + e.getMessage());
         }
     }
 
@@ -389,16 +314,16 @@ public class CSFDTests extends BasedSharedMethods {
         WebElement element = driver.findElement(By.name("q"));
         wait.until(ExpectedConditions.elementToBeClickable(element));
         element.clear();
-        element.sendKeys("Canary Black");
+        element.sendKeys("Vetřelec");
         element.submit();
 
-        wait.until(ExpectedConditions.titleContains("Canary Black"));
-        Assertions.assertTrue(driver.getPageSource().contains("Canary Black"), "Searched key not found ...");
+        wait.until(ExpectedConditions.titleContains("Vetřelec"));
+        Assertions.assertTrue(driver.getPageSource().contains("Vetřelec"), "Searched key not found ...");
 
     }
 
     @Test
-    public void divSearchTestCS3() throws InterruptedException {
+    public void divSearchTestCS3()  {
         driver.get("https://csfd.cz/");
 
         try {
@@ -414,27 +339,27 @@ public class CSFDTests extends BasedSharedMethods {
         WebElement element = driver.findElement(By.name("q"));
         wait.until(ExpectedConditions.elementToBeClickable(element));
         element.clear();
-        element.sendKeys("Canary Black");
+        element.sendKeys("Hra s nevěrou ");
         element.submit();
 
-        wait.until(ExpectedConditions.titleContains("Canary Black"));
-        Assertions.assertTrue(driver.getPageSource().contains("Canary Black"), "Searched key not found ...");
+        wait.until(ExpectedConditions.titleContains("Hra s nevěrou "));
+        Assertions.assertTrue(driver.getPageSource().contains("Hra s nevěrou "), "Searched key not found ...");
 
         // Klikni na název filmu
         WebElement filmLink = wait.until(ExpectedConditions.elementToBeClickable(
-                By.xpath("//a[contains(., 'Canary Black')]")
+                By.xpath("//a[contains(., 'Hra s nevěrou')]")
         ));
         filmLink.click();
 
         System.out.println("Kliknutí na odkaz filmu bylo úspěšné.");
 
         // Ověř, že se stránka načetla
-        wait.until(ExpectedConditions.titleContains("Canary Black"));
+        wait.until(ExpectedConditions.titleContains("Hra s nevěrou"));
     }
 
 
     @Test
-    public void divSearchTestCS4() throws InterruptedException {
+    public void divSearchTestCS4()  {
         driver.get("https://csfd.cz/");
 
         try {
@@ -451,22 +376,22 @@ public class CSFDTests extends BasedSharedMethods {
         WebElement element = driver.findElement(By.name("q"));
         wait.until(ExpectedConditions.elementToBeClickable(element));
         element.clear();
-        element.sendKeys("Canary Black");
+        element.sendKeys("Pravá blondýnka");
         element.submit();
 
         // Ověření, že jsme ve výsledcích
-        wait.until(ExpectedConditions.titleContains("Canary Black"));
-        Assertions.assertTrue(driver.getPageSource().contains("Canary Black"), "Searched key not found ...");
+        wait.until(ExpectedConditions.titleContains("Pravá blondýnka"));
+        Assertions.assertTrue(driver.getPageSource().contains("Pravá blondýnka"), "Searched key not found ...");
 
         // Kliknutí na odkaz filmu
         WebElement filmLink = wait.until(ExpectedConditions.elementToBeClickable(
-                By.xpath("//a[contains(., 'Canary Black')]")
+                By.xpath("//a[contains(., 'Pravá blondýnka')]")
         ));
         filmLink.click();
         System.out.println("Kliknutí na odkaz filmu bylo úspěšné.");
 
         // Ověření, že stránka je načtená
-        wait.until(ExpectedConditions.titleContains("Canary Black"));
+        wait.until(ExpectedConditions.titleContains("Pravá blondýnka"));
 
         // Scroll ke sekci "Hrají"
         WebElement actorsHeader = wait.until(ExpectedConditions.presenceOfElementLocated(
@@ -477,9 +402,9 @@ public class CSFDTests extends BasedSharedMethods {
         // Kliknutí na herečku (např. Kate Beckinsale)
 
     }
-
+    // Fumkční test
     @Test
-    public void clickOnActorInCastSection() throws InterruptedException {
+    public void clickOnActorInCastSection() {
         driver.get("https://www.csfd.cz/");
 
         try {

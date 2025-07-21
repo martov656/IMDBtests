@@ -62,7 +62,6 @@ public class FDBTests extends BasedSharedMethods {
 
             // Počkej, až se načte stránka filmu
             wait.until(ExpectedConditions.titleContains("Voda pro slony"));
-
             // Scroll dolů, aby byl odkaz viditelný
             ((JavascriptExecutor) driver).executeScript("window.scrollTo(0, document.body.scrollHeight);");
 
@@ -468,11 +467,134 @@ public class FDBTests extends BasedSharedMethods {
 
         } catch (Exception e) {
             Assertions.fail("Test selhal: " + e.getMessage());
+
+
         }
 
     }
 
-}
+
+        @Test
+        public void fdbSearchTestChuck () {
+            driver.get("https://www.fdb.cz/");
+
+            try {
+                // Přijetí cookies
+                WebElement cookieBtn = wait.until(ExpectedConditions.elementToBeClickable(
+                        By.xpath("//button[contains(text(), 'Přijmout vše')]")
+                ));
+                cookieBtn.click();
+            } catch (Exception e) {
+                System.out.println("Cookie lišta se nezobrazila nebo už byla skrytá.");
+            }
+
+            try {
+                // Vyhledání umělce
+                WebElement searchBox = wait.until(ExpectedConditions.elementToBeClickable(By.name("search")));
+                searchBox.clear();
+                searchBox.sendKeys("Chuck Norris");
+                searchBox.submit();
+
+                // Počkej, až se načte stránka výsledků
+                wait.until(ExpectedConditions.titleContains("Chuck Norris"));
+                Assertions.assertTrue(driver.getPageSource().contains("Chuck Norris"), "Herec nebyl nalezen.");
+
+                // Najdi film podle <h3>
+                WebElement filmHeading = wait.until(ExpectedConditions.visibilityOfElementLocated(
+                        By.xpath("//h3[contains(text(),'Expendables: Postradatelní 2')]")
+                ));
+
+                // Zvýrazni a scrollni na něj
+                ((JavascriptExecutor) driver).executeScript("arguments[0].style.border='3px solid red'; arguments[0].scrollIntoView(true);", filmHeading);
+                System.out.println("Text filmu nalezen: " + filmHeading.getText());
+
+                // Najdi wrapper <a> a klikni
+                try {
+                    WebElement parentLink = filmHeading.findElement(By.xpath("./ancestor::a[1]"));
+                    System.out.println("Href odkazu: " + parentLink.getAttribute("href"));
+                    wait.until(ExpectedConditions.elementToBeClickable(parentLink));
+                    parentLink.click();
+                    System.out.println("Kliknutí na odkaz proběhlo.");
+                } catch (Exception e) {
+                    System.out.println("Kliknutí na wrapper <a> selhalo, zkusíme JavaScript klik...");
+                    ((JavascriptExecutor) driver).executeScript("arguments[0].click();", filmHeading);
+                }
+
+                // Počkej, až se načte stránka filmu
+                wait.until(ExpectedConditions.titleContains("Expendables: Postradatelní 2"));
+
+                // Scroll dolů, aby byl odkaz viditelný
+                ((JavascriptExecutor) driver).executeScript("window.scrollTo(0, document.body.scrollHeight);");
+
+            } catch (Exception e) {
+                Assertions.fail("Test selhal: " + e.getMessage());
+            }
+
+        }
+
+    @Test
+    public void fdbSearchTestChuck2 () {
+        driver.get("https://www.fdb.cz/");
+
+        try {
+            // Přijetí cookies
+            WebElement cookieBtn = wait.until(ExpectedConditions.elementToBeClickable(
+                    By.xpath("//button[contains(text(), 'Přijmout vše')]")
+            ));
+            cookieBtn.click();
+        } catch (Exception e) {
+            System.out.println("Cookie lišta se nezobrazila nebo už byla skrytá.");
+        }
+
+        try {
+            // Vyhledání umělce
+            WebElement searchBox = wait.until(ExpectedConditions.elementToBeClickable(By.name("search")));
+            searchBox.clear();
+            searchBox.sendKeys("Chuck Norris");
+            searchBox.submit();
+
+            // Počkej, až se načte stránka výsledků
+            wait.until(ExpectedConditions.titleContains("Chuck Norris"));
+            Assertions.assertTrue(driver.getPageSource().contains("Chuck Norris"), "Herec nebyl nalezen.");
+
+            // Najdi film podle <h3>
+            WebElement filmHeading = wait.until(ExpectedConditions.visibilityOfElementLocated(
+                    By.xpath("//h3[contains(text(),'Walker, Texas Ranger')]")
+            ));
+
+            // Zvýrazni a scrollni na něj
+            ((JavascriptExecutor) driver).executeScript("arguments[0].style.border='3px solid red'; arguments[0].scrollIntoView(true);", filmHeading);
+            System.out.println("Text filmu nalezen: " + filmHeading.getText());
+
+            // Najdi wrapper <a> a klikni
+            try {
+                WebElement parentLink = filmHeading.findElement(By.xpath("./ancestor::a[1]"));
+                System.out.println("Href odkazu: " + parentLink.getAttribute("href"));
+                wait.until(ExpectedConditions.elementToBeClickable(parentLink));
+                parentLink.click();
+                System.out.println("Kliknutí na odkaz proběhlo.");
+            } catch (Exception e) {
+                System.out.println("Kliknutí na wrapper <a> selhalo, zkusíme JavaScript klik...");
+                ((JavascriptExecutor) driver).executeScript("arguments[0].click();", filmHeading);
+            }
+
+            // Počkej, až se načte stránka filmu
+            wait.until(ExpectedConditions.titleContains("Walker, Texas Ranger"));
+
+            // Scroll dolů, aby byl odkaz viditelný
+            ((JavascriptExecutor) driver).executeScript("window.scrollTo(0, document.body.scrollHeight);");
+
+        } catch (Exception e) {
+            Assertions.fail("Test selhal: " + e.getMessage());
+        }
+
+    }
+
+    }
+
+
+
+
 
 
 
