@@ -16,12 +16,7 @@ public class IMDBTestsActors extends BasedSharedMethods {
     public void imdbTestClickFirstKnownForMovieMel() throws InterruptedException {
         String actressName = "Mel Gibson"; //
         driver.get("https://www.imdb.com/");
-        Thread.sleep(3000);
 
-        // Skryj modální GDPR dialog, pokud je
-        ((JavascriptExecutor) driver).executeScript(
-                "let dialog = document.querySelector('div[role=dialog]'); if (dialog) dialog.remove();"
-        );
 
         // Vyhledávání
         WebElement searchBox = wait.until(ExpectedConditions.elementToBeClickable(By.name("q")));
@@ -47,8 +42,8 @@ public class IMDBTestsActors extends BasedSharedMethods {
         System.out.println("První film v sekci 'Known For': " + movieTitle);
 
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", firstKnownForMovie);
-        Thread.sleep(1000);
-        firstKnownForMovie.click();
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", firstKnownForMovie);
+
 
         // Ověření, že jsme na stránce filmu
         wait.until(ExpectedConditions.titleContains(movieTitle));
@@ -61,12 +56,7 @@ public class IMDBTestsActors extends BasedSharedMethods {
     public void imdbTestClickFirstKnownForMovieMichael() throws InterruptedException {
         String actressName = "Michael Douglas"; //
         driver.get("https://www.imdb.com/");
-        Thread.sleep(3000);
 
-        // Skryj modální GDPR dialog, pokud je
-        ((JavascriptExecutor) driver).executeScript(
-                "let dialog = document.querySelector('div[role=dialog]'); if (dialog) dialog.remove();"
-        );
 
         // Vyhledávání
         WebElement searchBox = wait.until(ExpectedConditions.elementToBeClickable(By.name("q")));
@@ -92,8 +82,9 @@ public class IMDBTestsActors extends BasedSharedMethods {
         System.out.println("První film v sekci 'Known For': " + movieTitle);
 
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", firstKnownForMovie);
-        Thread.sleep(1000);
-        firstKnownForMovie.click();
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", firstKnownForMovie);
+
+
 
         // Ověření, že jsme na stránce filmu
         wait.until(ExpectedConditions.titleContains(movieTitle));
@@ -168,12 +159,8 @@ public class IMDBTestsActors extends BasedSharedMethods {
     public void imdbTestClickFirstKnownForJohnny() throws InterruptedException {
         String actressName = "Johnny Depp"; //
         driver.get("https://www.imdb.com/");
-        Thread.sleep(3000);
 
-        // Skryj modální GDPR dialog, pokud je
-        ((JavascriptExecutor) driver).executeScript(
-                "let dialog = document.querySelector('div[role=dialog]'); if (dialog) dialog.remove();"
-        );
+
 
         // Vyhledávání
         WebElement searchBox = wait.until(ExpectedConditions.elementToBeClickable(By.name("q")));
@@ -199,8 +186,9 @@ public class IMDBTestsActors extends BasedSharedMethods {
         System.out.println("První film v sekci 'Known For': " + movieTitle);
 
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", firstKnownForMovie);
-        Thread.sleep(1000);
-        firstKnownForMovie.click();
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", firstKnownForMovie);
+
+
 
         // Ověření, že jsme na stránce filmu
         wait.until(ExpectedConditions.titleContains(movieTitle));
@@ -241,8 +229,9 @@ public class IMDBTestsActors extends BasedSharedMethods {
         String movieTitle = firstKnownForMovie.getText().trim();
         System.out.println("První film v sekci 'Known For': " + movieTitle);
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", firstKnownForMovie);
-        Thread.sleep(1000);
-        firstKnownForMovie.click();
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", firstKnownForMovie);
+
+
 
         // Ověření, že jsme na stránce filmu
         wait.until(ExpectedConditions.titleContains(movieTitle));
@@ -256,9 +245,8 @@ public class IMDBTestsActors extends BasedSharedMethods {
 
 // Scroll a klik přes JavaScript
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", trailerLink);
-        Thread.sleep(500);
         ((JavascriptExecutor) driver).executeScript("arguments[0].click();", trailerLink);
-        Thread.sleep(5000);
+
 
 
     }
@@ -296,8 +284,9 @@ public class IMDBTestsActors extends BasedSharedMethods {
         String movieTitle = firstKnownForMovie.getText().trim();
         System.out.println("První film v sekci 'Known For': " + movieTitle);
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", firstKnownForMovie);
-        Thread.sleep(1000);
-        firstKnownForMovie.click();
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", firstKnownForMovie);
+
+
 
         // Ověření, že jsme na stránce filmu
         wait.until(ExpectedConditions.titleContains(movieTitle));
@@ -311,9 +300,8 @@ public class IMDBTestsActors extends BasedSharedMethods {
 
 // Scroll a klik přes JavaScript
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", trailerLink);
-        Thread.sleep(500);
         ((JavascriptExecutor) driver).executeScript("arguments[0].click();", trailerLink);
-        Thread.sleep(5000);
+
 
 
     }
@@ -351,8 +339,9 @@ public class IMDBTestsActors extends BasedSharedMethods {
         String movieTitle = firstKnownForMovie.getText().trim();
         System.out.println("První film v sekci 'Known For': " + movieTitle);
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", firstKnownForMovie);
-        Thread.sleep(1000);
-        firstKnownForMovie.click();
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", firstKnownForMovie);
+
+
 
         // Ověření, že jsme na stránce filmu
         wait.until(ExpectedConditions.titleContains(movieTitle));
@@ -366,9 +355,9 @@ public class IMDBTestsActors extends BasedSharedMethods {
 
 // Scroll a klik přes JavaScript
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", trailerLink);
-        Thread.sleep(500);
+
         ((JavascriptExecutor) driver).executeScript("arguments[0].click();", trailerLink);
-        Thread.sleep(5000);
+
 
 
     }
@@ -406,8 +395,9 @@ public class IMDBTestsActors extends BasedSharedMethods {
         String movieTitle = firstKnownForMovie.getText().trim();
         System.out.println("První film v sekci 'Known For': " + movieTitle);
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", firstKnownForMovie);
-        Thread.sleep(1000);
-        firstKnownForMovie.click();
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", firstKnownForMovie);
+
+
 
         // Ověření, že jsme na stránce filmu
         wait.until(ExpectedConditions.titleContains(movieTitle));
@@ -421,15 +411,15 @@ public class IMDBTestsActors extends BasedSharedMethods {
 
 // Scroll a klik přes JavaScript
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", trailerLink);
-        Thread.sleep(500);
+
         ((JavascriptExecutor) driver).executeScript("arguments[0].click();", trailerLink);
-        Thread.sleep(5000);
+
 
 
     }
 
     @Test
-    public void imdbTestClickFirstKnownForMovieAndPlayTrailerRutger() throws InterruptedException {
+    public void imdbTestClickFirstKnownForMovieAndPlayTrailerRutger()  {
         String actorName = "Rutger Hauer";
         driver.get("https://www.imdb.com/");
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
@@ -461,8 +451,8 @@ public class IMDBTestsActors extends BasedSharedMethods {
         String movieTitle = firstKnownForMovie.getText().trim();
         System.out.println("První film v sekci 'Known For': " + movieTitle);
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", firstKnownForMovie);
-        Thread.sleep(1000);
-        firstKnownForMovie.click();
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", firstKnownForMovie);
+
 
         // Ověření, že jsme na stránce filmu
         wait.until(ExpectedConditions.titleContains(movieTitle));
@@ -476,9 +466,9 @@ public class IMDBTestsActors extends BasedSharedMethods {
 
 // Scroll a klik přes JavaScript
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", trailerLink);
-        Thread.sleep(500);
+
         ((JavascriptExecutor) driver).executeScript("arguments[0].click();", trailerLink);
-        Thread.sleep(5000);
+
 
 
     }
@@ -526,8 +516,8 @@ public class IMDBTestsActors extends BasedSharedMethods {
         System.out.println("První film v sekci 'Known For': " + movieTitle);
 
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", firstKnownForMovie);
-        Thread.sleep(400);
-        firstKnownForMovie.click();
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", firstKnownForMovie);
+
 
         // Ověření, že jsme na stránce filmu
         wait.until(ExpectedConditions.titleContains(movieTitle));

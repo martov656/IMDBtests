@@ -514,7 +514,7 @@ public class CSFDTests extends BasedSharedMethods {
 
         // Mírný scroll dolů, protože sekce „Hrají“ je níže
         ((JavascriptExecutor) driver).executeScript("window.scrollBy(0, 1000);");
-        Thread.sleep(2000); // nebo použij fluent wait
+
 
         // Kliknutí na herečku Kate Beckinsale
         try {
@@ -529,7 +529,7 @@ public class CSFDTests extends BasedSharedMethods {
         } catch (TimeoutException | NoSuchElementException e) {
             System.out.println("Herečka nebyla nalezena nebo kliknutí selhalo: " + e.getMessage());
         } finally {
-            Thread.sleep(3000); // pro vizuální kontrolu (volitelné)
+
             driver.quit();
         }
 

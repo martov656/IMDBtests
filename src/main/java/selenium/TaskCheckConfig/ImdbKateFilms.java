@@ -414,14 +414,6 @@ public class ImdbKateFilms extends BasedSharedMethods {
         // Počkej na načtení stránky s The Widow
         wait.until(ExpectedConditions.titleContains("Sněžní andělé"));
 
-        // Pokud existuje overlay, čekej na jeho zmizení
-        List<WebElement> overlays = driver.findElements(By.cssSelector("div.sc-eDvSVe"));
-        if (!overlays.isEmpty()) {
-            boolean visibleOverlay = overlays.stream().anyMatch(WebElement::isDisplayed);
-            if (visibleOverlay) {
-                wait.until(ExpectedConditions.invisibilityOfAllElements(overlays));
-            }
-        }
 
         // Kliknutí na herečku Kate Beckinsale (přes JS pro jistotu)
         WebElement kateLink = wait.until(ExpectedConditions.elementToBeClickable(
@@ -485,26 +477,18 @@ public class ImdbKateFilms extends BasedSharedMethods {
         // Vyhledání "The Widow"
         WebElement searchBox = wait.until(ExpectedConditions.elementToBeClickable(By.name("q")));
         searchBox.clear();
-        searchBox.sendKeys("Sněžní andělé");
+        searchBox.sendKeys("Bílá smrt");
         searchBox.submit();
 
         // Kliknutí na výsledek "The Widow"
         WebElement bojLink = wait.until(ExpectedConditions.elementToBeClickable(
-                By.xpath("//a[contains(text(),'Sněžní andělé')]")
+                By.xpath("//a[contains(text(),'Bílá smrt')]")
         ));
         bojLink.click();
 
         // Počkej na načtení stránky s The Widow
-        wait.until(ExpectedConditions.titleContains("Sněžní andělé"));
+        wait.until(ExpectedConditions.titleContains("Bílá smrt"));
 
-        // Pokud existuje overlay, čekej na jeho zmizení
-        List<WebElement> overlays = driver.findElements(By.cssSelector("div.sc-eDvSVe"));
-        if (!overlays.isEmpty()) {
-            boolean visibleOverlay = overlays.stream().anyMatch(WebElement::isDisplayed);
-            if (visibleOverlay) {
-                wait.until(ExpectedConditions.invisibilityOfAllElements(overlays));
-            }
-        }
 
         // Kliknutí na herečku Kate Beckinsale (přes JS pro jistotu)
         WebElement kateLink = wait.until(ExpectedConditions.elementToBeClickable(

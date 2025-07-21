@@ -127,11 +127,13 @@ public class ImdbBaywatchserie extends BasedSharedMethods {
         Assertions.assertTrue(driver.getTitle().toLowerCase().contains(movieTitle.toLowerCase()),
                 "Po kliknutí na film nebyla načtena správná stránka.");
 
+
+
     }
 
     // Test s delším čekáním
     @Test
-    public void imdbClickAndFindTraciBingham()  {
+    public void imdbClickAndFindTraciBingham() throws InterruptedException {
         driver.get("https://www.imdb.com/");
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
 
@@ -173,31 +175,31 @@ public class ImdbBaywatchserie extends BasedSharedMethods {
             // 4. Najdi Traci Bingham v seznamu
             traciLinks = wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(
                     By.xpath("//a[contains(text(),'Traci Bingham')]")));
-        }
 
-        // 5. Klikni na Traci Bingham
-        WebElement traci = traciLinks.get(0);
-        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block:'center'});", traci);
 
-        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", traci);
+            // 5. Klikni na Traci Bingham
+            WebElement traci = traciLinks.get(0);
+            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block:'center'});", traci);
 
-        // 6. Ověření profilu herečky
-        wait.until(ExpectedConditions.titleContains("Traci Bingham"));
-        Assertions.assertTrue(driver.getTitle().contains("Traci Bingham"),
-                "Nepodařilo se načíst profil Traci Bingham");
-        WebElement trailerLink = wait.until(ExpectedConditions.presenceOfElementLocated(
-                By.cssSelector("a.ipc-lockup-overlay[aria-label^='Watch']")
-        ));
+            ((JavascriptExecutor) driver).executeScript("arguments[0].click();", traci);
+
+            // 6. Ověření profilu herečky
+            wait.until(ExpectedConditions.titleContains("Traci Bingham"));
+            Assertions.assertTrue(driver.getTitle().contains("Traci Bingham"),
+                    "Nepodařilo se načíst profil Traci Bingham");
+            WebElement trailerLink = wait.until(ExpectedConditions.presenceOfElementLocated(
+                    By.cssSelector("a.ipc-lockup-overlay[aria-label^='Watch']")
+            ));
 
 // Scroll a klik přes JavaScript
-        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", trailerLink);
+            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", trailerLink);
 
-        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", trailerLink);
+            ((JavascriptExecutor) driver).executeScript("arguments[0].click();", trailerLink);
 
+
+        }
 
     }
-
-
     // rovnou na All Cast
     @Test
     public void imdbClickBaywatchThenTraciBingham()  {
@@ -319,6 +321,16 @@ public class ImdbBaywatchserie extends BasedSharedMethods {
         wait.until(ExpectedConditions.titleContains(movieTitle));
         Assertions.assertTrue(driver.getTitle().toLowerCase().contains(movieTitle.toLowerCase()),
                 "Po kliknutí na film nebyla načtena správná stránka.");
+
+        WebElement trailerLink = wait.until(ExpectedConditions.presenceOfElementLocated(
+                By.cssSelector("a.ipc-lockup-overlay[aria-label^='Watch']")
+        ));
+
+// Scroll a klik přes JavaScript
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", trailerLink);
+
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", trailerLink);
+
 
     }
 

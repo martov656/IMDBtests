@@ -245,7 +245,7 @@ public class IMDBTests extends BasedSharedMethods {
     }
 
     @Test
-    public void imdbSearchTestKateProfileAndClickMovie() throws InterruptedException {
+    public void imdbSearchTestKateProfileAndClickMovie()  {
         driver.get("https://www.imdb.com/");
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
 
@@ -288,9 +288,9 @@ public class IMDBTests extends BasedSharedMethods {
 
 // Scroll k němu
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", movieLink);
-        Thread.sleep(450);
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", movieLink);
 
-        movieLink.click();
+
 
         // Počkej na načtení stránky filmu a ověř titulek
         wait.until(ExpectedConditions.titleContains("Underworld"));
@@ -302,7 +302,7 @@ public class IMDBTests extends BasedSharedMethods {
 
 
     @Test
-    public void imdbTestKnownForXPathClick() throws InterruptedException {
+    public void imdbTestKnownForXPathClick()  {
         String actressName = "Kate Beckinsale"; // nebo Reese Witherspoon
         driver.get("https://www.imdb.com/");
 
@@ -345,8 +345,7 @@ public class IMDBTests extends BasedSharedMethods {
 
         // Scroll a klik
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", knownForMovie);
-        Thread.sleep(350);
-        knownForMovie.click();
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", knownForMovie);
 
         // Ověření titulku stránky
         wait.until(ExpectedConditions.titleContains(movieTitle));
@@ -407,7 +406,7 @@ public class IMDBTests extends BasedSharedMethods {
     }
 
     @Test
-    public void imdbTestClickFirstKnownForMovie() throws InterruptedException {
+    public void imdbTestClickFirstKnownForMovie()  {
         String actressName = "Scarlett Johansson"; // Nebo "Kate Beckinsale"
         driver.get("https://www.imdb.com/");
         try {
@@ -448,8 +447,8 @@ public class IMDBTests extends BasedSharedMethods {
         System.out.println("První film v sekci 'Known For': " + movieTitle);
 
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", firstKnownForMovie);
-        Thread.sleep(400);
-        firstKnownForMovie.click();
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", firstKnownForMovie);
+
 
         // Ověření, že jsme na stránce filmu
         wait.until(ExpectedConditions.titleContains(movieTitle));
@@ -499,8 +498,8 @@ public class IMDBTests extends BasedSharedMethods {
         System.out.println("První film v sekci 'Known For': " + movieTitle);
 
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", firstKnownForMovie);
-        Thread.sleep(400);
-        firstKnownForMovie.click();
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", firstKnownForMovie);
+
 
         // Ověření, že jsme na stránce filmu
         wait.until(ExpectedConditions.titleContains(movieTitle));
@@ -509,7 +508,7 @@ public class IMDBTests extends BasedSharedMethods {
     }
 
     @Test
-    public void imdbTestClickFirstKnownForMovieJes() throws InterruptedException {
+    public void imdbTestClickFirstKnownForMovieJes() {
         String actressName = "Jessica Alba"; // Nebo "Kate Beckinsale"
         driver.get("https://www.imdb.com/");
 
@@ -543,8 +542,8 @@ public class IMDBTests extends BasedSharedMethods {
         System.out.println("První film v sekci 'Known For': " + movieTitle);
 
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", firstKnownForMovie);
-        Thread.sleep(1000);
-        firstKnownForMovie.click();
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", firstKnownForMovie);
+
 
         // Ověření, že jsme na stránce filmu
         wait.until(ExpectedConditions.titleContains(movieTitle));
@@ -590,8 +589,9 @@ public void imdbTestClickFirstKnownForMovieMel() throws InterruptedException {
     System.out.println("První film v sekci 'Known For': " + movieTitle);
 
     ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", firstKnownForMovie);
+    ((JavascriptExecutor) driver).executeScript("arguments[0].click();", firstKnownForMovie);
 
-    firstKnownForMovie.click();
+
 
     // Ověření, že jsme na stránce filmu
     wait.until(ExpectedConditions.titleContains(movieTitle));
@@ -637,8 +637,8 @@ public void imdbTestClickFirstKnownForMovieMichael() throws InterruptedException
     System.out.println("První film v sekci 'Known For': " + movieTitle);
 
     ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", firstKnownForMovie);
+    ((JavascriptExecutor) driver).executeScript("arguments[0].click();", firstKnownForMovie);
 
-    firstKnownForMovie.click();
 
     // Ověření, že jsme na stránce filmu
     wait.until(ExpectedConditions.titleContains(movieTitle));
@@ -689,8 +689,8 @@ public void imdbTestClickFirstKnownForMovieMichael() throws InterruptedException
         String movieTitle = firstKnownForMovie.getText().trim();
         System.out.println("První film v sekci 'Known For': " + movieTitle);
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", firstKnownForMovie);
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", firstKnownForMovie);
 
-        firstKnownForMovie.click();
 
         // Ověření, že jsme na stránce filmu
         wait.until(ExpectedConditions.titleContains(movieTitle));
@@ -738,14 +738,6 @@ public void imdbTestClickFirstKnownForMovieMichael() throws InterruptedException
         // Počkej na načtení stránky s The Widow
         wait.until(ExpectedConditions.titleContains("Sněžní andělé"));
 
-        // Pokud existuje overlay, čekej na jeho zmizení
-        List<WebElement> overlays = driver.findElements(By.cssSelector("div.sc-eDvSVe"));
-        if (!overlays.isEmpty()) {
-            boolean visibleOverlay = overlays.stream().anyMatch(WebElement::isDisplayed);
-            if (visibleOverlay) {
-                wait.until(ExpectedConditions.invisibilityOfAllElements(overlays));
-            }
-        }
 
         // Kliknutí na herečku Kate Beckinsale (přes JS pro jistotu)
         WebElement kateLink = wait.until(ExpectedConditions.elementToBeClickable(

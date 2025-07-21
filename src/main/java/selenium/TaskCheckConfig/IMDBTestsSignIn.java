@@ -89,9 +89,6 @@ public class IMDBTestsSignIn {
             driver.findElement(By.id("ap_password")).sendKeys("Whitesnake1987");
             driver.findElement(By.id("signInSubmit")).click();
 
-            // 5. Pauza na ruční CAPTCHA (pokud se zobrazí)
-            System.out.println("Vyřeš CAPTCHA ručně (pokud je zobrazena) a stiskni Enter...");
-            new Scanner(System.in).nextLine();
 
             // 6. Ověření, že se zobrazilo uživatelské menu (label for navUserMenu)
             WebElement userMenuToggle = wait.until(ExpectedConditions.elementToBeClickable(
