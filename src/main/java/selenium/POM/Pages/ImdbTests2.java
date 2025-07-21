@@ -321,8 +321,64 @@ public class ImdbTests2 extends BaseTest {
 
     }
 
+    @Test
+    public void imdbClickWildThenMotel3() throws InterruptedException {
+        driver.get("https://www.imdb.com/");
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+
+        try {
+            WebElement acceptCookies = wait.until(ExpectedConditions.elementToBeClickable(
+                    By.xpath("//button[contains(text(),'Accept') or contains(text(),'Souhlasím')]")
+            ));
+            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});", acceptCookies);
+            acceptCookies.click();
+        } catch (TimeoutException e) {
+            System.out.println("Cookies banner se nezobrazil nebo už byl potvrzen.");
+        }
+
+        // Do vyhledávání napiš "Návrat do budoucnosti"
+        WebElement searchBox = wait.until(ExpectedConditions.elementToBeClickable(By.name("q")));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});", searchBox);
+        searchBox.clear();
+        searchBox.sendKeys("Návrat do budoucnosti");
+        searchBox.submit();
+
+        // Klikni na film "Návrat do budoucnosti"
+        WebElement wildLink = wait.until(ExpectedConditions.elementToBeClickable(
+                By.xpath("//a[contains(text(),'Návrat do budoucnosti')]")
+        ));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});", wildLink);
+        wildLink.click();
+
+        // Počkej, až se načte stránka filmu
+        wait.until(ExpectedConditions.titleContains("Návrat do budoucnosti"));
+
+        // Najdi trailer
+        WebElement trailerLink = wait.until(ExpectedConditions.presenceOfElementLocated(
+                By.cssSelector("a.ipc-lockup-overlay[aria-label^='Watch']")
+        ));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", trailerLink);
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", trailerLink);
+
+        // Návrat zpět na stránku filmu
+        driver.navigate().back();
+
+        // Klikni na herce "Michael J. Fox"
+        WebElement actorLink = wait.until(ExpectedConditions.elementToBeClickable(
+                By.xpath("//a[contains(text(),'Michael J. Fox')]")
+        ));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});", actorLink);
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", actorLink);
+
+        // Ověření profilu
+        wait.until(ExpectedConditions.titleContains("Michael J. Fox"));
+        Assertions.assertTrue(driver.getTitle().contains("Michael J. Fox"),
+                "Na profil herce nebyla načtena správná stránka.");
+    }
+
 
     }
+
 
 
 
