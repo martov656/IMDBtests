@@ -48,13 +48,16 @@ public class CSFDTests extends BasedSharedMethods {
 
         driver.get("https://csfd.cz/");
         try {
+            // Přijetí cookies – podle ID a textu
             WebElement acceptCookies = wait.until(ExpectedConditions.elementToBeClickable(
-                    By.xpath("//button[contains(text(),'Accept') or contains(text(),'Souhlasím')]")
+                    By.xpath("//button[@id='didomi-notice-agree-button' or span[contains(text(),'Rozumím a přijímám')]]")
             ));
             acceptCookies.click();
+            System.out.println("Cookies byly přijaty.");
         } catch (TimeoutException e) {
             System.out.println("Cookies banner se nezobrazil nebo už byl potvrzen.");
         }
+
         WebElement element = driver.findElement(By.name("q"));
         wait.until(ExpectedConditions.elementToBeClickable(element));
         element.clear();

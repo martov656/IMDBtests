@@ -58,8 +58,17 @@ public class ImdbKateFilms extends BasedSharedMethods {
     @Test
     public void imdbClickWildThenWild() throws InterruptedException {
         driver.get("https://www.imdb.com/");
-
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+
+        try {
+            WebElement acceptCookies = wait.until(ExpectedConditions.elementToBeClickable(
+                    By.xpath("//button[contains(text(),'Accept') or contains(text(),'Souhlasím')]")
+            ));
+            acceptCookies.click();
+        } catch (TimeoutException e) {
+            System.out.println("Cookies banner se nezobrazil nebo už byl potvrzen.");
+        }
+
 
         // Do vyhledávání napiš "Wild"
         WebElement searchBox = wait.until(ExpectedConditions.elementToBeClickable(By.name("q")));
@@ -95,8 +104,8 @@ public class ImdbKateFilms extends BasedSharedMethods {
 
         // Scroll a klik
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", knownForMovie);
-        Thread.sleep(400);
-        knownForMovie.click();
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", knownForMovie);
+
 
         // Ověření titulku stránky
         wait.until(ExpectedConditions.titleContains(movieTitle));
@@ -108,8 +117,17 @@ public class ImdbKateFilms extends BasedSharedMethods {
     @Test
     public void imdbClickWildThenReese() throws InterruptedException {
         driver.get("https://www.imdb.com/");
-
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+
+        try {
+            WebElement acceptCookies = wait.until(ExpectedConditions.elementToBeClickable(
+                    By.xpath("//button[contains(text(),'Accept') or contains(text(),'Souhlasím')]")
+            ));
+            acceptCookies.click();
+        } catch (TimeoutException e) {
+            System.out.println("Cookies banner se nezobrazil nebo už byl potvrzen.");
+        }
+
 
         // Do vyhledávání napiš "Wild"
         WebElement searchBox = wait.until(ExpectedConditions.elementToBeClickable(By.name("q")));
@@ -145,8 +163,8 @@ public class ImdbKateFilms extends BasedSharedMethods {
 
         // Scroll a klik
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", knownForMovie);
-        Thread.sleep(400);
-        knownForMovie.click();
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", knownForMovie);
+
 
         // Ověření titulku stránky
         wait.until(ExpectedConditions.titleContains(movieTitle));
@@ -155,10 +173,19 @@ public class ImdbKateFilms extends BasedSharedMethods {
     }
 
     @Test
-    public void imdbClickWildThenReese2() throws InterruptedException {
+    public void imdbClickWildThenReese2() {
         driver.get("https://www.imdb.com/");
-
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+
+        try {
+            WebElement acceptCookies = wait.until(ExpectedConditions.elementToBeClickable(
+                    By.xpath("//button[contains(text(),'Accept') or contains(text(),'Souhlasím')]")
+            ));
+            acceptCookies.click();
+        } catch (TimeoutException e) {
+            System.out.println("Cookies banner se nezobrazil nebo už byl potvrzen.");
+        }
+
 
         // Do vyhledávání napiš "Wild"
         WebElement searchBox = wait.until(ExpectedConditions.elementToBeClickable(By.name("q")));
@@ -194,8 +221,9 @@ public class ImdbKateFilms extends BasedSharedMethods {
 
         // Scroll a klik
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", knownForMovie);
-        Thread.sleep(400);
-        knownForMovie.click();
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", knownForMovie);
+
+
 
 
         // Ověření titulku stránky
@@ -267,75 +295,6 @@ public class ImdbKateFilms extends BasedSharedMethods {
             e.printStackTrace();
         } finally {
             // Ukonči browser, i když nastane chyba
-            driver.quit();
-        }
-    }
-
-
-    @Test
-    public void imdbClickWildThenKateFirstKnownFor2() {
-        WebDriver driver = new ChromeDriver();
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
-
-        try {
-            driver.manage().window().maximize();
-            driver.get("https://www.imdb.com/");
-
-            // Přijmi cookies, pokud se objeví
-            try {
-                WebElement acceptCookies = wait.until(ExpectedConditions.elementToBeClickable(
-                        By.xpath("//button[contains(text(),'Accept') or contains(text(),'Souhlasím')]")
-                ));
-                acceptCookies.click();
-            } catch (TimeoutException e) {
-                System.out.println("Cookies banner se nezobrazil nebo už byl potvrzen.");
-            }
-
-            // Vyhledání herečky "Kate Beckinsale"
-            WebElement searchBox = wait.until(ExpectedConditions.elementToBeClickable(By.id("suggestion-search")));
-            searchBox.clear();
-            searchBox.sendKeys("Kate Beckinsale");
-            searchBox.sendKeys(Keys.ENTER);
-
-            // Kliknutí na první výsledek, který odpovídá herečce
-            WebElement actressLink = wait.until(ExpectedConditions.elementToBeClickable(
-                    By.cssSelector("a.ipc-metadata-list-summary-item__t") // první výsledek z People
-            ));
-            actressLink.click();
-
-            // Počkej, až se načte profil herečky
-            wait.until(ExpectedConditions.urlContains("/name/"));
-
-            // Najdi sekci 'Known for' – robustně přes nadpis
-            WebElement knownForHeader = wait.until(ExpectedConditions.presenceOfElementLocated(
-                    By.cssSelector("a[href='#name_known_for']")));
-            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", knownForHeader);
-
-            // Následně sekce s kartami filmů
-            WebElement knownForSection = wait.until(ExpectedConditions.presenceOfElementLocated(
-                    By.cssSelector("section[data-testid='nm-flmg-knwnfor']")));
-
-            // Najdi všechny filmy/seriály v sekci Known for
-            List<WebElement> knownForMovies = knownForSection.findElements(
-                    By.cssSelector("a.ipc-primary-image-list-card__title"));
-
-            System.out.println("Počet filmů/seriálů v sekci Known for: " + knownForMovies.size());
-            Assertions.assertFalse(knownForMovies.isEmpty(), "Sekce 'Known for' nemá žádné filmy.");
-
-            // Klikni na první film
-            WebElement firstMovie = knownForMovies.get(0);
-            wait.until(ExpectedConditions.elementToBeClickable(firstMovie)).click();
-
-            // Počkej, až se načte stránka filmu
-            wait.until(ExpectedConditions.urlContains("/title/"));
-
-            // Ověř název filmu na stránce
-            WebElement titleElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("h1")));
-            System.out.println("Otevřen film: " + titleElement.getText());
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
             driver.quit();
         }
     }
@@ -469,7 +428,7 @@ public class ImdbKateFilms extends BasedSharedMethods {
                 By.xpath("//a[contains(text(),'Kate Beckinsale')]")
         ));
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});", kateLink);
-        Thread.sleep(500);
+
         ((JavascriptExecutor) driver).executeScript("arguments[0].click();", kateLink);
 
         // Ověření načtení profilu
@@ -491,7 +450,7 @@ public class ImdbKateFilms extends BasedSharedMethods {
         System.out.println("Čtvrtý film v sekci 'Known for': " + movieTitle);
 
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});", fourthMovie);
-        Thread.sleep(1000);
+
         ((JavascriptExecutor) driver).executeScript("arguments[0].click();", fourthMovie);
 
         // Ověření, že jsme na stránce filmu
@@ -504,9 +463,9 @@ public class ImdbKateFilms extends BasedSharedMethods {
 
 // Scroll a klik přes JavaScript
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", trailerLink);
-        Thread.sleep(500);
+
         ((JavascriptExecutor) driver).executeScript("arguments[0].click();", trailerLink);
-        Thread.sleep(5000);
+
     }
 
     @Test

@@ -526,7 +526,7 @@ public class IMDBTestsActors extends BasedSharedMethods {
         System.out.println("První film v sekci 'Known For': " + movieTitle);
 
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", firstKnownForMovie);
-        Thread.sleep(1000);
+        Thread.sleep(400);
         firstKnownForMovie.click();
 
         // Ověření, že jsme na stránce filmu
@@ -542,7 +542,7 @@ public class IMDBTestsActors extends BasedSharedMethods {
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", trailerLink);
 
         ((JavascriptExecutor) driver).executeScript("arguments[0].click();", trailerLink);
-        Thread.sleep(5000);
+
     }
 
 }
