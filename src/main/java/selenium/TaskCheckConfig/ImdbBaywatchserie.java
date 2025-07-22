@@ -343,7 +343,7 @@ public class ImdbBaywatchserie extends BasedSharedMethods {
         // Vyhledání filmu "Pobřežní hlídka"
         WebElement searchBox = wait.until(ExpectedConditions.elementToBeClickable(By.name("q")));
         searchBox.clear();
-        searchBox.sendKeys("Pobřežní hlídka");
+        searchBox.sendKeys("Pobřežní hlídka 1989");
         searchBox.submit();
 
         // Kliknutí na odkaz filmu

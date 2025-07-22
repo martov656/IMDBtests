@@ -145,6 +145,7 @@ public class CSFDTests extends BasedSharedMethods {
 
             // Ověření přesměrování
             wait.until(ExpectedConditions.titleContains("Scarlett Johansson"));
+            System.out.println("Profil byl načten.");
             Assertions.assertTrue(driver.getPageSource().contains("Scarlett Johansson"), "Profil herečky nebyl načten.");
         } catch (Exception e) {
 

@@ -744,7 +744,87 @@ public class BaseImdbTests extends BasedSharedMethods {
         Assertions.assertTrue(driver.getTitle().toLowerCase().contains("sami v pousti"));
     }
 
+    // Jde hned na All Cast
+    @Test
+    public void imdbClickAnnieHall() throws InterruptedException {
+        driver.get("https://www.imdb.com/");
 
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+
+        try {
+            WebElement acceptCookies = wait.until(ExpectedConditions.elementToBeClickable(
+                    By.xpath("//button[contains(text(),'Accept') or contains(text(),'Souhlasím')]")
+            ));
+            acceptCookies.click();
+        } catch (TimeoutException e) {
+            System.out.println("Cookies banner už byl potvrzen nebo se nezobrazil.");
+        }
+        // Vyhledání filmu
+        WebElement searchBox = wait.until(ExpectedConditions.elementToBeClickable(By.name("q")));
+        searchBox.clear();
+        searchBox.sendKeys("Annie Hallová");
+        searchBox.submit();
+
+        // Kliknutí na odkaz filmu
+        WebElement filmLink = wait.until(ExpectedConditions.elementToBeClickable(
+                By.xpath("//a[contains(text(),'Annie Hallová')]")
+        ));
+        filmLink.click();
+
+        // Počkáme, až se načte stránka filmu (title obsahuje název)
+        wait.until(ExpectedConditions.titleContains("Annie Hallová"));
+
+        // Najdeme odkaz "All cast & crew"
+        WebElement fullCastLink = wait.until(ExpectedConditions.visibilityOfElementLocated(
+                By.partialLinkText("All cast & crew")
+        ));
+
+        // Scroll k odkazu a kliknutí pomocí JS (někdy to funguje spolehlivěji)
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", fullCastLink);
+
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", fullCastLink);
+
+        // Počkáme, až se načte stránka s kompletním castem (title obsahuje "Full cast & crew")
+        wait.until(ExpectedConditions.titleContains("Full cast & crew"));
+        Thread.sleep(4000);
+        // Najdeme herce podle jména
+        WebElement actorLink = wait.until(ExpectedConditions.presenceOfElementLocated(
+                By.xpath("//a[contains(text(),'Sigourney Weaver')]")
+        ));
+
+        // Scroll na herečku a kliknutí (opět přes JS, aby se vyřešilo případné překrytí)
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", actorLink);
+
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", actorLink);
+
+        // Počkáme, až se načte profil herečky (title obsahuje její jméno)
+        wait.until(ExpectedConditions.titleContains("Sigourney Weaver"));
+        Assertions.assertTrue(driver.getTitle().contains("Sigourney Weaver"),
+                "Na profil herečky nebyla načtena správná stránka.");
+        WebElement knownForMovie = wait.until(ExpectedConditions.elementToBeClickable(
+                By.cssSelector(".ipc-primary-image-list-card__title")
+        ));
+        String movieTitle = knownForMovie.getText().trim();
+        System.out.println("První film v sekci 'Known for': " + movieTitle);
+
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});", knownForMovie);
+
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", knownForMovie);
+
+        // Ověření titulku stránky
+        wait.until(ExpectedConditions.titleContains(movieTitle));
+        Assertions.assertTrue(driver.getTitle().toLowerCase().contains(movieTitle.toLowerCase()),
+                "Po kliknutí na film nebyla načtena správná stránka.");
+
+        WebElement trailerLink = wait.until(ExpectedConditions.presenceOfElementLocated(
+                By.cssSelector("a.ipc-lockup-overlay[aria-label^='Watch']")
+        ));
+
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", trailerLink);
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", trailerLink);
+        Thread.sleep(4000);
+
+    }
 
 
     }
