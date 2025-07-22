@@ -38,8 +38,8 @@ public class BaseImdbTests extends BasedSharedMethods {
 
     // vyhledá čtcrtý film sekce KnownFor
     @Test
-    public void imdbTestClickFirstKnownForMovieDeborah2() {
-        String actressName = "Deborah Ann Woll"; // Nebo "Kate Beckinsale"
+    public void imdbTestClickFirstKnownForMovieSandra() {
+        String actressName = "Sandra Bullock"; // Nebo "Kate Beckinsale"
         driver.get("https://www.imdb.com/");
 
         try {
@@ -101,8 +101,8 @@ public class BaseImdbTests extends BasedSharedMethods {
 
     // vyhledá třetí film sekce KnownFor
     @Test
-    public void imdbTestClickFirstKnownForMovieDeborah3() {
-        String actressName = "Deborah Ann Woll"; // Nebo "Kate Beckinsale"
+    public void imdbTestClickFirstKnownForJennifer() {
+        String actressName = "Jennifer Lawrence"; // Nebo "Kate Beckinsale"
         driver.get("https://www.imdb.com/");
 
         try {
@@ -164,8 +164,8 @@ public class BaseImdbTests extends BasedSharedMethods {
 
     // vyhledá druhý film sekce KnownFor
     @Test
-    public void imdbTestClickFirstKnownForMovieDeborah4() {
-        String actressName = "Deborah Ann Woll"; // Nebo "Kate Beckinsale"
+    public void imdbTestClickFirstKnownForMovieChuck() {
+        String actorName = "Chuck Norris"; //
         driver.get("https://www.imdb.com/");
 
         try {
@@ -181,17 +181,17 @@ public class BaseImdbTests extends BasedSharedMethods {
         // Vyhledávání
         WebElement searchBox = wait.until(ExpectedConditions.elementToBeClickable(By.name("q")));
         searchBox.clear();
-        searchBox.sendKeys(actressName);
+        searchBox.sendKeys(actorName);
         searchBox.submit();
 
-        // Klik na profil herečky
+        // Klik na profil herce
         WebElement profileLink = wait.until(ExpectedConditions.elementToBeClickable(
-                By.xpath("//a[contains(text(),'" + actressName + "')]")
+                By.xpath("//a[contains(text(),'" + actorName + "')]")
         ));
         profileLink.click();
 
         // Ověření, že jsme na správném profilu
-        wait.until(ExpectedConditions.titleContains(actressName));
+        wait.until(ExpectedConditions.titleContains(actorName));
 
         // Kliknutí na první film z části "Known For"
         List<WebElement> knownForMovies = wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(
@@ -227,7 +227,7 @@ public class BaseImdbTests extends BasedSharedMethods {
 
     // vyhledá druhý film sekce KnownFor
     @Test
-    public void imdbTestClickFirstKnownForMovieDeborah5() {
+    public void imdbTestClickFirstKnownForMovieDeborah() {
         String actressName = "Deborah Ann Woll"; // Nebo "Kate Beckinsale"
         driver.get("https://www.imdb.com/");
 
@@ -291,7 +291,7 @@ public class BaseImdbTests extends BasedSharedMethods {
     // vyhledá všechny filmy v sekci KnownFor
     @Test
     public void imdbTestClickAllKnownForMovies() {
-        String actressName = "Deborah Ann Woll";
+        String actorName = "Tom Hanks";
         driver.get("https://www.imdb.com/");
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
@@ -305,20 +305,20 @@ public class BaseImdbTests extends BasedSharedMethods {
             System.out.println("Cookies banner se nezobrazil nebo už byl potvrzen.");
         }
 
-        // Vyhledávání herečky
+        // Vyhledávání herce
         WebElement searchBox = wait.until(ExpectedConditions.elementToBeClickable(By.name("q")));
         searchBox.clear();
-        searchBox.sendKeys(actressName);
+        searchBox.sendKeys(actorName);
         searchBox.submit();
 
-        // Klik na profil herečky
+        // Klik na profil herce
         WebElement profileLink = wait.until(ExpectedConditions.elementToBeClickable(
-                By.xpath("//a[contains(text(),'" + actressName + "')]")
+                By.xpath("//a[contains(text(),'" + actorName + "')]")
         ));
         profileLink.click();
 
         // Ověření, že jsme na správném profilu
-        wait.until(ExpectedConditions.titleContains(actressName));
+        wait.until(ExpectedConditions.titleContains(actorName));
 
         // Načti názvy všech filmů v "Known for" (max 4)
         List<WebElement> knownForElements = wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(
@@ -336,8 +336,8 @@ public class BaseImdbTests extends BasedSharedMethods {
 
         // Smyčka přes 4 filmy
         for (String movieTitle : movieTitles) {
-            // Znovu načti profil herečky (při první iteraci už jsme na něm, jinak se vracíme z filmu)
-            wait.until(ExpectedConditions.titleContains(actressName));
+            // Znovu načti profil herce (při první iteraci už jsme na něm, jinak se vracíme z filmu)
+            wait.until(ExpectedConditions.titleContains(actorName));
 
             // Načti znovu prvky
             List<WebElement> knownFor = wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(
@@ -362,7 +362,7 @@ public class BaseImdbTests extends BasedSharedMethods {
 
             System.out.println("Úspěšně zobrazen film: " + movieTitle);
 
-            // Návrat zpět na profil herečky
+            // Návrat zpět na profil herce
             driver.navigate().back();
         }
     }
