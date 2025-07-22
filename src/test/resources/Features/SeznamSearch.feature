@@ -2,10 +2,10 @@ Feature: Seznam search
 
   @test2
   Scenario: user can search any keyword
-    Given an open browser with seznam.cz
-    When a keyword Jennifer Aniston is entered in input field
-    Then user should see results from seznam search
-    Then close seznam browser
+    Given an open browser with
+    When a keyword Jennifer A. is entered in input field
+    Then user should see results from search
+    Then close search browser
 
   @test3
   Scenario: user can search any keyword
@@ -21,3 +21,16 @@ Feature: Seznam search
     Then user should see results from browser search
     Then close browser
 
+  @test5
+  Scenario: user can search any keyword
+    Given an open browser with booking for search
+    When a keyword Victoria is entered in input field
+    Then user should see Victoria results from search
+    Then close booking browser
+
+  @test6
+  Scenario: user can search any keyword
+    Given an open browser for searching word Lindsey
+    When a keyword Lindsey is entered in input field
+    Then user should see Lindsey results from search
+    Then close browser word Lindsey

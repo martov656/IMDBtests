@@ -14,13 +14,13 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 
-public class SeznamSearchSteps {
+public class SearchStepsVictoria {
 
     private WebDriver driver;
     private WebDriverWait wait;
 
-    @Given ("an open browser with")
-    public void openBrowserSeznam() {
+    @Given ("an open browser with booking for search")
+    public void anpenBrowser() {
         driver = new ChromeDriver();
         wait = new WebDriverWait(driver, Duration.ofSeconds(5));
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
@@ -28,23 +28,24 @@ public class SeznamSearchSteps {
         driver.get("https://search.seznam.cz");
     }
 
-    @When("a keyword Jennifer A. is entered in input field")
-    public void keywordJenniferSearch(){
+    @When("a keyword Victoria is entered in input field")
+    public void keywordVictoriaSearch(){
         WebElement element = driver.findElement(By.name("q"));
         wait.until(ExpectedConditions.elementToBeClickable(element));
         element.clear();
-        element.sendKeys("Jennifer Aniston");
+        element.sendKeys("Victoria Silvstedt");
         element.submit();
     }
 
-    @Then ("user should see results from search")
-    public void userShouldSeeSeznamResult(){
-        wait.until(ExpectedConditions.titleContains("Jennifer Aniston"));
-        Assertions.assertTrue(driver.getPageSource().contains("Jennifer Aniston"),"Searched key not found ...");
+    @Then("user should see Victoria results from search")
+    public void userShouldSeeVicResult() {
+        wait.until(ExpectedConditions.titleContains("Victoria Silvstedt"));
+        Assertions.assertTrue(driver.getPageSource().contains("Victoria Silvstedt"),"Searched key not found ...");
     }
 
-    @Then ("close search browser")
-    public void closeSeznamBrowser(){
+
+    @Then ("close booking browser")
+    public void closeSeznamVicBrowser(){
         driver.quit();
     }
 }
