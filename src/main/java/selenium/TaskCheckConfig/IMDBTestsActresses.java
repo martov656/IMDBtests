@@ -45,7 +45,7 @@ public class IMDBTestsActresses extends BasedSharedMethods {
     }
 
     @Test
-    public void imdbSearchTesReeseProfileMetaKnownFor() throws InterruptedException {
+    public void imdbSearchTesReeseProfileMetaKnownFor()  {
         driver.get("https://www.imdb.com/");
 
 
@@ -94,7 +94,7 @@ public class IMDBTestsActresses extends BasedSharedMethods {
     }
 
     @Test
-    public void imdbSearchTestKateProfileAndClickMovie() throws InterruptedException {
+    public void imdbSearchTestKateProfileAndClickMovie()  {
         driver.get("https://www.imdb.com/");
 
 

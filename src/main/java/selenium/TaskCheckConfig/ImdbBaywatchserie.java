@@ -78,7 +78,7 @@ public class ImdbBaywatchserie extends BasedSharedMethods {
 
     // Test - najít herečku uprostřed pole
     @Test
-    public void imdbClickBaywatchThenGenaLeeNolin() throws InterruptedException {
+    public void imdbClickBaywatchThenGenaLeeNolin()  {
         driver.get("https://www.imdb.com/");
 
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
@@ -133,7 +133,7 @@ public class ImdbBaywatchserie extends BasedSharedMethods {
 
     // Test s delším čekáním
     @Test
-    public void imdbClickAndFindTraciBingham() throws InterruptedException {
+    public void imdbClickAndFindTraciBingham() {
         driver.get("https://www.imdb.com/");
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
 
@@ -335,7 +335,7 @@ public class ImdbBaywatchserie extends BasedSharedMethods {
     }
 
     @Test
-    public void imdbClickBaywatchThenCarmen() throws InterruptedException {
+    public void imdbClickBaywatchThenCarmen()  {
         driver.get("https://www.imdb.com/");
 
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
@@ -343,7 +343,7 @@ public class ImdbBaywatchserie extends BasedSharedMethods {
         // Vyhledání filmu "Pobřežní hlídka"
         WebElement searchBox = wait.until(ExpectedConditions.elementToBeClickable(By.name("q")));
         searchBox.clear();
-        searchBox.sendKeys("Pobřežní hlídka 1989");
+        searchBox.sendKeys("Pobřežní hlídka");
         searchBox.submit();
 
         // Kliknutí na odkaz filmu
@@ -399,7 +399,7 @@ public class ImdbBaywatchserie extends BasedSharedMethods {
     }
 
     @Test
-    public void imdbClickBaywatchThenBrande() throws InterruptedException {
+    public void imdbClickBaywatchThenBrande()  {
         driver.get("https://www.imdb.com/");
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
 
@@ -452,7 +452,7 @@ public class ImdbBaywatchserie extends BasedSharedMethods {
         System.out.println("První film v sekci 'Known for': " + movieTitle);
 
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});", knownForMovie);
-        Thread.sleep(500);
+
         ((JavascriptExecutor) driver).executeScript("arguments[0].click();", knownForMovie);
 
         // Ověření titulku stránky
@@ -472,7 +472,7 @@ public class ImdbBaywatchserie extends BasedSharedMethods {
 
     // rovnou na All Cast
     @Test
-    public void imdbClickBaywatchThenKelly() throws InterruptedException {
+    public void imdbClickBaywatchThenKelly() {
         driver.get("https://www.imdb.com/");
 
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
@@ -523,7 +523,7 @@ public class ImdbBaywatchserie extends BasedSharedMethods {
     }
 
     @Test
-    public void imdbClickWildThenallien2017() throws InterruptedException {
+    public void imdbClickWildThenallien2017() {
         driver.get("https://www.imdb.com/");
 
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
@@ -562,8 +562,8 @@ public class ImdbBaywatchserie extends BasedSharedMethods {
 
         // Scroll a klik
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", knownForMovie);
-        Thread.sleep(5000);
-        knownForMovie.click();
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", knownForMovie);
+
 
         // Ověření titulku stránky
         wait.until(ExpectedConditions.titleContains(movieTitle));
@@ -572,94 +572,10 @@ public class ImdbBaywatchserie extends BasedSharedMethods {
 
     }
 
-    // upravený test, který vynechává vyhledávání podle textu a rovnou přistupuje k filmu Pobřežní hlídka (2017) přes IMDb ID tt1469304 – tím odstraníme riziko, že vyhledávání skončí u seriálu nebo jiného výsledku, a bude fungovat na všech prohlížečích stejně:
-    @Test
-    public void imdbClickBaywatchMovieById() throws InterruptedException {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
-
-        // Otevři přímo film Pobřežní hlídka (2017) přes IMDb ID
-        driver.get("https://www.imdb.com/title/tt1469304/");
-
-        // Počkej na načtení stránky filmu (titul by měl obsahovat 'Baywatch' nebo 'Pobřežní hlídka')
-        wait.until(ExpectedConditions.titleContains("Pobřežní hlídka 2017"));
-
-        // Najdi a klikni na herečku "Alexandra Daddario"
-        WebElement reeseLink = wait.until(ExpectedConditions.elementToBeClickable(
-                By.xpath("//a[contains(text(),'Alexandra Daddario')]")
-        ));
-        reeseLink.click();
-
-        // Počkej na načtení profilu herečky
-        wait.until(ExpectedConditions.titleContains("Alexandra Daddario"));
-        Assertions.assertTrue(driver.getTitle().contains("Alexandra Daddario"),
-                "Na profil herečky nebyla načtena správná stránka.");
-
-        // Najdi první film v sekci "Known for"
-        WebElement knownForMovie = wait.until(ExpectedConditions.elementToBeClickable(
-                By.cssSelector(".ipc-primary-image-list-card__title")
-        ));
-        String movieTitle = knownForMovie.getText().trim();
-        System.out.println("První film v sekci 'Known for': " + movieTitle);
-
-        // Scroll a klik
-        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", knownForMovie);
-        Thread.sleep(3000);
-        knownForMovie.click();
-
-        // Ověření titulku stránky
-        wait.until(ExpectedConditions.titleContains(movieTitle));
-        Assertions.assertTrue(driver.getTitle().toLowerCase().contains(movieTitle.toLowerCase()),
-                "Po kliknutí na film nebyla načtena správná stránka.");
-    }
-
-    @Test
-    public void imdbCheckCharacterNameUnderActor() throws InterruptedException {
-        driver.get("https://www.imdb.com/");
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
-
-        try {
-            WebElement acceptCookies = wait.until(ExpectedConditions.elementToBeClickable(
-                    By.xpath("//button[contains(text(),'Accept') or contains(text(),'Souhlasím')]")
-            ));
-            acceptCookies.click();
-        } catch (TimeoutException e) {
-            System.out.println("Cookies banner se nezobrazil nebo už byl potvrzen.");
-        }
-
-        // Vyhledání "Pobřežní hlídka"
-        WebElement searchBox = wait.until(ExpectedConditions.elementToBeClickable(By.name("q")));
-        searchBox.clear();
-        searchBox.sendKeys("Pobřežní hlídka");
-        searchBox.submit();
-
-        // Počkej na výsledek s Baywatch
-        WebElement resultLink = wait.until(ExpectedConditions.elementToBeClickable(
-                By.xpath("//a[contains(@href, '/title/') and contains(.,'Pobřežní hlídka')]")
-        ));
-        resultLink.click();
-
-        // Počkej, až se načte stránka filmu
-
-
-        // Klikni na správný výsledek (seriál, ne film)
-        WebElement baywatchLink = wait.until(ExpectedConditions.elementToBeClickable(
-                By.xpath("//a[contains(text(),'Pobřežní hlídka') and contains(@href, '/title/')]")));
-        baywatchLink.click();
 
 
 
-        // Vyhledej herečku "Pamela Anderson" a získej text pod jejím jménem (jméno postavy)
-        WebElement actorBlock = wait.until(ExpectedConditions.presenceOfElementLocated(
-                By.xpath("//a[contains(text(),'Yasmine Bleeth')]/ancestor::li")
-        ));
 
-        WebElement characterName = actorBlock.findElement(By.xpath(".//div[contains(@class, 'ipc-inline-list')]"));
-        String characterText = characterName.getText().trim();
-
-        System.out.println("Postava pod Pamela Anderson: " + characterText);
-        Assertions.assertTrue(characterText.contains("Caroline Holden"),
-                "Postava Caroline Holden nebyla nalezena pod Yasmine Bleeth.");
-    }
 
         }
 

@@ -58,7 +58,7 @@ public class ImdbKateFilms extends BasedSharedMethods {
 
 
     @Test
-    public void imdbClickWildThenWild() throws InterruptedException {
+    public void imdbClickWildThenWild()  {
         driver.get("https://www.imdb.com/");
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
@@ -117,7 +117,7 @@ public class ImdbKateFilms extends BasedSharedMethods {
 
 
     @Test
-    public void imdbClickWildThenReese() throws InterruptedException {
+    public void imdbClickWildThenReese()  {
         driver.get("https://www.imdb.com/");
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
 
@@ -299,7 +299,7 @@ public class ImdbKateFilms extends BasedSharedMethods {
         }
     }
 
-
+    // Overlay
     @Test
     public void imdbClickWidowThenKateSecondKnownFor2() {
         driver.get("https://www.imdb.com/");
@@ -384,8 +384,84 @@ public class ImdbKateFilms extends BasedSharedMethods {
 
     }
 
+    // Bez Overlay
     @Test
-    public void imdbClickWidowThenKateSecondKnownFor3() throws InterruptedException {
+    public void imdbClickWidowThenKateSecondKnownFor3() {
+        driver.get("https://www.imdb.com/");
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+
+        try {
+            WebElement acceptCookies = wait.until(ExpectedConditions.elementToBeClickable(
+                    By.xpath("//button[contains(text(),'Accept') or contains(text(),'Souhlasím')]")
+            ));
+            acceptCookies.click();
+        } catch (TimeoutException e) {
+            System.out.println("Cookies banner se nezobrazil nebo už byl potvrzen.");
+        }
+
+
+        // Vyhledání "The Widow"
+        WebElement searchBox = wait.until(ExpectedConditions.elementToBeClickable(By.name("q")));
+        searchBox.clear();
+        searchBox.sendKeys("The Widow");
+        searchBox.submit();
+
+        // Kliknutí na výsledek "The Widow"
+        WebElement bojLink = wait.until(ExpectedConditions.elementToBeClickable(
+                By.xpath("//a[contains(text(),'The Widow')]")
+        ));
+        bojLink.click();
+
+        // Počkej na načtení stránky s The Widow
+        wait.until(ExpectedConditions.titleContains("The Widow"));
+
+
+        // Kliknutí na herečku Kate Beckinsale (přes JS pro jistotu)
+        WebElement kateLink = wait.until(ExpectedConditions.elementToBeClickable(
+                By.xpath("//a[contains(text(),'Kate Beckinsale')]")
+        ));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});", kateLink);
+
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", kateLink);
+
+        // Ověření načtení profilu
+        wait.until(ExpectedConditions.titleContains("Kate Beckinsale"));
+        Assertions.assertTrue(driver.getTitle().contains("Kate Beckinsale"),
+                "Na profil herečky nebyla načtena správná stránka.");
+
+        // Seznam filmů v sekci Known For
+        List<WebElement> knownForMovies = wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(
+                By.cssSelector("a.ipc-primary-image-list-card__title")
+        ));
+
+        Assertions.assertTrue(knownForMovies.size() >= 3,
+                "Na profilu nejsou alespoň tři filmy v sekci 'Known for'.");
+
+        // Třetí film
+        WebElement thirdMovie = knownForMovies.get(2);
+        String movieTitle = thirdMovie.getText().trim();
+        System.out.println("Třetí film v sekci 'Known for': " + movieTitle);
+
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});", thirdMovie);
+
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", thirdMovie);
+
+        // Ověření, že jsme na stránce filmu
+        wait.until(ExpectedConditions.titleContains(movieTitle));
+        Assertions.assertTrue(driver.getTitle().toLowerCase().contains(movieTitle.toLowerCase()),
+                "Po kliknutí na film nebyla načtena správná stránka.");
+        WebElement trailerLink = wait.until(ExpectedConditions.presenceOfElementLocated(
+                By.cssSelector("a.ipc-lockup-overlay[aria-label^='Watch']")
+        ));
+
+// Scroll a klik přes JavaScript
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", trailerLink);
+
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", trailerLink);
+    }
+
+        @Test
+    public void imdbClickWidowThenKateSecondKnownFor9()  {
         driver.get("https://www.imdb.com/");
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
 
@@ -460,7 +536,7 @@ public class ImdbKateFilms extends BasedSharedMethods {
     }
 
     @Test
-    public void imdbClickWidowThenKateSecondKnowncomplete() throws InterruptedException {
+    public void imdbClickWidowThenKateSecondKnowncomplete()  {
         driver.get("https://www.imdb.com/");
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
 

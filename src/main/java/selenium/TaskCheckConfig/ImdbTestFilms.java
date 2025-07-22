@@ -16,171 +16,6 @@ import java.util.Optional;
 public class ImdbTestFilms extends BasedSharedMethods {
 
 
-    @Test
-    public void imdbClickWildThenMotel2() {
-        driver.get("https://www.imdb.com/");
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-
-
-        try {
-            WebElement acceptCookies = wait.until(ExpectedConditions.elementToBeClickable(
-                    By.xpath("//button[contains(text(),'Accept') or contains(text(),'Souhlasím')]")
-            ));
-            acceptCookies.click();
-        } catch (TimeoutException e) {
-            System.out.println("Cookies banner se nezobrazil nebo už byl potvrzen.");
-        }
-
-
-        // Do vyhledávání napiš "Wild"
-        WebElement searchBox = wait.until(ExpectedConditions.elementToBeClickable(By.name("q")));
-        searchBox.clear();
-        searchBox.sendKeys("Motel smrti");
-        searchBox.submit();
-
-
-        // Klikni na film "Wild"
-        WebElement wildLink = wait.until(ExpectedConditions.elementToBeClickable(
-                By.xpath("//a[contains(text(),'Motel smrti')]")
-        ));
-        wildLink.click();
-
-
-        // Počkej, až se načte stránka filmu (titul by měl obsahovat "Wild")
-        wait.until(ExpectedConditions.titleContains("Motel smrti"));
-
-
-        // Najdi a klikni na herečku "Reese Witherspoon" na stránce filmu
-        WebElement reeseLink = wait.until(ExpectedConditions.elementToBeClickable(
-                By.xpath("//a[contains(text(),'Kate Beckinsale')]")
-        ));
-        reeseLink.click();
-
-
-        // Počkej na načtení profilu herečky
-        wait.until(ExpectedConditions.titleContains("Kate Beckinsale"));
-        Assertions.assertTrue(driver.getTitle().contains("Kate Beckinsale"),
-                "Na profil herečky nebyla načtena správná stránka.");
-
-    }
-
-
-    @Test
-    public void imdbClickWildThenWild() {
-        driver.get("https://www.imdb.com/");
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-
-        try {
-            WebElement acceptCookies = wait.until(ExpectedConditions.elementToBeClickable(
-                    By.xpath("//button[contains(text(),'Accept') or contains(text(),'Souhlasím')]")
-            ));
-            acceptCookies.click();
-        } catch (TimeoutException e) {
-            System.out.println("Cookies banner se nezobrazil nebo už byl potvrzen.");
-        }
-
-
-        // Do vyhledávání napiš "Wild"
-        WebElement searchBox = wait.until(ExpectedConditions.elementToBeClickable(By.name("q")));
-        searchBox.clear();
-        searchBox.sendKeys("Divočina");
-        searchBox.submit();
-
-        // Klikni na film "Wild"
-        WebElement wildLink = wait.until(ExpectedConditions.elementToBeClickable(
-                By.xpath("//a[contains(text(),'Divočina')]")
-        ));
-        wildLink.click();
-
-        // Počkej, až se načte stránka filmu (titul by měl obsahovat "Wild")
-        wait.until(ExpectedConditions.titleContains("Divočina"));
-
-        // Najdi a klikni na herečku "Reese Witherspoon" na stránce filmu
-        WebElement reeseLink = wait.until(ExpectedConditions.elementToBeClickable(
-                By.xpath("//a[contains(text(),'Reese Witherspoon')]")
-        ));
-        reeseLink.click();
-
-        // Počkej na načtení profilu herečky
-        wait.until(ExpectedConditions.titleContains("Reese Witherspoon"));
-        Assertions.assertTrue(driver.getTitle().contains("Reese Witherspoon"),
-                "Na profil herečky nebyla načtena správná stránka.");
-
-        WebElement knownForMovie = wait.until(ExpectedConditions.elementToBeClickable(
-                By.cssSelector(".ipc-primary-image-list-card__title")
-        ));
-        String movieTitle = knownForMovie.getText().trim();
-        System.out.println("První film v sekci 'Known for': " + movieTitle);
-
-        // Scroll a klik
-        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", knownForMovie);
-        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", knownForMovie);
-
-
-        // Ověření titulku stránky
-        wait.until(ExpectedConditions.titleContains(movieTitle));
-        Assertions.assertTrue(driver.getTitle().toLowerCase().contains(movieTitle.toLowerCase()),
-                "Po kliknutí na film nebyla načtena správná stránka.");
-    }
-
-
-    @Test
-    public void imdbClickWildThenMotel() {
-        driver.get("https://www.imdb.com/");
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
-
-        try {
-            WebElement acceptCookies = wait.until(ExpectedConditions.elementToBeClickable(
-                    By.xpath("//button[contains(text(),'Accept') or contains(text(),'Souhlasím')]")
-            ));
-            acceptCookies.click();
-        } catch (TimeoutException e) {
-            System.out.println("Cookies banner se nezobrazil nebo už byl potvrzen.");
-        }
-
-
-        // Do vyhledávání napiš "Wild"
-        WebElement searchBox = wait.until(ExpectedConditions.elementToBeClickable(By.name("q")));
-        searchBox.clear();
-        searchBox.sendKeys("Motel smrti");
-        searchBox.submit();
-
-        // Klikni na film "Wild"
-        WebElement wildLink = wait.until(ExpectedConditions.elementToBeClickable(
-                By.xpath("//a[contains(text(),'Motel smrti')]")
-        ));
-        wildLink.click();
-
-        // Počkej, až se načte stránka filmu (titul by měl obsahovat "Wild")
-        wait.until(ExpectedConditions.titleContains("Motel smrti"));
-
-        // Najdi a klikni na herečku "Reese Witherspoon" na stránce filmu
-        WebElement reeseLink = wait.until(ExpectedConditions.elementToBeClickable(
-                By.xpath("//a[contains(text(),'Kate Beckinsale')]")
-        ));
-        reeseLink.click();
-
-        // Počkej na načtení profilu herečky
-        wait.until(ExpectedConditions.titleContains("Kate Beckinsale"));
-        Assertions.assertTrue(driver.getTitle().contains("Kate Beckinsale"),
-                "Na profil herečky nebyla načtena správná stránka.");
-
-        WebElement knownForMovie = wait.until(ExpectedConditions.elementToBeClickable(
-                By.cssSelector(".ipc-primary-image-list-card__title")
-        ));
-        String movieTitle = knownForMovie.getText().trim();
-        System.out.println("První film v sekci 'Known for': " + movieTitle);
-
-        // Scroll a klik
-        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", knownForMovie);
-        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", knownForMovie);
-
-
-        // Ověření titulku stránky
-        wait.until(ExpectedConditions.titleContains(movieTitle));
-        Assertions.assertTrue(driver.getTitle().toLowerCase().contains(movieTitle.toLowerCase()),
-                "Po kliknutí na film nebyla načtena správná stránka.");
-    }
 
     @Test
     public void imdbClickWildThenallien() {
@@ -240,7 +75,7 @@ public class ImdbTestFilms extends BasedSharedMethods {
     }
 
     @Test
-    public void imdbClickWildThenallienTom() throws InterruptedException {
+    public void imdbClickWildThenallienTom() {
         driver.get("https://www.imdb.com/");
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
 
@@ -287,7 +122,7 @@ public class ImdbTestFilms extends BasedSharedMethods {
 
 
     @Test
-    public void imdbClickAndFindTraciVic() throws InterruptedException {
+    public void imdbClickAndFindTraciVic()  {
         driver.get("https://www.imdb.com/");
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
 
@@ -351,7 +186,7 @@ public class ImdbTestFilms extends BasedSharedMethods {
     }
 
     @Test
-    public void imdbClickAndFindTraciVi2() throws InterruptedException {
+    public void imdbClickAndFindTraciVi2()  {
         driver.get("https://www.imdb.com/");
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
 
@@ -425,7 +260,7 @@ public class ImdbTestFilms extends BasedSharedMethods {
 
 
     @Test
-    public void imdbClickWildThendared() throws InterruptedException {
+    public void imdbClickWildThendared() {
         driver.get("https://www.imdb.com/");
 
         try {
@@ -484,81 +319,11 @@ public class ImdbTestFilms extends BasedSharedMethods {
 
     }
 
-    @Test
-    public void imdbClickWildThendared2() {
-        driver.get("https://www.imdb.com/");
 
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
-
-        // Do vyhledávání napiš "Wild"
-        WebElement searchBox = wait.until(ExpectedConditions.elementToBeClickable(By.name("q")));
-        searchBox.clear();
-        searchBox.sendKeys("U tebe nebo u mě?");
-        searchBox.submit();
-
-        // Klikni na film "Wild"
-        WebElement wildLink = wait.until(ExpectedConditions.elementToBeClickable(
-                By.xpath("//a[contains(text(),'U tebe nebo u mě?')]")
-        ));
-        wildLink.click();
-
-        WebElement trailerLink = wait.until(ExpectedConditions.presenceOfElementLocated(
-                By.cssSelector("a.ipc-lockup-overlay[aria-label^='Watch']")
-        ));
-
-// Scroll a klik přes JavaScript
-        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", trailerLink);
-
-        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", trailerLink);
-
-
-        WebElement acceptCookies = driver.findElement(By.xpath("//button[contains(text(),'Accept')]"));
-        acceptCookies.click();
-
-
-    }
-
-    @Test
-    public void imdbClickWildThendared3() throws InterruptedException {
-        driver.get("https://www.imdb.com/");
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
-
-        // Klikni na cookies pokud se zobrazí
-        try {
-            WebElement acceptCookies = wait.until(ExpectedConditions.elementToBeClickable(
-                    By.xpath("//button[contains(text(),'Accept') or contains(text(),'Souhlasím')]")
-            ));
-            acceptCookies.click();
-        } catch (TimeoutException e) {
-            System.out.println("Cookies banner se nezobrazil nebo už byl potvrzen.");
-        }
-
-        // Do vyhledávání napiš "U tebe nebo u mě?"
-        WebElement searchBox = wait.until(ExpectedConditions.elementToBeClickable(By.name("q")));
-        searchBox.clear();
-        searchBox.sendKeys("U tebe nebo u mě?");
-        searchBox.submit();
-
-        // Klikni na film "U tebe nebo u mě?"
-        WebElement wildLink = wait.until(ExpectedConditions.elementToBeClickable(
-                By.xpath("//a[contains(text(),'U tebe nebo u mě?')]")
-        ));
-        wildLink.click();
-
-        // Najdi a klikni na trailer
-        WebElement trailerLink = wait.until(ExpectedConditions.presenceOfElementLocated(
-                By.cssSelector("a.ipc-lockup-overlay[aria-label^='Watch']")
-        ));
-
-        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", trailerLink);
-
-        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", trailerLink);
-
-    }
 
 
     @Test
-    public void openFirstKnownForMovieSafely() throws InterruptedException {
+    public void openFirstKnownForMovieSafely()  {
         String actressName = "Jennifer Aniston";
         driver.get("https://www.imdb.com/");
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
@@ -672,7 +437,7 @@ public class ImdbTestFilms extends BasedSharedMethods {
     }
 
     @Test
-    public void openPreviousMovieRobust() throws InterruptedException {
+    public void openPreviousMovieRobust()  {
         String actressName = "Dakota Johnson";
 
 
@@ -726,7 +491,7 @@ public class ImdbTestFilms extends BasedSharedMethods {
     }
 
     @Test
-    public void openShowFromJohnsonProfile2() throws InterruptedException {
+    public void openShowFromJohnsonProfile2() {
         String actressName = "Dakota Johnson";
         String showTitle = "Dokonalá shoda";
 
@@ -1053,71 +818,134 @@ public class ImdbTestFilms extends BasedSharedMethods {
     }
 
 
+    @Test
+    public void openFirstKnownForMovieSafely2() {
+        String actressName = "Jennifer Aniston";
+        driver.get("https://www.imdb.com/");
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
 
 
-        @Test
-        public void openFirstKnownForMovieSafely2 () {
-            String actressName = "Jennifer Aniston";
-            driver.get("https://www.imdb.com/");
-            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
-
-
-            try {
-                WebElement acceptCookies = wait.until(ExpectedConditions.elementToBeClickable(
-                        By.xpath("//button[contains(text(),'Accept') or contains(text(),'Souhlasím')]")
-                ));
-                acceptCookies.click();
-            } catch (TimeoutException e) {
-                System.out.println("Cookies banner se nezobrazil nebo už byl potvrzen.");
-            }
-
-            // Skryj GDPR dialog
-            ((JavascriptExecutor) driver).executeScript(
-                    "let dialog = document.querySelector('div[role=dialog]'); if (dialog) dialog.remove();"
-            );
-
-            // Vyhledání herečky
-            WebElement searchBox = wait.until(ExpectedConditions.elementToBeClickable(By.name("q")));
-            searchBox.clear();
-            searchBox.sendKeys(actressName);
-            searchBox.submit();
-
-            // Klik na profil
-            WebElement profileLink = wait.until(ExpectedConditions.elementToBeClickable(
-                    By.xpath("//a[contains(text(),'" + actressName + "')]")
+        try {
+            WebElement acceptCookies = wait.until(ExpectedConditions.elementToBeClickable(
+                    By.xpath("//button[contains(text(),'Accept') or contains(text(),'Souhlasím')]")
             ));
-            profileLink.click();
-
-            wait.until(ExpectedConditions.titleContains(actressName));
-
-            // Pokus o získání filmu ze sekce Known For
-            WebElement firstKnownForMovie = null;
-            try {
-                firstKnownForMovie = wait.until(ExpectedConditions.presenceOfElementLocated(
-                        By.cssSelector(".ipc-primary-image-list-card__title")
-                ));
-            } catch (TimeoutException e) {
-                System.out.println("Žádný film v sekci 'Known for' nebyl nalezen.");
-            }
-
-            // Ověření, že jsme něco našli
-            Assertions.assertNotNull(firstKnownForMovie, "'Known For' sekce je prázdná nebo nebyla načtena správně.");
-
-            // Scroll a klik
-            String movieTitle = firstKnownForMovie.getText().trim();
-            System.out.println("První film v sekci 'Known For': " + movieTitle);
-
-            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", firstKnownForMovie);
-
-            ((JavascriptExecutor) driver).executeScript("arguments[0].click();", firstKnownForMovie);
-
-            // Ověření stránky filmu
-            wait.until(ExpectedConditions.titleContains(movieTitle));
-            Assertions.assertTrue(driver.getTitle().toLowerCase().contains(movieTitle.toLowerCase()));
+            acceptCookies.click();
+        } catch (TimeoutException e) {
+            System.out.println("Cookies banner se nezobrazil nebo už byl potvrzen.");
         }
+
+        // Skryj GDPR dialog
+        ((JavascriptExecutor) driver).executeScript(
+                "let dialog = document.querySelector('div[role=dialog]'); if (dialog) dialog.remove();"
+        );
+
+        // Vyhledání herečky
+        WebElement searchBox = wait.until(ExpectedConditions.elementToBeClickable(By.name("q")));
+        searchBox.clear();
+        searchBox.sendKeys(actressName);
+        searchBox.submit();
+
+        // Klik na profil
+        WebElement profileLink = wait.until(ExpectedConditions.elementToBeClickable(
+                By.xpath("//a[contains(text(),'" + actressName + "')]")
+        ));
+        profileLink.click();
+
+        wait.until(ExpectedConditions.titleContains(actressName));
+
+        // Pokus o získání filmu ze sekce Known For
+        WebElement firstKnownForMovie = null;
+        try {
+            firstKnownForMovie = wait.until(ExpectedConditions.presenceOfElementLocated(
+                    By.cssSelector(".ipc-primary-image-list-card__title")
+            ));
+        } catch (TimeoutException e) {
+            System.out.println("Žádný film v sekci 'Known for' nebyl nalezen.");
+        }
+
+        // Ověření, že jsme něco našli
+        Assertions.assertNotNull(firstKnownForMovie, "'Known For' sekce je prázdná nebo nebyla načtena správně.");
+
+        // Scroll a klik
+        String movieTitle = firstKnownForMovie.getText().trim();
+        System.out.println("První film v sekci 'Known For': " + movieTitle);
+
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", firstKnownForMovie);
+
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", firstKnownForMovie);
+
+        // Ověření stránky filmu
+        wait.until(ExpectedConditions.titleContains(movieTitle));
+        Assertions.assertTrue(driver.getTitle().toLowerCase().contains(movieTitle.toLowerCase()));
+    }
+
+    // Hledání filmu na hlavní straně
+    @Test
+    public void openShowFromJohnsonProfile3() {
+        String actressName = "Jennifer Connelly";
+        String showTitle = "The Dilemma";
+
+        driver.get("https://www.imdb.com/");
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+
+        try {
+            WebElement acceptCookies = wait.until(ExpectedConditions.elementToBeClickable(
+                    By.xpath("//button[contains(text(),'Accept') or contains(text(),'Souhlasím')]")
+            ));
+            acceptCookies.click();
+        } catch (TimeoutException e) {
+            System.out.println("Cookies banner se nezobrazil nebo už byl potvrzen.");
+        }
+
+
+        // Skryj GDPR dialog
+        ((JavascriptExecutor) driver).executeScript(
+                "let dialog = document.querySelector('div[role=dialog]'); if (dialog) dialog.remove();"
+        );
+
+        // Vyhledání herečky
+        WebElement searchBox = wait.until(ExpectedConditions.elementToBeClickable(By.name("q")));
+        searchBox.clear();
+        searchBox.sendKeys(actressName);
+        searchBox.submit();
+
+        // Klik na profil herečky
+        WebElement profileLink = wait.until(ExpectedConditions.elementToBeClickable(
+                By.xpath("//a[contains(text(),'" + actressName + "')]")
+        ));
+        profileLink.click();
+
+        // Ověř, že jsme na stránce herečky
+        wait.until(ExpectedConditions.titleContains(actressName));
+        Assertions.assertTrue(driver.getTitle().contains(actressName));
+
+        // Najdi odkaz na "The Morning Show" – hledání podle částečného textu (větší šance úspěchu)
+        WebElement showLink = wait.until(ExpectedConditions.presenceOfElementLocated(
+                By.partialLinkText("The Dilemma")
+        ));
+
+        // Scroll na rodičovský element, aby se lazy-load načetl správně
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", showLink);
+
+
+        // Klik přes JavaScript (lepší proti překrytým prvkům)
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", showLink);
+
+        // Ověření, že jsme na stránce seriálu
+        wait.until(ExpectedConditions.titleContains(showTitle));
+        Assertions.assertTrue(driver.getTitle().contains(showTitle), "Nebyla načtena stránka pro Je prostě báječná");
+
+        // Trailer
+        WebElement trailerLink = wait.until(ExpectedConditions.presenceOfElementLocated(
+                By.cssSelector("a.ipc-lockup-overlay[aria-label^='Watch']")
+        ));
+
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", trailerLink);
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", trailerLink);
+
 
     }
 
-
+}
 
 

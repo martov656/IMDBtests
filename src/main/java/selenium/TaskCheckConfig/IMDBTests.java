@@ -224,7 +224,7 @@ public class IMDBTests extends BasedSharedMethods {
         Assertions.assertTrue(metaContent.contains("Pravá blondýnka"), "Meta tag neobsahuje očekávaný film.");
     }
 
-
+    // Vyhledá profil herce/herečky
     @Test
     public void celebSearchTestScarlett() {
         driver.get("https://imdb.com/");
@@ -652,7 +652,7 @@ public void imdbTestClickFirstKnownForMovieMichael() throws InterruptedException
 
 
     @Test
-    public void imdbTestClickFirstKnownForMovieAndPlayTrailer() throws InterruptedException {
+    public void imdbTestClickFirstKnownForMovieAndPlayTrailer() {
         String actressName = "Victoria Silvstedt";
         driver.get("https://www.imdb.com/");
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
@@ -709,84 +709,11 @@ public void imdbTestClickFirstKnownForMovieMichael() throws InterruptedException
 
     }
 
-    @Test
-    public void imdbClickWidowThenKateSecondKnowncomplete() throws InterruptedException {
-        driver.get("https://www.imdb.com/");
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
-
-        try {
-            WebElement acceptCookies = wait.until(ExpectedConditions.elementToBeClickable(
-                    By.xpath("//button[contains(text(),'Accept') or contains(text(),'Souhlasím')]")
-            ));
-            acceptCookies.click();
-        } catch (TimeoutException e) {
-            System.out.println("Cookies banner se nezobrazil nebo už byl potvrzen.");
-        }
-
-        // Vyhledání "The Widow"
-        WebElement searchBox = wait.until(ExpectedConditions.elementToBeClickable(By.name("q")));
-        searchBox.clear();
-        searchBox.sendKeys("Sněžní andělé");
-        searchBox.submit();
-
-        // Kliknutí na výsledek "The Widow"
-        WebElement bojLink = wait.until(ExpectedConditions.elementToBeClickable(
-                By.xpath("//a[contains(text(),'Sněžní andělé')]")
-        ));
-        bojLink.click();
-
-        // Počkej na načtení stránky s The Widow
-        wait.until(ExpectedConditions.titleContains("Sněžní andělé"));
-
-
-        // Kliknutí na herečku Kate Beckinsale (přes JS pro jistotu)
-        WebElement kateLink = wait.until(ExpectedConditions.elementToBeClickable(
-                By.xpath("//a[contains(text(),'Kate Beckinsale')]")
-        ));
-        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});", kateLink);
-
-        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", kateLink);
-
-        // Ověření načtení profilu
-        wait.until(ExpectedConditions.titleContains("Kate Beckinsale"));
-        Assertions.assertTrue(driver.getTitle().contains("Kate Beckinsale"),
-                "Na profil herečky nebyla načtena správná stránka.");
-
-        // Seznam filmů v sekci Known For
-        List<WebElement> knownForMovies = wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(
-                By.cssSelector("a.ipc-primary-image-list-card__title")
-        ));
-
-        Assertions.assertTrue(knownForMovies.size() >= 4,
-                "Na profilu nejsou alespoň tři filmy v sekci 'Known for'.");
-
-        // Třetí film
-        WebElement fourthMovie = knownForMovies.get(3);
-        String movieTitle = fourthMovie.getText().trim();
-        System.out.println("Čtvrtý film v sekci 'Known for': " + movieTitle);
-
-        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});", fourthMovie);
-
-        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", fourthMovie);
-
-        // Ověření, že jsme na stránce filmu
-        wait.until(ExpectedConditions.titleContains(movieTitle));
-        Assertions.assertTrue(driver.getTitle().toLowerCase().contains(movieTitle.toLowerCase()),
-                "Po kliknutí na film nebyla načtena správná stránka.");
-        WebElement trailerLink = wait.until(ExpectedConditions.presenceOfElementLocated(
-                By.cssSelector("a.ipc-lockup-overlay[aria-label^='Watch']")
-        ));
-
-// Scroll a klik přes JavaScript
-        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", trailerLink);
-
-        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", trailerLink);
 
     }
 
 
 
-}
 
 
 
