@@ -605,7 +605,6 @@ public class BaseImdbTests extends BasedSharedMethods {
     }
 
 
-
     // Hledání filmu na hlavní straně
     @Test
     public void openShowFromJohnsonProfile3() {
@@ -746,7 +745,7 @@ public class BaseImdbTests extends BasedSharedMethods {
 
     // Jde hned na All Cast
     @Test
-    public void imdbClickAnnieHall() throws InterruptedException {
+    public void imdbClickAnnieHall()  {
         driver.get("https://www.imdb.com/");
 
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
@@ -786,7 +785,7 @@ public class BaseImdbTests extends BasedSharedMethods {
 
         // Počkáme, až se načte stránka s kompletním castem (title obsahuje "Full cast & crew")
         wait.until(ExpectedConditions.titleContains("Full cast & crew"));
-        Thread.sleep(4000);
+
         // Najdeme herce podle jména
         WebElement actorLink = wait.until(ExpectedConditions.presenceOfElementLocated(
                 By.xpath("//a[contains(text(),'Sigourney Weaver')]")
@@ -822,18 +821,9 @@ public class BaseImdbTests extends BasedSharedMethods {
 
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", trailerLink);
         ((JavascriptExecutor) driver).executeScript("arguments[0].click();", trailerLink);
-        Thread.sleep(4000);
-
-    }
 
 
     }
 
 
-
-
-
-
-
-
-
+}

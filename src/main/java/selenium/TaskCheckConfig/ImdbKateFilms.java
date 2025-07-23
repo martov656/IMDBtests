@@ -58,7 +58,7 @@ public class ImdbKateFilms extends BasedSharedMethods {
 
 
     @Test
-    public void imdbClickWildThenWild()  {
+    public void imdbClickWildThenWild()   {
         driver.get("https://www.imdb.com/");
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 

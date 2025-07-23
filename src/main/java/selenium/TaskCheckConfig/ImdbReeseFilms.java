@@ -17,7 +17,7 @@ import java.util.Optional;
 
 public class ImdbReeseFilms extends BasedSharedMethods {
 
-
+    // Vyhledá film - přehraje trailer - a vrátí se na profil
     @Test
     public void imdbWatchTrailerThenGoBackAndClickActor() throws InterruptedException {
         driver.get("https://www.imdb.com/");
