@@ -16,7 +16,7 @@ public class IMDBTestsActors extends BasedSharedMethods {
 
 
     @Test
-    public void imdbTestClickFirstKnownForMovieMel() throws InterruptedException {
+    public void imdbTestClickFirstKnownForMovieMel()  {
         String actressName = "Mel Gibson"; //
         driver.get("https://www.imdb.com/");
 
@@ -56,7 +56,7 @@ public class IMDBTestsActors extends BasedSharedMethods {
 
 
     @Test
-    public void imdbTestClickFirstKnownForMovieMichael() throws InterruptedException {
+    public void imdbTestClickFirstKnownForMovieMichael()  {
         String actressName = "Michael Douglas"; //
         driver.get("https://www.imdb.com/");
 
@@ -96,7 +96,7 @@ public class IMDBTestsActors extends BasedSharedMethods {
 
 
     @Test
-    public void imdbTestClickFirstKnownForMovieClint() throws InterruptedException {
+    public void imdbTestClickFirstKnownForMovieClint() {
         String actressName = "Clint Eastwood"; //
         driver.get("https://www.imdb.com/");
 
@@ -138,8 +138,7 @@ public class IMDBTestsActors extends BasedSharedMethods {
         System.out.println("První film v sekci 'Known For': " + movieTitle);
 
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", firstKnownForMovie);
-        Thread.sleep(1000);
-        firstKnownForMovie.click();
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", firstKnownForMovie);
 
         // Ověření, že jsme na stránce filmu
         wait.until(ExpectedConditions.titleContains(movieTitle));
@@ -158,7 +157,7 @@ public class IMDBTestsActors extends BasedSharedMethods {
 
 
     @Test
-    public void imdbTestClickFirstKnownForJohnny() throws InterruptedException {
+    public void imdbTestClickFirstKnownForJohnny()  {
         String actressName = "Johnny Depp"; //
         driver.get("https://www.imdb.com/");
 
@@ -197,7 +196,7 @@ public class IMDBTestsActors extends BasedSharedMethods {
     }
 
     @Test
-    public void imdbTestClickFirstKnownForMovieAndPlayTrailer() throws InterruptedException {
+    public void imdbTestClickFirstKnownForMovieAndPlayTrailer()  {
         String actorName = "Mel Gibson";
         driver.get("https://www.imdb.com/");
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
@@ -250,7 +249,7 @@ public class IMDBTestsActors extends BasedSharedMethods {
     }
 
     @Test
-    public void imdbTestClickFirstKnownForMovieAndPlayTrailerNichola() throws InterruptedException {
+    public void imdbTestClickFirstKnownForMovieAndPlayTrailerNichola()  {
         String actorName = "Sylvester Stallone";
         driver.get("https://www.imdb.com/");
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
@@ -303,7 +302,7 @@ public class IMDBTestsActors extends BasedSharedMethods {
     }
 
     @Test
-    public void imdbTestClickFirstKnownForMovieAndPlayTrailerCharles() throws InterruptedException {
+    public void imdbTestClickFirstKnownForMovieAndPlayTrailerCharles() {
         String actorName = "Charles Bronson";
         driver.get("https://www.imdb.com/");
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
@@ -357,7 +356,7 @@ public class IMDBTestsActors extends BasedSharedMethods {
     }
 
     @Test
-    public void imdbTestClickFirstKnownForMovieAndPlayTrailerPaul() throws InterruptedException {
+    public void imdbTestClickFirstKnownForMovieAndPlayTrailerPaul()  {
         String actorName = "Paul Newman";
         driver.get("https://www.imdb.com/");
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
@@ -465,7 +464,7 @@ public class IMDBTestsActors extends BasedSharedMethods {
     }
 
     @Test
-    public void imdbTestClickFirstKnownForMovieMichae() throws InterruptedException {
+    public void imdbTestClickFirstKnownForMovieMichae()  {
         String actressName = "Michael J. Fox"; //
         driver.get("https://www.imdb.com/");
 
