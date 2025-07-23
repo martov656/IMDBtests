@@ -1,4 +1,4 @@
-Feature: IMDb celebrity search
+ Feature: IMDb celebrity search
 
   @scarlett
   Scenario: User searches for Scarlett Johansson

@@ -1,4 +1,4 @@
-Feature: IMDb celebrity search with multiple names
+ Feature: IMDb celebrity search with multiple names
 
   @multiple
   Scenario: User searches for multiple celebrities on IMDb
