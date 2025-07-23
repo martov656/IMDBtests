@@ -14,40 +14,42 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 
-public class BingSearchSteps {
+public class SeznamSearchSteps {
 
     private WebDriver driver;
     private WebDriverWait wait;
 
-    @Given ("an open browser with bing.com")
-    public void openBrowserBingCom() {
+    @Given ("an open browser with")
+    public void openBrowserSeznam() {
         driver = new ChromeDriver();
         wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         driver.manage().window().maximize();
-        driver.get("https://bing.com");
+        driver.get("https://search.seznam.cz");
     }
 
-    @When("a keyword Reese Witherspoon is entered in input field")
-    public void keywordSeleniumSearch(){
+    @When("a keyword Jennifer A. is entered in input field")
+    public void keywordJenniferSearch(){
         WebElement element = driver.findElement(By.name("q"));
         wait.until(ExpectedConditions.elementToBeClickable(element));
         element.clear();
-        element.sendKeys("Reese Witherspoon");
+        element.sendKeys("Jennifer Aniston");
         element.submit();
     }
 
-    @Then ("user should see results from browser search")
-    public void userShouldSeeResults(){
-        wait.until(ExpectedConditions.titleContains("Reese Witherspoon"));
-        Assertions.assertTrue(driver.getPageSource().contains("Reese Witherspoon"),"Searched key not found ...");
+    @Then ("user should see results from search")
+    public void userShouldSeeSeznamResult(){
+        wait.until(ExpectedConditions.titleContains("Jennifer Aniston"));
+        Assertions.assertTrue(driver.getPageSource().contains("Jennifer Aniston"),"Searched key not found ...");
     }
 
-    @Then ("close browser")
-    public void closeBrowser(){
+    @Then ("close search browser")
+    public void closeSeznamBrowser(){
         driver.quit();
     }
 }
+
+
 
 
 

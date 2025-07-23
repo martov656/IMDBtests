@@ -14,40 +14,43 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 
-public class BingSearchSteps {
+public class SearchStepsVictoria {
 
     private WebDriver driver;
     private WebDriverWait wait;
 
-    @Given ("an open browser with bing.com")
-    public void openBrowserBingCom() {
+    @Given ("an open browser with booking for search")
+    public void anpenBrowser() {
         driver = new ChromeDriver();
         wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         driver.manage().window().maximize();
-        driver.get("https://bing.com");
+        driver.get("https://search.seznam.cz");
     }
 
-    @When("a keyword Reese Witherspoon is entered in input field")
-    public void keywordSeleniumSearch(){
+    @When("a keyword Victoria is entered in input field")
+    public void keywordVictoriaSearch(){
         WebElement element = driver.findElement(By.name("q"));
         wait.until(ExpectedConditions.elementToBeClickable(element));
         element.clear();
-        element.sendKeys("Reese Witherspoon");
+        element.sendKeys("Victoria Silvstedt");
         element.submit();
     }
 
-    @Then ("user should see results from browser search")
-    public void userShouldSeeResults(){
-        wait.until(ExpectedConditions.titleContains("Reese Witherspoon"));
-        Assertions.assertTrue(driver.getPageSource().contains("Reese Witherspoon"),"Searched key not found ...");
+    @Then("user should see Victoria results from search")
+    public void userShouldSeeVicResult() {
+        wait.until(ExpectedConditions.titleContains("Victoria Silvstedt"));
+        Assertions.assertTrue(driver.getPageSource().contains("Victoria Silvstedt"),"Searched key not found ...");
     }
 
-    @Then ("close browser")
-    public void closeBrowser(){
+
+    @Then ("close booking browser")
+    public void closeSeznamVicBrowser(){
         driver.quit();
     }
 }
+
+
 
 
 

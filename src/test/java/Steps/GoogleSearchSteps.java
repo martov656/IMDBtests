@@ -14,37 +14,39 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 
-public class BingSearchSteps {
+public class GoogleSearchSteps {
 
     private WebDriver driver;
     private WebDriverWait wait;
 
-    @Given ("an open browser with bing.com")
-    public void openBrowserBingCom() {
+    @Given ("an open browser with google.cz")
+    public void openBrowserGoogle() {
         driver = new ChromeDriver();
         wait = new WebDriverWait(driver, Duration.ofSeconds(5));
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
         driver.manage().window().maximize();
-        driver.get("https://bing.com");
+        driver.get("https://search.seznam.cz");
+
+
     }
 
-    @When("a keyword Reese Witherspoon is entered in input field")
-    public void keywordSeleniumSearch(){
+    @When("a keyword Scarlett Johansson is entered in input field")
+    public void keywordScarlettSearch(){
         WebElement element = driver.findElement(By.name("q"));
         wait.until(ExpectedConditions.elementToBeClickable(element));
         element.clear();
-        element.sendKeys("Reese Witherspoon");
+        element.sendKeys("Scarlett Johansson");
         element.submit();
     }
 
-    @Then ("user should see results from browser search")
-    public void userShouldSeeResults(){
-        wait.until(ExpectedConditions.titleContains("Reese Witherspoon"));
-        Assertions.assertTrue(driver.getPageSource().contains("Reese Witherspoon"),"Searched key not found ...");
+    @Then ("user should see results from google search")
+    public void userShouldSeeGoogleResult(){
+        wait.until(ExpectedConditions.titleContains("Scarlett Johansson"));
+        Assertions.assertTrue(driver.getPageSource().contains("Scarlett Johansson"),"Searched key not found ...");
     }
 
-    @Then ("close browser")
-    public void closeBrowser(){
+    @Then ("close google browser")
+    public void closeGoogleBrowser(){
         driver.quit();
     }
 }
