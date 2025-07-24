@@ -1,4 +1,4 @@
-Feature: Seznam search
+ Feature: Seznam search
 
   @test2
   Scenario: user can search any keyword Jennifer
