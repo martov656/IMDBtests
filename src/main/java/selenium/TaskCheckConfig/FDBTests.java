@@ -1,6 +1,7 @@
 package selenium.TaskCheckConfig;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -10,6 +11,8 @@ import selenium.BasedSharedMethods;
 
 import java.time.Duration;
 import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class FDBTests extends BasedSharedMethods {
 
@@ -37,7 +40,7 @@ public class FDBTests extends BasedSharedMethods {
 
             // Počkej, až se načte stránka výsledků s Reese Witherspoon v titulku
             wait.until(ExpectedConditions.titleContains("Reese Witherspoon"));
-            Assertions.assertTrue(driver.getPageSource().contains("Reese Witherspoon"), "Herečka nebyla nalezena.");
+            assertTrue(driver.getPageSource().contains("Reese Witherspoon"), "Herečka nebyla nalezena.");
 
             // Najdi film „Voda pro slony“ podle <h3>
             WebElement filmHeading = wait.until(ExpectedConditions.visibilityOfElementLocated(
@@ -93,7 +96,7 @@ public class FDBTests extends BasedSharedMethods {
 
             // Počkej, až se načte stránka výsledků s Reese Witherspoon v titulku
             wait.until(ExpectedConditions.titleContains("Reese Witherspoon"));
-            Assertions.assertTrue(driver.getPageSource().contains("Reese Witherspoon"), "Herečka nebyla nalezena.");
+            assertTrue(driver.getPageSource().contains("Reese Witherspoon"), "Herečka nebyla nalezena.");
 
             // Najdi film „Voda pro slony“ podle <h3>
             WebElement filmHeading = wait.until(ExpectedConditions.visibilityOfElementLocated(
@@ -150,7 +153,7 @@ public class FDBTests extends BasedSharedMethods {
 
             // Počkej, až se načte stránka výsledků s Reese Witherspoon v titulku
             wait.until(ExpectedConditions.titleContains("Kate Beckinsale"));
-            Assertions.assertTrue(driver.getPageSource().contains("Kate Beckinsale"), "Herečka nebyla nalezena.");
+            assertTrue(driver.getPageSource().contains("Kate Beckinsale"), "Herečka nebyla nalezena.");
 
             // Najdi film „Voda pro slony“ podle <h3>
             WebElement filmHeading = wait.until(ExpectedConditions.visibilityOfElementLocated(
@@ -207,7 +210,7 @@ public class FDBTests extends BasedSharedMethods {
 
             // Počkej, až se načte stránka výsledků s Reese Witherspoon v titulku
             wait.until(ExpectedConditions.titleContains("Kate Beckinsale"));
-            Assertions.assertTrue(driver.getPageSource().contains("Kate Beckinsale"), "Herečka nebyla nalezena.");
+            assertTrue(driver.getPageSource().contains("Kate Beckinsale"), "Herečka nebyla nalezena.");
 
             // Najdi film „Voda pro slony“ podle <h3>
             WebElement filmHeading = wait.until(ExpectedConditions.visibilityOfElementLocated(
@@ -264,7 +267,7 @@ public class FDBTests extends BasedSharedMethods {
 
             // Počkej, až se načte stránka výsledků s Reese Witherspoon v titulku
             wait.until(ExpectedConditions.titleContains("Kate Winslet"));
-            Assertions.assertTrue(driver.getPageSource().contains("Kate Winslet"), "Herečka nebyla nalezena.");
+            assertTrue(driver.getPageSource().contains("Kate Winslet"), "Herečka nebyla nalezena.");
 
             // Najdi film „Voda pro slony“ podle <h3>
             WebElement filmHeading = wait.until(ExpectedConditions.visibilityOfElementLocated(
@@ -321,7 +324,7 @@ public class FDBTests extends BasedSharedMethods {
 
             // Počkej, až se načte stránka výsledků s Reese Witherspoon v titulku
             wait.until(ExpectedConditions.titleContains("Jennifer Aniston"));
-            Assertions.assertTrue(driver.getPageSource().contains("Jennifer Aniston"), "Herečka nebyla nalezena.");
+            assertTrue(driver.getPageSource().contains("Jennifer Aniston"), "Herečka nebyla nalezena.");
 
             // Najdi film „Voda pro slony“ podle <h3>
             WebElement filmHeading = wait.until(ExpectedConditions.visibilityOfElementLocated(
@@ -378,7 +381,7 @@ public class FDBTests extends BasedSharedMethods {
 
             // Počkej, až se načte stránka výsledků s Reese Witherspoon v titulku
             wait.until(ExpectedConditions.titleContains("Jennifer Aniston"));
-            Assertions.assertTrue(driver.getPageSource().contains("Jennifer Aniston"), "Herečka nebyla nalezena.");
+            assertTrue(driver.getPageSource().contains("Jennifer Aniston"), "Herečka nebyla nalezena.");
 
             // Najdi film „Voda pro slony“ podle <h3>
             WebElement filmHeading = wait.until(ExpectedConditions.visibilityOfElementLocated(
@@ -436,7 +439,7 @@ public class FDBTests extends BasedSharedMethods {
 
             // Počkej, až se načte stránka výsledků s Reese Witherspoon v titulku
             wait.until(ExpectedConditions.titleContains("Jennifer Aniston"));
-            Assertions.assertTrue(driver.getPageSource().contains("Jennifer Aniston"), "Herečka nebyla nalezena.");
+            assertTrue(driver.getPageSource().contains("Jennifer Aniston"), "Herečka nebyla nalezena.");
 
             // Najdi film „Voda pro slony“ podle <h3>
             WebElement filmHeading = wait.until(ExpectedConditions.visibilityOfElementLocated(
@@ -474,66 +477,8 @@ public class FDBTests extends BasedSharedMethods {
     }
 
 
-        @Test
-        public void fdbSearchTestChuck () {
-            driver.get("https://www.fdb.cz/");
-
-            try {
-                // Přijetí cookies
-                WebElement cookieBtn = wait.until(ExpectedConditions.elementToBeClickable(
-                        By.xpath("//button[contains(text(), 'Přijmout vše')]")
-                ));
-                cookieBtn.click();
-            } catch (Exception e) {
-                System.out.println("Cookie lišta se nezobrazila nebo už byla skrytá.");
-            }
-
-            try {
-                // Vyhledání umělce
-                WebElement searchBox = wait.until(ExpectedConditions.elementToBeClickable(By.name("search")));
-                searchBox.clear();
-                searchBox.sendKeys("Chuck Norris");
-                searchBox.submit();
-
-                // Počkej, až se načte stránka výsledků
-                wait.until(ExpectedConditions.titleContains("Chuck Norris"));
-                Assertions.assertTrue(driver.getPageSource().contains("Chuck Norris"), "Herec nebyl nalezen.");
-
-                // Najdi film podle <h3>
-                WebElement filmHeading = wait.until(ExpectedConditions.visibilityOfElementLocated(
-                        By.xpath("//h3[contains(text(),'Expendables: Postradatelní 2')]")
-                ));
-
-                // Zvýrazni a scrollni na něj
-                ((JavascriptExecutor) driver).executeScript("arguments[0].style.border='3px solid red'; arguments[0].scrollIntoView(true);", filmHeading);
-                System.out.println("Text filmu nalezen: " + filmHeading.getText());
-
-                // Najdi wrapper <a> a klikni
-                try {
-                    WebElement parentLink = filmHeading.findElement(By.xpath("./ancestor::a[1]"));
-                    System.out.println("Href odkazu: " + parentLink.getAttribute("href"));
-                    wait.until(ExpectedConditions.elementToBeClickable(parentLink));
-                    parentLink.click();
-                    System.out.println("Kliknutí na odkaz proběhlo.");
-                } catch (Exception e) {
-                    System.out.println("Kliknutí na wrapper <a> selhalo, zkusíme JavaScript klik...");
-                    ((JavascriptExecutor) driver).executeScript("arguments[0].click();", filmHeading);
-                }
-
-                // Počkej, až se načte stránka filmu
-                wait.until(ExpectedConditions.titleContains("Expendables: Postradatelní 2"));
-
-                // Scroll dolů, aby byl odkaz viditelný
-                ((JavascriptExecutor) driver).executeScript("window.scrollTo(0, document.body.scrollHeight);");
-
-            } catch (Exception e) {
-                Assertions.fail("Test selhal: " + e.getMessage());
-            }
-
-        }
-
     @Test
-    public void fdbSearchTestChuck2 () {
+    public void fdbSearchTestChuck() {
         driver.get("https://www.fdb.cz/");
 
         try {
@@ -555,7 +500,65 @@ public class FDBTests extends BasedSharedMethods {
 
             // Počkej, až se načte stránka výsledků
             wait.until(ExpectedConditions.titleContains("Chuck Norris"));
-            Assertions.assertTrue(driver.getPageSource().contains("Chuck Norris"), "Herec nebyl nalezen.");
+            assertTrue(driver.getPageSource().contains("Chuck Norris"), "Herec nebyl nalezen.");
+
+            // Najdi film podle <h3>
+            WebElement filmHeading = wait.until(ExpectedConditions.visibilityOfElementLocated(
+                    By.xpath("//h3[contains(text(),'Expendables: Postradatelní 2')]")
+            ));
+
+            // Zvýrazni a scrollni na něj
+            ((JavascriptExecutor) driver).executeScript("arguments[0].style.border='3px solid red'; arguments[0].scrollIntoView(true);", filmHeading);
+            System.out.println("Text filmu nalezen: " + filmHeading.getText());
+
+            // Najdi wrapper <a> a klikni
+            try {
+                WebElement parentLink = filmHeading.findElement(By.xpath("./ancestor::a[1]"));
+                System.out.println("Href odkazu: " + parentLink.getAttribute("href"));
+                wait.until(ExpectedConditions.elementToBeClickable(parentLink));
+                parentLink.click();
+                System.out.println("Kliknutí na odkaz proběhlo.");
+            } catch (Exception e) {
+                System.out.println("Kliknutí na wrapper <a> selhalo, zkusíme JavaScript klik...");
+                ((JavascriptExecutor) driver).executeScript("arguments[0].click();", filmHeading);
+            }
+
+            // Počkej, až se načte stránka filmu
+            wait.until(ExpectedConditions.titleContains("Expendables: Postradatelní 2"));
+
+            // Scroll dolů, aby byl odkaz viditelný
+            ((JavascriptExecutor) driver).executeScript("window.scrollTo(0, document.body.scrollHeight);");
+
+        } catch (Exception e) {
+            Assertions.fail("Test selhal: " + e.getMessage());
+        }
+
+    }
+
+    @Test
+    public void fdbSearchTestChuck2() {
+        driver.get("https://www.fdb.cz/");
+
+        try {
+            // Přijetí cookies
+            WebElement cookieBtn = wait.until(ExpectedConditions.elementToBeClickable(
+                    By.xpath("//button[contains(text(), 'Přijmout vše')]")
+            ));
+            cookieBtn.click();
+        } catch (Exception e) {
+            System.out.println("Cookie lišta se nezobrazila nebo už byla skrytá.");
+        }
+
+        try {
+            // Vyhledání umělce
+            WebElement searchBox = wait.until(ExpectedConditions.elementToBeClickable(By.name("search")));
+            searchBox.clear();
+            searchBox.sendKeys("Chuck Norris");
+            searchBox.submit();
+
+            // Počkej, až se načte stránka výsledků
+            wait.until(ExpectedConditions.titleContains("Chuck Norris"));
+            assertTrue(driver.getPageSource().contains("Chuck Norris"), "Herec nebyl nalezen.");
 
             // Najdi film podle <h3>
             WebElement filmHeading = wait.until(ExpectedConditions.visibilityOfElementLocated(
@@ -590,7 +593,436 @@ public class FDBTests extends BasedSharedMethods {
 
     }
 
+    @Test
+    public void fdbSearchTestVic() {
+        driver.get("https://www.fdb.cz/");
+
+        try {
+            // Přijetí cookies
+            WebElement cookieBtn = wait.until(ExpectedConditions.elementToBeClickable(
+                    By.xpath("//button[contains(text(), 'Přijmout vše')]")
+            ));
+            cookieBtn.click();
+        } catch (Exception e) {
+            System.out.println("Cookie lišta se nezobrazila nebo už byla skrytá.");
+        }
+
+        try {
+            // Vyhledání herečky Reese Witherspoon
+            WebElement searchBox = wait.until(ExpectedConditions.elementToBeClickable(By.name("search")));
+            searchBox.clear();
+            searchBox.sendKeys("Victoria Silvstedt");
+            searchBox.submit();
+
+            // Počkej, až se načte stránka výsledků s Reese Witherspoon v titulku
+            wait.until(ExpectedConditions.titleContains("Victoria Silvstedt"));
+            assertTrue(driver.getPageSource().contains("Victoria Silvstedt"), "Herečka nebyla nalezena.");
+
+            // Najdi film „Voda pro slony“ podle <h3>
+            WebElement filmHeading = wait.until(ExpectedConditions.visibilityOfElementLocated(
+                    By.xpath("//h3[contains(text(),'Šílenci na prknech')]")
+            ));
+
+            // Zvýrazni a scrollni na něj
+            ((JavascriptExecutor) driver).executeScript("arguments[0].style.border='3px solid red'; arguments[0].scrollIntoView(true);", filmHeading);
+            System.out.println("Text filmu nalezen: " + filmHeading.getText());
+
+            // Najdi wrapper <a> a klikni
+            try {
+                WebElement parentLink = filmHeading.findElement(By.xpath("./ancestor::a[1]"));
+                System.out.println("Href odkazu: " + parentLink.getAttribute("href"));
+                wait.until(ExpectedConditions.elementToBeClickable(parentLink));
+                parentLink.click();
+                System.out.println("Kliknutí na odkaz proběhlo.");
+            } catch (Exception e) {
+                System.out.println("Kliknutí na wrapper <a> selhalo, zkusíme JavaScript klik...");
+                ((JavascriptExecutor) driver).executeScript("arguments[0].click();", filmHeading);
+            }
+
+            // Počkej, až se načte stránka filmu
+            wait.until(ExpectedConditions.titleContains("Šílenci na prknech"));
+
+            // Scroll dolů, aby byl odkaz viditelný
+            ((JavascriptExecutor) driver).executeScript("window.scrollTo(0, document.body.scrollHeight);");
+
+        } catch (Exception e) {
+            Assertions.fail("Test selhal: " + e.getMessage());
+
+
+        }
+
+
     }
+
+    @Test
+    public void fdbSearchTestVic2() {
+        driver.get("https://www.fdb.cz/");
+
+        try {
+            // Přijetí cookies
+            WebElement cookieBtn = wait.until(ExpectedConditions.elementToBeClickable(
+                    By.xpath("//button[contains(text(), 'Přijmout vše')]")
+            ));
+            cookieBtn.click();
+        } catch (Exception e) {
+            System.out.println("Cookie lišta se nezobrazila nebo už byla skrytá.");
+        }
+
+        try {
+            // Vyhledání herečky Reese Witherspoon
+            WebElement searchBox = wait.until(ExpectedConditions.elementToBeClickable(By.name("search")));
+            searchBox.clear();
+            searchBox.sendKeys("Victoria Silvstedt");
+            searchBox.submit();
+
+            // Počkej, až se načte stránka výsledků s Reese Witherspoon v titulku
+            wait.until(ExpectedConditions.titleContains("Victoria Silvstedt"));
+            assertTrue(driver.getPageSource().contains("Victoria Silvstedt"), "Herečka nebyla nalezena.");
+
+            // Najdi film „Voda pro slony“ podle <h3>
+            WebElement filmHeading = wait.until(ExpectedConditions.visibilityOfElementLocated(
+                    By.xpath("//h3[contains(text(),'Plnou parou vzad')]")
+            ));
+
+            // Zvýrazni a scrollni na něj
+            ((JavascriptExecutor) driver).executeScript("arguments[0].style.border='3px solid red'; arguments[0].scrollIntoView(true);", filmHeading);
+            System.out.println("Text filmu nalezen: " + filmHeading.getText());
+
+            // Najdi wrapper <a> a klikni
+            try {
+                WebElement parentLink = filmHeading.findElement(By.xpath("./ancestor::a[1]"));
+                System.out.println("Href odkazu: " + parentLink.getAttribute("href"));
+                wait.until(ExpectedConditions.elementToBeClickable(parentLink));
+                parentLink.click();
+                System.out.println("Kliknutí na odkaz proběhlo.");
+            } catch (Exception e) {
+                System.out.println("Kliknutí na wrapper <a> selhalo, zkusíme JavaScript klik...");
+                ((JavascriptExecutor) driver).executeScript("arguments[0].click();", filmHeading);
+            }
+
+            // Počkej, až se načte stránka filmu
+            wait.until(ExpectedConditions.titleContains("Plnou parou vzad"));
+
+            // Scroll dolů, aby byl odkaz viditelný
+            ((JavascriptExecutor) driver).executeScript("window.scrollTo(0, document.body.scrollHeight);");
+
+        } catch (Exception e) {
+            Assertions.fail("Test selhal: " + e.getMessage());
+
+
+        }
+
+    }
+
+
+    @Test
+    public void testLogin() {
+        WebDriver driver = new ChromeDriver();
+
+        try {
+            driver.get("https://www.fdb.cz");
+            driver.manage().window().maximize();
+
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+
+            // Přijmout cookies, pokud je tlačítko dostupné
+            try {
+                WebElement cookiesButton = wait.until(ExpectedConditions.elementToBeClickable(
+                        By.xpath("//button[contains(text(),'Přijmout vše')]")));
+                cookiesButton.click();
+            } catch (TimeoutException ignored) {
+            }
+
+            // Kliknutí na „Můj účet“
+            WebElement myAccountButton = wait.until(ExpectedConditions.elementToBeClickable(
+                    By.cssSelector("button.flex.items-center.justify-center.gap-1")));
+            myAccountButton.click();
+
+            // Vyplnění přihlašovacího formuláře
+            WebElement emailInput = wait.until(ExpectedConditions.visibilityOfElementLocated(
+                    By.xpath("//input[@placeholder='E-mail']")));
+            emailInput.sendKeys("martin.tovarek@seznam.cz");
+
+            WebElement passwordInput = wait.until(ExpectedConditions.visibilityOfElementLocated(
+                    By.xpath("//input[@placeholder='Heslo']")));
+            passwordInput.sendKeys("Whitesnake1987");
+
+            // Odeslat přihlášení (dle aktuálního formuláře – tady příklad s Enter)
+            passwordInput.sendKeys(Keys.ENTER);
+
+
+            System.out.println("Přihlášení proběhlo úspěšně.");
+
+        } catch (TimeoutException e) {
+            System.err.println("Některý z kroků se nepodařilo provést včas.");
+            e.printStackTrace();
+        } finally {
+            driver.quit();
+        }
+    }
+
+    @Test
+    public void logoutFromFdb() {
+        WebDriver driver = new ChromeDriver();
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+
+        try {
+            driver.get("https://www.fdb.cz");
+            driver.manage().window().maximize();
+
+            // Přeskočíme cookies
+            try {
+                WebElement cookiesButton = wait.until(ExpectedConditions.elementToBeClickable(
+                        By.xpath("//button[contains(text(),'Přijmout vše')]")));
+                cookiesButton.click();
+            } catch (TimeoutException ignored) {
+            }
+
+            // Přihlášení (přeskočeno - předpokládám, že už jsi přihlášen)
+            WebElement myAccountButton = wait.until(ExpectedConditions.elementToBeClickable(
+                    By.cssSelector("button.flex.items-center.justify-center.gap-1")));
+            myAccountButton.click();
+
+            // Vyplnění přihlašovacího formuláře
+            WebElement emailInput = wait.until(ExpectedConditions.visibilityOfElementLocated(
+                    By.xpath("//input[@placeholder='E-mail']")));
+            emailInput.sendKeys("martin.tovarek@seznam.cz");
+
+            WebElement passwordInput = wait.until(ExpectedConditions.visibilityOfElementLocated(
+                    By.xpath("//input[@placeholder='Heslo']")));
+            passwordInput.sendKeys("Whitesnake1987");
+
+            passwordInput.sendKeys(Keys.ENTER);
+
+            // Klikni na profil (přezdívku)
+            WebElement profileLink = wait.until(ExpectedConditions.elementToBeClickable(
+                    By.cssSelector("a[href='/muj-ucet']")));
+            profileLink.click();
+
+            // Klikni na tlačítko „Odhlásit se“
+            WebElement logoutButton = wait.until(ExpectedConditions.elementToBeClickable(
+                    By.xpath("//button[contains(text(), 'Odhlásit se')]")));
+            logoutButton.click();
+
+            System.out.println("Úspěšně odhlášeno.");
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            driver.quit();
+        }
+    }
+
+    @Test
+    public void testOpenZebrickyFromHomepage() throws InterruptedException {
+        driver.get("https://www.fdb.cz"); // hlavní stránka bez přihlášení
+
+        try {
+            WebElement cookiesButton = wait.until(ExpectedConditions.elementToBeClickable(
+                    By.xpath("//button[contains(text(),'Přijmout vše')]")));
+            cookiesButton.click();
+        } catch (TimeoutException ignored) {
+        }
+
+        // Počkej, až bude viditelný odkaz "Žebříčky" pod vyhledáváním a klikni na něj
+        WebElement zebrickyLink = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("a[href='/zebricky']")));
+        zebrickyLink.click();
+
+        // Ověř, že URL obsahuje "/zebricky"
+        wait.until(ExpectedConditions.urlContains("/zebricky"));
+        assertTrue(driver.getCurrentUrl().contains("/zebricky"));
+        Thread.sleep(5000);
+
+        WebElement filmHeading = wait.until(ExpectedConditions.visibilityOfElementLocated(
+                By.xpath("//[contains(text(),'V zajetí démonů 2')]")
+        ));
+
+        // Zvýrazni a scrollni na něj
+        ((JavascriptExecutor) driver).executeScript("arguments[0].style.border='3px solid red'; arguments[0].scrollIntoView(true);", filmHeading);
+        System.out.println("Text filmu nalezen: " + filmHeading.getText());
+
+    }
+
+    @Test
+    public void testOpenZebrickyFromHomepage2() throws InterruptedException {
+        driver.get("https://www.fdb.cz"); // hlavní stránka bez přihlášení
+
+        try {
+            WebElement cookiesButton = wait.until(ExpectedConditions.elementToBeClickable(
+                    By.xpath("//button[contains(text(),'Přijmout vše')]")));
+            cookiesButton.click();
+        } catch (TimeoutException ignored) {
+        }
+
+        // Klik na Žebříčky
+        WebElement zebrickyLink = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("a[href='/zebricky']")));
+        zebrickyLink.click();
+
+        wait.until(ExpectedConditions.urlContains("/zebricky"));
+        assertTrue(driver.getCurrentUrl().contains("/zebricky"));
+        Thread.sleep(5000);
+        // Počkáme, až bude vidět odkaz na film a klikneme na něj
+        WebElement filmLink = wait.until(ExpectedConditions.elementToBeClickable(
+                By.xpath("//a[.//p[contains(text(),'Zemřít mladý')]]")
+        ));
+        filmLink.click();
+        Thread.sleep(5000);
+
+
+        // Můžeš ještě ověřit, že se načetla stránka filmu, třeba podle URL nebo nějakého nadpisu
+        wait.until(ExpectedConditions.urlContains("/film/"));
+        assertTrue(driver.getCurrentUrl().contains("/film/"));
+    }
+
+    @Test
+    public void testOpenZebrickyFromHomepage3() throws InterruptedException {
+        driver.get("https://www.fdb.cz"); // hlavní stránka bez přihlášení
+
+        try {
+            WebElement cookiesButton = wait.until(ExpectedConditions.elementToBeClickable(
+                    By.xpath("//button[contains(text(),'Přijmout vše')]")));
+            cookiesButton.click();
+        } catch (TimeoutException ignored) {
+        }
+
+        // Klik na Žebříčky
+        WebElement zebrickyLink = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("a[href='/zebricky']")));
+        zebrickyLink.click();
+
+        wait.until(ExpectedConditions.urlContains("/zebricky"));
+        assertTrue(driver.getCurrentUrl().contains("/zebricky"));
+        Thread.sleep(5000);
+        // Počkáme, až bude vidět odkaz na film a klikneme na něj
+        WebElement filmLink = wait.until(ExpectedConditions.elementToBeClickable(
+                By.xpath("//a[.//p[contains(text(),'V zajetí démonů 2')]]")
+        ));
+        filmLink.click();
+        Thread.sleep(5000);
+
+
+        // Můžeš ještě ověřit, že se načetla stránka filmu, třeba podle URL nebo nějakého nadpisu
+        wait.until(ExpectedConditions.urlContains("/film/"));
+        assertTrue(driver.getCurrentUrl().contains("/film/"));
+    }
+
+    @Test
+    public void testOpenZebrickyFromHomepage4() throws InterruptedException {
+        driver.get("https://www.fdb.cz"); // hlavní stránka bez přihlášení
+
+        try {
+            WebElement cookiesButton = wait.until(ExpectedConditions.elementToBeClickable(
+                    By.xpath("//button[contains(text(),'Přijmout vše')]")));
+            cookiesButton.click();
+        } catch (TimeoutException ignored) {
+        }
+
+        // Klik na Žebříčky
+        WebElement zebrickyLink = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("a[href='/zebricky']")));
+        zebrickyLink.click();
+
+        wait.until(ExpectedConditions.urlContains("/zebricky"));
+        assertTrue(driver.getCurrentUrl().contains("/zebricky"));
+        Thread.sleep(5000);
+        // Počkáme, až bude vidět odkaz na film a klikneme na něj
+        WebElement filmLink = wait.until(ExpectedConditions.elementToBeClickable(
+                By.xpath("//a[.//p[contains(text(),'Sestra')]]")
+        ));
+        filmLink.click();
+        Thread.sleep(5000);
+
+
+        // Můžeš ještě ověřit, že se načetla stránka filmu, třeba podle URL nebo nějakého nadpisu
+        wait.until(ExpectedConditions.urlContains("/film/"));
+        assertTrue(driver.getCurrentUrl().contains("/film/"));
+    }
+
+    @Test
+    public void testOpenZebrickyFromHomepage5() throws InterruptedException {
+        driver.get("https://www.fdb.cz"); // hlavní stránka bez přihlášení
+
+        try {
+            WebElement cookiesButton = wait.until(ExpectedConditions.elementToBeClickable(
+                    By.xpath("//button[contains(text(),'Přijmout vše')]")));
+            cookiesButton.click();
+        } catch (TimeoutException ignored) {
+        }
+
+        // Klik na Žebříčky
+        WebElement zebrickyLink = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("a[href='/zebricky']")));
+        zebrickyLink.click();
+
+        wait.until(ExpectedConditions.urlContains("/zebricky"));
+        assertTrue(driver.getCurrentUrl().contains("/zebricky"));
+        Thread.sleep(5000);
+        // Počkáme, až bude vidět odkaz na film a klikneme na něj
+        WebElement filmLink = wait.until(ExpectedConditions.elementToBeClickable(
+                By.xpath("//a[.//p[contains(text(),'Saw: Hra o přežití')]]")
+        ));
+        filmLink.click();
+        Thread.sleep(5000);
+
+
+        // Můžeš ještě ověřit, že se načetla stránka filmu, třeba podle URL nebo nějakého nadpisu
+        wait.until(ExpectedConditions.urlContains("/film/"));
+        assertTrue(driver.getCurrentUrl().contains("/film/"));
+    }
+
+    @Test
+    public void testOpenZebrickyFromHomepage6() throws InterruptedException {
+        driver.get("https://www.fdb.cz"); // hlavní stránka bez přihlášení
+
+        try {
+            WebElement cookiesButton = wait.until(ExpectedConditions.elementToBeClickable(
+                    By.xpath("//button[contains(text(),'Přijmout vše')]")));
+            cookiesButton.click();
+        } catch (TimeoutException ignored) {
+        }
+
+        // Klik na Žebříčky
+        WebElement zebrickyLink = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("a[href='/zebricky']")));
+        zebrickyLink.click();
+
+        wait.until(ExpectedConditions.urlContains("/zebricky"));
+        assertTrue(driver.getCurrentUrl().contains("/zebricky"));
+        Thread.sleep(3000);
+
+        // Počkáme, až bude vidět odkaz na film a klikneme na něj
+        WebElement filmLink = wait.until(ExpectedConditions.elementToBeClickable(
+                By.xpath("//a[.//p[contains(text(),'Saw: Hra o přežití')]]")
+        ));
+        filmLink.click();
+        Thread.sleep(5000);
+
+        // Ověření, že se načetla stránka filmu
+        wait.until(ExpectedConditions.urlContains("/film/"));
+        assertTrue(driver.getCurrentUrl().contains("/film/"));
+
+        // Přepínání stránek na žebříčku filmu
+        // Předpokládám, že jsi na stránce filmu, kde jsou tlačítka pro stránky s čísly
+        WebElement element = driver.findElement(By.xpath("//a[.//p[contains(text(),'Saw: Hra o přežití')]]"));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
+        wait.until(ExpectedConditions.elementToBeClickable(element)).click();
+
+        for (int page = 1; page <= 3; page++) {
+            try {
+                WebElement pageButton = wait.until(ExpectedConditions.elementToBeClickable(
+                        By.xpath("//button[text()='" + page + "']")
+                ));
+                pageButton.click();
+                System.out.println("Kliknuto na stránku " + page);
+                Thread.sleep(3000);  // počkej na načtení nové stránky
+            } catch (TimeoutException e) {
+                System.out.println("Tlačítko stránky " + page + " nebylo nalezeno.");
+            }
+        }
+    }
+
+}
+
+
+
+
+
+
 
 
 

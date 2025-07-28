@@ -1,13 +1,13 @@
  Feature: Seznam search
 
-  @test2
+  @test
   Scenario: user can search any keyword Jennifer
     Given an open browser with
     When a keyword Jennifer A. is entered in input field
     Then user should see results from search
     Then close search browser
 
-  @test3
+  @test
   Scenario: user can search any keyword Scarlett
     Given an open browser with google.cz
     When a keyword Scarlett Johansson is entered in input field

@@ -108,60 +108,6 @@ public class ImdbKateFilms extends BasedSharedMethods {
     }
 
 
-
-    @Test
-    public void imdbClickWildThenReese2() {
-        driver.get("https://www.imdb.com/");
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
-
-        try {
-            WebElement acceptCookies = wait.until(ExpectedConditions.elementToBeClickable(
-                    By.xpath("//button[contains(text(),'Accept') or contains(text(),'Souhlasím')]")
-            ));
-            acceptCookies.click();
-        } catch (TimeoutException e) {
-            System.out.println("Cookies banner se nezobrazil nebo už byl potvrzen.");
-        }
-
-        WebElement searchBox = wait.until(ExpectedConditions.elementToBeClickable(By.name("q")));
-        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});", searchBox);
-        searchBox.clear();
-        searchBox.sendKeys("E.A. Poe: Podivný experiment");
-        searchBox.submit();
-
-        // Klikni na film "Návrat do budoucnosti"
-        WebElement wildLink = wait.until(ExpectedConditions.elementToBeClickable(
-                By.xpath("//a[contains(text(),'E.A. Poe: Podivný experiment')]")
-        ));
-        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});", wildLink);
-        wildLink.click();
-
-        // Počkej, až se načte stránka filmu
-        wait.until(ExpectedConditions.titleContains("E.A. Poe: Podivný experiment"));
-
-
-        // Počkej na načtení profilu herečky
-        wait.until(ExpectedConditions.titleContains("Kate Beckinsale"));
-        Assertions.assertTrue(driver.getTitle().contains("Kate Beckinsale"),
-                "Na profil herečky nebyla načtena správná stránka.");
-
-        WebElement knownForMovie = wait.until(ExpectedConditions.elementToBeClickable(
-                By.cssSelector(".ipc-primary-image-list-card__title")
-        ));
-        String movieTitle = knownForMovie.getText().trim();
-        System.out.println("První film v sekci 'Known for': " + movieTitle);
-
-        // Scroll a klik
-        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", knownForMovie);
-        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", knownForMovie);
-
-
-        // Ověření titulku stránky
-        wait.until(ExpectedConditions.titleContains(movieTitle));
-        Assertions.assertTrue(driver.getTitle().toLowerCase().contains(movieTitle.toLowerCase()),
-                "Po kliknutí na film nebyla načtena správná stránka.");
-    }
-
     @Test
     public void imdbClickWildThenKateFirstKnownFor() {
         WebDriver driver = new ChromeDriver();
