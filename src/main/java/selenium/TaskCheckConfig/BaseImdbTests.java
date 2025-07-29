@@ -825,5 +825,52 @@ public class BaseImdbTests extends BasedSharedMethods {
 
     }
 
+    //Film - Herečka ve vedlejší roli
+    @Test
+    public void imdbClickReese() {
+        driver.get("https://www.imdb.com/");
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+
+        try {
+            WebElement acceptCookies = wait.until(ExpectedConditions.elementToBeClickable(
+                    By.xpath("//button[contains(text(),'Accept') or contains(text(),'Souhlasím')]")
+            ));
+            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});", acceptCookies);
+            acceptCookies.click();
+        } catch (TimeoutException e) {
+            System.out.println("Cookies banner se nezobrazil nebo už byl potvrzen.");
+        }
+
+        // Do vyhledávání napiš "Návrat do budoucnosti"
+        WebElement searchBox = wait.until(ExpectedConditions.elementToBeClickable(By.name("q")));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});", searchBox);
+        searchBox.clear();
+        searchBox.sendKeys("Pravá blondýnka");
+        searchBox.submit();
+
+        // Klikni na film "Návrat do budoucnosti"
+        WebElement wildLink = wait.until(ExpectedConditions.elementToBeClickable(
+                By.xpath("//a[contains(text(),'Pravá blondýnka')]")
+        ));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});", wildLink);
+        wildLink.click();
+
+        // Počkej, až se načte stránka filmu
+        wait.until(ExpectedConditions.titleContains("Pravá blondýnka"));
+
+
+        // Klikni na herce "Michael J. Fox"
+        WebElement actorLink = wait.until(ExpectedConditions.elementToBeClickable(
+                By.xpath("//a[contains(text(),'Selma Blair')]")
+        ));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});", actorLink);
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", actorLink);
+
+        // Ověření profilu
+        wait.until(ExpectedConditions.titleContains("Selma Blair"));
+        Assertions.assertTrue(driver.getTitle().contains("Selma Blair"),
+                "Na profil herce nebyla načtena správná stránka.");
+    }
+
 
 }

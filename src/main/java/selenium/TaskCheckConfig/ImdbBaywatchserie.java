@@ -83,6 +83,17 @@ public class ImdbBaywatchserie extends BasedSharedMethods {
 
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
 
+        try {
+            WebElement acceptCookies = wait.until(ExpectedConditions.elementToBeClickable(
+                    By.xpath("//button[contains(text(),'Accept') or contains(text(),'Souhlasím')]")
+            ));
+            acceptCookies.click();
+        } catch (TimeoutException e) {
+            System.out.println("Cookies banner se nezobrazil nebo už byl potvrzen.");
+        }
+
+
+
         // Vyhledání "Pobřežní hlídka"
         WebElement searchBox = wait.until(ExpectedConditions.elementToBeClickable(By.name("q")));
         searchBox.clear();

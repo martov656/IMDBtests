@@ -3,6 +3,7 @@ package selenium.TaskCheckConfig;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.*;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import selenium.BasedSharedMethods;
@@ -125,10 +126,10 @@ public class CSFDTests extends BasedSharedMethods {
 
         // Kliknutí na výsledek filmu
 
-            WebElement filmLink = wait.until(ExpectedConditions.elementToBeClickable(
-                    By.xpath("//a[contains(@href,'/film/') and contains(.,'Black Widow')]")
-            ));
-            filmLink.click();
+        WebElement filmLink = wait.until(ExpectedConditions.elementToBeClickable(
+                By.xpath("//a[contains(@href,'/film/') and contains(.,'Black Widow')]")
+        ));
+        filmLink.click();
 
 
         // Scroll dolů – polovina stránky
@@ -245,9 +246,9 @@ public class CSFDTests extends BasedSharedMethods {
                     By.xpath("//h2[contains(text(),'Tvůrci')]")
             ));
 
-            // Najdeme herečku a klikneme
+            // Najdeme herce a klikneme
             WebElement actressLink = wait.until(ExpectedConditions.elementToBeClickable(
-                    By.xpath("//section//a[contains(.,'Šílený Max')]")
+                    By.xpath("//section//a[contains(.,'Mel Gibson')]")
             ));
             ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", actressLink);
             actressLink.click();
@@ -324,7 +325,7 @@ public class CSFDTests extends BasedSharedMethods {
     }
 
     @Test
-    public void divSearchTestCS3()  {
+    public void divSearchTestCS3() {
         driver.get("https://csfd.cz/");
 
         try {
@@ -360,7 +361,7 @@ public class CSFDTests extends BasedSharedMethods {
 
 
     @Test
-    public void divSearchTestCS4()  {
+    public void divSearchTestCS4() {
         driver.get("https://csfd.cz/");
 
         try {
@@ -403,6 +404,7 @@ public class CSFDTests extends BasedSharedMethods {
         // Kliknutí na herečku (např. Kate Beckinsale)
 
     }
+
     // Fumkční test
     @Test
     public void clickOnActorInCastSection() {
@@ -460,12 +462,532 @@ public class CSFDTests extends BasedSharedMethods {
         }
 
     }
-}
+
+    // Fumkční test - režie
+    @Test
+    public void clickOnActorInCastSection2() {
+        driver.get("https://www.csfd.cz/");
+
+        try {
+            WebElement acceptCookies = wait.until(ExpectedConditions.elementToBeClickable(
+                    By.xpath("//button[@id='didomi-notice-agree-button' or span[contains(text(),'Rozumím a přijímám')]]")
+            ));
+            acceptCookies.click();
+            System.out.println("Cookies byly přijaty.");
+        } catch (TimeoutException e) {
+            System.out.println("Cookies banner se nezobrazil nebo už byl potvrzen.");
+        }
+
+        // Vyhledání filmu
+        WebElement searchBox = driver.findElement(By.name("q"));
+        wait.until(ExpectedConditions.elementToBeClickable(searchBox));
+        searchBox.clear();
+        searchBox.sendKeys("Canary Black");
+        searchBox.submit();
+
+        wait.until(ExpectedConditions.titleContains("Canary Black"));
+        Assertions.assertTrue(driver.getPageSource().contains("Canary Black"), "Film nebyl nalezen ve výsledcích vyhledávání.");
+
+        // Kliknutí na název filmu
+        WebElement filmLink = wait.until(ExpectedConditions.elementToBeClickable(
+                By.xpath("//a[contains(., 'Canary Black')]")
+        ));
+        filmLink.click();
+        System.out.println("Kliknutí na odkaz filmu bylo úspěšné.");
+
+        // Počkáme na načtení detailu filmu
+        wait.until(ExpectedConditions.titleContains("Canary Black"));
+
+        // Mírný scroll dolů, protože sekce „Hrají“ je níže
+        ((JavascriptExecutor) driver).executeScript("window.scrollBy(0, 1000);");
 
 
+        // Kliknutí na režiséra
+        try {
+            WebElement actorLink = wait.until(ExpectedConditions.elementToBeClickable(
+                    By.xpath("//h4[text()='Režie:']/following-sibling::a[contains(text(),'Pierre Morel')]")
+            ));
+            actorLink.click();
+
+            wait.until(ExpectedConditions.titleContains("Pierre Morel"));
+            Assertions.assertTrue(driver.getPageSource().contains("Pierre Morel"));
+            System.out.println("Profil režiséra byl úspěšně otevřen.");
+        } catch (TimeoutException | NoSuchElementException e) {
+            System.out.println("Režisér nebyl nalezena nebo kliknutí selhalo: " + e.getMessage());
+        } finally {
+
+            driver.quit();
+        }
+
+    }
+
+    @Test
+    public void testDirectorFindAndClickCanaryBlackByIteration() {
+        driver.get("https://www.csfd.cz/");
+
+        try {
+            WebElement acceptCookies = wait.until(ExpectedConditions.elementToBeClickable(
+                    By.xpath("//button[@id='didomi-notice-agree-button' or span[contains(text(),'Rozumím a přijímám')]]")
+            ));
+            acceptCookies.click();
+            System.out.println("Cookies byly přijaty.");
+        } catch (TimeoutException e) {
+            System.out.println("Cookies banner se nezobrazil nebo už byl potvrzen.");
+        }
+
+        // Vyhledání režiséra
+        WebElement searchBox = wait.until(ExpectedConditions.elementToBeClickable(By.name("q")));
+        searchBox.clear();
+        searchBox.sendKeys("Pierre Morel");
+        searchBox.submit();
+
+        wait.until(ExpectedConditions.titleContains("Pierre Morel"));
+        Assertions.assertTrue(driver.getPageSource().contains("Pierre Morel"), "Režisér nebyl nalezen ve výsledcích vyhledávání.");
+
+        // Kliknutí na odkaz profilu režiséra
+        WebElement directorLink = wait.until(ExpectedConditions.elementToBeClickable(
+                By.xpath("//a[contains(@href, '/tvurce/') and contains(text(),'Pierre Morel')]")
+        ));
+        directorLink.click();
+        System.out.println("Kliknutí na profil režiséra bylo úspěšné.");
+
+        wait.until(ExpectedConditions.titleContains("Pierre Morel"));
+
+        // Iterace přes filmy režiséra
+        List<WebElement> filmLinks = wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(
+                By.cssSelector("td.name a.film-title-name")
+        ));
+
+        boolean found = false;
+
+        for (WebElement filmLink : filmLinks) {
+            String filmTitle = filmLink.getText().trim();
+            if (filmTitle.equalsIgnoreCase("Canary Black")) {
+                filmLink.click();
+                found = true;
+                System.out.println("Film 'Canary Black' nalezen a kliknuto.");
+                break;
+            }
+        }
+
+        Assertions.assertTrue(found, "Film 'Canary Black' nebyl nalezen mezi filmy režiséra.");
+
+        // Ověření, že jsme na správné stránce filmu
+        wait.until(ExpectedConditions.titleContains("Canary Black"));
+        Assertions.assertTrue(driver.getPageSource().contains("Canary Black"), "Detail filmu se nezobrazil.");
+
+        driver.quit();
+    }
+
+    //prochází více stránek na profilu režiséra (např. když je film Canary Black na druhé nebo další stránce),
+
+    //zastaví se, jakmile film najde,
+
+    //jinak vypíše, že nebyl nalezen.
+
+    @Test
+    public void testDirectorFindAndClickCanaryBlackWithPagination() {
+        driver.get("https://www.csfd.cz/");
+
+        try {
+            WebElement acceptCookies = wait.until(ExpectedConditions.elementToBeClickable(
+                    By.xpath("//button[@id='didomi-notice-agree-button' or span[contains(text(),'Rozumím a přijímám')]]")
+            ));
+            acceptCookies.click();
+            System.out.println("Cookies byly přijaty.");
+        } catch (TimeoutException e) {
+            System.out.println("Cookies banner se nezobrazil nebo už byl potvrzen.");
+        }
+
+        // Vyhledání režiséra
+        WebElement searchBox = wait.until(ExpectedConditions.elementToBeClickable(By.name("q")));
+        searchBox.clear();
+        searchBox.sendKeys("Pierre Morel");
+        searchBox.submit();
+
+        wait.until(ExpectedConditions.titleContains("Pierre Morel"));
+        Assertions.assertTrue(driver.getPageSource().contains("Pierre Morel"), "Režisér nebyl nalezen ve výsledcích vyhledávání.");
+
+        // Kliknutí na profil režiséra
+        WebElement directorLink = wait.until(ExpectedConditions.elementToBeClickable(
+                By.xpath("//a[contains(@href, '/tvurce/') and contains(text(),'Pierre Morel')]")
+        ));
+        directorLink.click();
+        System.out.println("Profil režiséra byl úspěšně otevřen.");
+
+        wait.until(ExpectedConditions.titleContains("Pierre Morel"));
+
+        boolean found = false;
+        int currentPage = 1;
+
+        while (true) {
+            System.out.println("Hledám film na stránce " + currentPage);
+
+            List<WebElement> filmLinks = wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(
+                    By.cssSelector("td.name a.film-title-name")
+            ));
+
+            for (WebElement filmLink : filmLinks) {
+                String filmTitle = filmLink.getText().trim();
+                if (filmTitle.equalsIgnoreCase("Canary Black")) {
+                    filmLink.click();
+                    found = true;
+                    System.out.println("Film 'Canary Black' nalezen a kliknuto.");
+                    break;
+                }
+            }
+
+            if (found) {
+                break;
+            }
+
+            // Zkusíme najít další stránku
+            try {
+                WebElement nextButton = driver.findElement(By.xpath("//a[contains(@class,'page') and contains(text(), '»')]"));
+                nextButton.click();
+                wait.until(ExpectedConditions.stalenessOf(filmLinks.get(0))); // čekáme, než se stránka přenačte
+                currentPage++;
+            } catch (NoSuchElementException e) {
+                System.out.println("Další stránka neexistuje.");
+                break;
+            }
+        }
+
+        Assertions.assertTrue(found, "'Canary Black' nebyl nalezen mezi filmy režiséra.");
+
+        if (found) {
+            wait.until(ExpectedConditions.titleContains("Canary Black"));
+            Assertions.assertTrue(driver.getPageSource().contains("Canary Black"), "Detail filmu se nezobrazil.");
+        }
+
+        driver.quit();
+    }
+
+    @Test
+    public void testDirectorFindAndClickCanaryBlackWithPagination2() {
+        driver.get("https://www.csfd.cz/");
+
+        try {
+            WebElement acceptCookies = wait.until(ExpectedConditions.elementToBeClickable(
+                    By.xpath("//button[@id='didomi-notice-agree-button' or span[contains(text(),'Rozumím a přijímám')]]")
+            ));
+            acceptCookies.click();
+            System.out.println("Cookies byly přijaty.");
+        } catch (TimeoutException e) {
+            System.out.println("Cookies banner se nezobrazil nebo už byl potvrzen.");
+        }
+
+        // Vyhledání herečky
+        WebElement searchBox = wait.until(ExpectedConditions.elementToBeClickable(By.name("q")));
+        searchBox.clear();
+        searchBox.sendKeys("Reese Witherspoon");
+        searchBox.submit();
+
+        wait.until(ExpectedConditions.titleContains("Reese Witherspoon"));
+        Assertions.assertTrue(driver.getPageSource().contains("Reese Witherspoon"), "Herečka nebyla nalezena ve výsledcích vyhledávání.");
+
+        // Kliknutí na profil
+        WebElement directorLink = wait.until(ExpectedConditions.elementToBeClickable(
+                By.xpath("//a[contains(@href, '/tvurce/') and contains(text(),'Reese Witherspoon')]")
+        ));
+        directorLink.click();
+        System.out.println("Profil herečky byl úspěšně otevřen.");
+
+        wait.until(ExpectedConditions.titleContains("Reese Witherspoon"));
+
+        boolean found = false;
+        int currentPage = 1;
+
+        while (true) {
+            System.out.println("Hledám film na stránce " + currentPage);
+
+            List<WebElement> filmLinks = wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(
+                    By.cssSelector("td.name a.film-title-name")
+            ));
+
+            for (WebElement filmLink : filmLinks) {
+                String filmTitle = filmLink.getText().trim();
+                if (filmTitle.equalsIgnoreCase("Pravá blondýnka")) {
+                    filmLink.click();
+                    found = true;
+                    System.out.println("Film 'Pravá blondýnka' nalezen a kliknuto.");
+                    break;
+                }
+            }
+
+            if (found) {
+                break;
+            }
+
+            // Zkusíme najít další stránku
+            try {
+                WebElement nextButton = driver.findElement(By.xpath("//a[contains(@class,'page') and contains(text(), '»')]"));
+                nextButton.click();
+                wait.until(ExpectedConditions.stalenessOf(filmLinks.get(0))); // čekáme, než se stránka přenačte
+                currentPage++;
+            } catch (NoSuchElementException e) {
+                System.out.println("Další stránka neexistuje.");
+                break;
+            }
+        }
+
+        Assertions.assertTrue(found, "'Pravá blondýnka' nebyl nalezen mezi filmy herečky.");
+
+        if (found) {
+            wait.until(ExpectedConditions.titleContains("Pravá blondýnka"));
+            Assertions.assertTrue(driver.getPageSource().contains("Pravá blondýnka"), "Detail filmu se nezobrazil.");
+        }
+
+        driver.quit();
+
+    }
+
+    @Test
+    public void testDirectorFindAndClickCanaryBlackWithPagination3() {
+        driver.get("https://www.csfd.cz/");
+
+        try {
+            WebElement acceptCookies = wait.until(ExpectedConditions.elementToBeClickable(
+                    By.xpath("//button[@id='didomi-notice-agree-button' or span[contains(text(),'Rozumím a přijímám')]]")
+            ));
+            acceptCookies.click();
+            System.out.println("Cookies byly přijaty.");
+        } catch (TimeoutException e) {
+            System.out.println("Cookies banner se nezobrazil nebo už byl potvrzen.");
+        }
+
+        // Vyhledání herečky
+        WebElement searchBox = wait.until(ExpectedConditions.elementToBeClickable(By.name("q")));
+        searchBox.clear();
+        searchBox.sendKeys("Reese Witherspoon");
+        searchBox.submit();
+
+        wait.until(ExpectedConditions.titleContains("Reese Witherspoon"));
+        Assertions.assertTrue(driver.getPageSource().contains("Reese Witherspoon"), "Herečka nebyla nalezena ve výsledcích vyhledávání.");
+
+        // Kliknutí na profil
+        WebElement directorLink = wait.until(ExpectedConditions.elementToBeClickable(
+                By.xpath("//a[contains(@href, '/tvurce/') and contains(text(),'Reese Witherspoon')]")
+        ));
+        directorLink.click();
+        System.out.println("Profil režiséra byl úspěšně otevřen.");
+
+        wait.until(ExpectedConditions.titleContains("Reese Witherspoon"));
+
+        boolean found = false;
+        int currentPage = 1;
+
+        while (true) {
+            System.out.println("Hledám film na stránce " + currentPage);
+
+            List<WebElement> filmLinks = wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(
+                    By.cssSelector("td.name a.film-title-name")
+            ));
+
+            for (WebElement filmLink : filmLinks) {
+                String filmTitle = filmLink.getText().trim();
+                if (filmTitle.equalsIgnoreCase("The Morning Show")) {
+                    filmLink.click();
+                    found = true;
+                    System.out.println("Film 'The Morning Show' nalezen a kliknuto.");
+                    break;
+                }
+            }
+
+            if (found) {
+                break;
+            }
+
+            // Zkusíme najít další stránku
+            try {
+                WebElement nextButton = driver.findElement(By.xpath("//a[contains(@class,'page') and contains(text(), '»')]"));
+                nextButton.click();
+                wait.until(ExpectedConditions.stalenessOf(filmLinks.get(0))); // čekáme, než se stránka přenačte
+                currentPage++;
+            } catch (NoSuchElementException e) {
+                System.out.println("Další stránka neexistuje.");
+                break;
+            }
+        }
+
+        Assertions.assertTrue(found, "'The Morning Show' nebyl nalezen mezi filmy herečky.");
+
+        if (found) {
+            wait.until(ExpectedConditions.titleContains("The Morning Show"));
+            Assertions.assertTrue(driver.getPageSource().contains("The Morning Show"), "Detail filmu se nezobrazil.");
+        }
+
+        driver.quit();
 
 
+    }
 
 
+        @Test
+        public void openTopMoviesAndClickOnFilm2() throws InterruptedException {
+            driver.get("https://www.csfd.cz/");
 
+            try {
+                WebElement acceptCookies = wait.until(ExpectedConditions.elementToBeClickable(
+                        By.xpath("//button[@id='didomi-notice-agree-button' or span[contains(text(),'Rozumím a přijímám')]]")
+                ));
+                acceptCookies.click();
+                System.out.println("Cookies byly přijaty.");
+            } catch (TimeoutException e) {
+                System.out.println("Cookies již byly přijaty.");
+            }
+
+            // Klik na „Žebříčky“
+            WebElement zebrickyzalozka = wait.until(ExpectedConditions.elementToBeClickable(
+                    By.linkText("Žebříčky")
+            ));
+            zebrickyzalozka.click();
+
+            // Počkáme na načtení sekce
+            wait.until(ExpectedConditions.titleContains("Žebříčky"));
+
+            // Klik na první žebříček obsahující "Filmy"
+            WebElement topMovies = wait.until(ExpectedConditions.elementToBeClickable(
+                    By.partialLinkText("Filmy")
+            ));
+            topMovies.click();
+
+            String hledanyFilm = "Vykoupení z věznice Shawshank";
+            boolean nalezeno = false;
+
+            for (int posun = 1; posun <= 400; posun += 100) {
+                String url = "https://www.csfd.cz/zebricky/filmy/nejlepsi/?from=" + posun;
+                driver.get(url);
+                System.out.println("Hledám film na stránce od " + posun);
+                Thread.sleep(6000);
+                List<WebElement> filmy = wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(
+                        By.cssSelector("h3.film-title-norating a.film-title-name")
+                ));
+
+                for (WebElement film : filmy) {
+                    if (film.getText().trim().equalsIgnoreCase(hledanyFilm)) {
+                        film.click();
+                        nalezeno = true;
+                        System.out.println("Film nalezen a otevřen.");
+                        break;
+                    }
+                }
+                if (nalezeno) break;
+            }
+            Thread.sleep(4000);
+            Assertions.assertTrue(nalezeno, "'" + hledanyFilm + "' nebyl nalezen v žebříčcích.");
+        }
+
+    @Test
+    public void openTopMoviesAndClickOnFilm3() throws InterruptedException {
+        driver.get("https://www.csfd.cz/");
+
+        try {
+            WebElement acceptCookies = wait.until(ExpectedConditions.elementToBeClickable(
+                    By.xpath("//button[@id='didomi-notice-agree-button' or span[contains(text(),'Rozumím a přijímám')]]")
+            ));
+            acceptCookies.click();
+            System.out.println("Cookies byly přijaty.");
+        } catch (TimeoutException e) {
+            System.out.println("Cookies již byly přijaty.");
+        }
+
+        // Klik na „Žebříčky“
+        WebElement zebrickyzalozka = wait.until(ExpectedConditions.elementToBeClickable(
+                By.linkText("Žebříčky")
+        ));
+        zebrickyzalozka.click();
+
+        // Počkáme na načtení sekce
+        wait.until(ExpectedConditions.titleContains("Žebříčky"));
+
+        // Klik na první žebříček obsahující "Filmy"
+        WebElement topMovies = wait.until(ExpectedConditions.elementToBeClickable(
+                By.partialLinkText("Filmy")
+        ));
+        topMovies.click();
+
+        String hledanyFilm = "Interstellar";
+        boolean nalezeno = false;
+
+        for (int posun = 1; posun <= 400; posun += 100) {
+            String url = "https://www.csfd.cz/zebricky/filmy/nejlepsi/?from=" + posun;
+            driver.get(url);
+            System.out.println("Hledám film na stránce od " + posun);
+            Thread.sleep(6000);
+            List<WebElement> filmy = wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(
+                    By.cssSelector("h3.film-title-norating a.film-title-name")
+            ));
+
+            for (WebElement film : filmy) {
+                if (film.getText().trim().equalsIgnoreCase(hledanyFilm)) {
+                    film.click();
+                    nalezeno = true;
+                    System.out.println("Film nalezen a otevřen.");
+                    break;
+                }
+            }
+            if (nalezeno) break;
+        }
+        Thread.sleep(4000);
+        Assertions.assertTrue(nalezeno, "'" + hledanyFilm + "' nebyl nalezen v žebříčcích.");
+    }
+
+    @Test
+    public void openTopMoviesAndClickOnFilm() {
+        driver.get("https://www.csfd.cz/");
+
+        try {
+            WebElement acceptCookies = wait.until(ExpectedConditions.elementToBeClickable(
+                    By.xpath("//button[@id='didomi-notice-agree-button' or span[contains(text(),'Rozumím a přijímám')]]")
+            ));
+            acceptCookies.click();
+            System.out.println("Cookies byly přijaty.");
+        } catch (TimeoutException e) {
+            System.out.println("Cookies již byly přijaty.");
+        }
+
+        // Klik na „Žebříčky“
+        WebElement zebrickyzalozka = wait.until(ExpectedConditions.elementToBeClickable(
+                By.linkText("Žebříčky")
+        ));
+        zebrickyzalozka.click();
+
+        wait.until(ExpectedConditions.titleContains("Žebříčky"));
+
+        // Klik na první žebříček obsahující "Filmy"
+        WebElement topMovies = wait.until(ExpectedConditions.elementToBeClickable(
+                By.partialLinkText("Filmy")
+        ));
+        topMovies.click();
+
+        String hledanyFilm = "Poslední skaut";
+        boolean nalezeno = false;
+
+        for (int posun = 1; posun <= 400; posun += 100) {
+            String url = "https://www.csfd.cz/zebricky/filmy/nejlepsi/?from=" + posun;
+            driver.get(url);
+            System.out.println("Hledám film na stránce od " + posun);
+
+            List<WebElement> filmy = wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(
+                    By.cssSelector("h3.film-title-norating a.film-title-name")
+            ));
+
+            for (WebElement film : filmy) {
+                String nazevFilmu = film.getText().toLowerCase().trim();
+                if (nazevFilmu.contains(hledanyFilm)) {
+                    System.out.println("Film nalezen: " + nazevFilmu);
+                    film.click();
+                    nalezeno = true;
+                    break;
+                }
+            }
+            if (nalezeno) break;
+        }
+
+        Assertions.assertTrue(nalezeno, "'" + hledanyFilm + "' nebyl nalezen v žebříčcích.");
+    }
+
+
+    }
 
