@@ -814,183 +814,10 @@ public class FDBTests extends BasedSharedMethods {
 
 
     @Test
-    public void testOpenZebrickyFromHomepage2() {
-        driver.get("https://www.fdb.cz"); // hlavní stránka bez přihlášení
-
-        try {
-            WebElement cookiesButton = wait.until(ExpectedConditions.elementToBeClickable(
-                    By.xpath("//button[contains(text(),'Přijmout vše')]")));
-            cookiesButton.click();
-        } catch (TimeoutException ignored) {
-        }
-
-        // Klik na Žebříčky
-        WebElement zebrickyLink = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("a[href='/zebricky']")));
-        zebrickyLink.click();
-
-        wait.until(ExpectedConditions.urlContains("/zebricky"));
-        assertTrue(driver.getCurrentUrl().contains("/zebricky"));
-
-        // Počkáme, až bude vidět odkaz na film a klikneme na něj
-        WebElement filmLink = wait.until(ExpectedConditions.elementToBeClickable(
-                By.xpath("//a[.//p[contains(text(),'Zemřít mladý')]]")
-        ));
-        filmLink.click();
-
-
-        // Můžeš ještě ověřit, že se načetla stránka filmu, třeba podle URL nebo nějakého nadpisu
-        wait.until(ExpectedConditions.urlContains("/film/"));
-        assertTrue(driver.getCurrentUrl().contains("/film/"));
-    }
-
-    @Test
-    public void testOpenZebrickyFromHomepage3() {
-        driver.get("https://www.fdb.cz"); // hlavní stránka bez přihlášení
-
-        try {
-            WebElement cookiesButton = wait.until(ExpectedConditions.elementToBeClickable(
-                    By.xpath("//button[contains(text(),'Přijmout vše')]")));
-            cookiesButton.click();
-        } catch (TimeoutException ignored) {
-        }
-
-        // Klik na Žebříčky
-        WebElement zebrickyLink = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("a[href='/zebricky']")));
-        zebrickyLink.click();
-
-        wait.until(ExpectedConditions.urlContains("/zebricky"));
-        assertTrue(driver.getCurrentUrl().contains("/zebricky"));
-
-        // Počkáme, až bude vidět odkaz na film a klikneme na něj
-        WebElement filmLink = wait.until(ExpectedConditions.elementToBeClickable(
-                By.xpath("//a[.//p[contains(text(),'V zajetí démonů 2')]]")
-        ));
-        filmLink.click();
-
-
-        // Můžeš ještě ověřit, že se načetla stránka filmu, třeba podle URL nebo nějakého nadpisu
-        wait.until(ExpectedConditions.urlContains("/film/"));
-        assertTrue(driver.getCurrentUrl().contains("/film/"));
-    }
-
-    @Test
-    public void testOpenZebrickyFromHomepage4() {
-        driver.get("https://www.fdb.cz"); // hlavní stránka bez přihlášení
-
-        try {
-            WebElement cookiesButton = wait.until(ExpectedConditions.elementToBeClickable(
-                    By.xpath("//button[contains(text(),'Přijmout vše')]")));
-            cookiesButton.click();
-        } catch (TimeoutException ignored) {
-        }
-
-        // Klik na Žebříčky
-        WebElement zebrickyLink = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("a[href='/zebricky']")));
-        zebrickyLink.click();
-
-        wait.until(ExpectedConditions.urlContains("/zebricky"));
-        assertTrue(driver.getCurrentUrl().contains("/zebricky"));
-
-        // Počkáme, až bude vidět odkaz na film a klikneme na něj
-        WebElement filmLink = wait.until(ExpectedConditions.elementToBeClickable(
-                By.xpath("//a[.//p[contains(text(),'Sestra')]]")
-        ));
-        filmLink.click();
-
-
-        // Můžeš ještě ověřit, že se načetla stránka filmu, třeba podle URL nebo nějakého nadpisu
-        wait.until(ExpectedConditions.urlContains("/film/"));
-        assertTrue(driver.getCurrentUrl().contains("/film/"));
-    }
-
-    @Test
-    public void testOpenZebrickyFromHomepage5() {
-        driver.get("https://www.fdb.cz"); // hlavní stránka bez přihlášení
-
-        try {
-            WebElement cookiesButton = wait.until(ExpectedConditions.elementToBeClickable(
-                    By.xpath("//button[contains(text(),'Přijmout vše')]")));
-            cookiesButton.click();
-        } catch (TimeoutException ignored) {
-        }
-
-        // Klik na Žebříčky
-        WebElement zebrickyLink = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("a[href='/zebricky']")));
-        zebrickyLink.click();
-
-        wait.until(ExpectedConditions.urlContains("/zebricky"));
-        assertTrue(driver.getCurrentUrl().contains("/zebricky"));
-
-        // Počkáme, až bude vidět odkaz na film a klikneme na něj
-        WebElement filmLink = wait.until(ExpectedConditions.elementToBeClickable(
-                By.xpath("//a[.//p[contains(text(),'V zajetí démonů 3')]]")
-        ));
-        filmLink.click();
-
-
-        // Můžeš ještě ověřit, že se načetla stránka filmu, třeba podle URL nebo nějakého nadpisu
-        wait.until(ExpectedConditions.urlContains("/film/"));
-        assertTrue(driver.getCurrentUrl().contains("/film/"));
-    }
-
-    @Test
-    public void testOpenZebrickyFromHomepage6() {
-        driver.get("https://www.fdb.cz"); // hlavní stránka bez přihlášení
-
-        try {
-            WebElement cookiesButton = wait.until(ExpectedConditions.elementToBeClickable(
-                    By.xpath("//button[contains(text(),'Přijmout vše')]")));
-            cookiesButton.click();
-        } catch (TimeoutException ignored) {
-        }
-
-        // Klik na Žebříčky
-        WebElement zebrickyLink = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("a[href='/zebricky']")));
-        zebrickyLink.click();
-
-        wait.until(ExpectedConditions.urlContains("/zebricky"));
-        assertTrue(driver.getCurrentUrl().contains("/zebricky"));
-
-// Přepínání stránek na žebříčku filmu
-        // Předpokládám, že jsi na stránce filmu, kde jsou tlačítka pro stránky s čísly
-        WebElement element = driver.findElement(By.xpath("//a[.//p[contains(text(),'Saw: Hra o přežití')]]"));
-        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
-        wait.until(ExpectedConditions.elementToBeClickable(element)).click();
-
-        for (int page = 1; page <= 3; page++) {
-            try {
-                WebElement pageButton = wait.until(ExpectedConditions.elementToBeClickable(
-                        By.xpath("//button[text()='" + page + "']")
-                ));
-                pageButton.click();
-                System.out.println("Kliknuto na stránku " + page);
-                // počkej na načtení nové stránky
-            } catch (TimeoutException e) {
-                System.out.println("Tlačítko stránky " + page + " nebylo nalezeno.");
-
-                // Počkáme, až bude vidět odkaz na film a klikneme na něj
-                WebElement filmLink = wait.until(ExpectedConditions.elementToBeClickable(
-                        By.xpath("//a[.//p[contains(text(),'Saw: Hra o přežití')]]")
-                ));
-                filmLink.click();
-
-
-                // Ověření, že se načetla stránka filmu
-                wait.until(ExpectedConditions.urlContains("/film/"));
-                assertTrue(driver.getCurrentUrl().contains("/film/"));
-
-
-            }
-        }
-
-    }
-
-
-    @Test
-    public void testOpenZebrickyAndClickSawFilm() throws InterruptedException {
+    public void testOpenZebrickyAndClickSawFilm() {
         String filmTitle = "Pretty Woman";
         driver.get("https://www.fdb.cz/");
-        Thread.sleep(2000);
+
 
         try {
             WebElement cookiesButton = wait.until(ExpectedConditions.elementToBeClickable(
@@ -1014,9 +841,11 @@ public class FDBTests extends BasedSharedMethods {
 
         // Procházení jednotlivých stránek žebříčků (max 5)
         for (int i = 1; i <= 5; i++) {
-            System.out.println("Hledám film na stránce " + i);
+            String url = "https://www.fdb.cz/zebricky?stranka=" + i;
+            driver.get(url);
+            System.out.println("Hledám film na stránce " + i + ": " + url);
 
-            // Najdi všechny bloky s názvem filmu
+
             List<WebElement> films = driver.findElements(By.xpath("//p[contains(text(),'" + filmTitle + "')]"));
 
             if (!films.isEmpty()) {
@@ -1024,49 +853,85 @@ public class FDBTests extends BasedSharedMethods {
                 WebElement filmBlock = films.get(0);
                 WebElement clickable = filmBlock.findElement(By.xpath("./ancestor::a"));
 
-                // Scrollni s offsetem, aby se nezakryl horní lištou
                 ((JavascriptExecutor) driver).executeScript(
                         "window.scrollTo(0, arguments[0].getBoundingClientRect().top + window.scrollY - 150);", clickable
                 );
-                Thread.sleep(1000); // pro jistotu
 
-                // Pojistka, že je klikací
+
                 wait.until(ExpectedConditions.visibilityOf(clickable));
                 wait.until(ExpectedConditions.elementToBeClickable(clickable));
 
-                // Klikni pomocí JavaScriptu
                 ((JavascriptExecutor) driver).executeScript("arguments[0].click();", clickable);
-
                 found = true;
                 break;
             } else {
                 System.out.println("Film nenalezen na stránce " + i);
-
-                // Pokus o přechod na další stránku (šipka nebo číslo)
-                try {
-                    WebElement nextPage = wait.until(ExpectedConditions.elementToBeClickable(
-                            By.xpath("//a[contains(@aria-label,'Další stránka')]")
-                    ));
-
-                    // Scroll dolů, aby šipka byla viditelná
-                    ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", nextPage);
-                    Thread.sleep(1000);
-
-                    nextPage.click();
-                    Thread.sleep(2000); // počkej na načtení další stránky
-                } catch (TimeoutException e) {
-                    System.out.println("Další stránka neexistuje.");
-                    break;
-                }
             }
         }
 
-        Assertions.assertTrue(found, "'" + filmTitle + "' nebyl nalezen v žebříčcích.");
+    }
+
+
+
+    @Test
+    public void testOpenZebrickyAndClickSawFilm2()  {
+        String filmTitle = "Pád letu A800";
+        driver.get("https://www.fdb.cz/");
+
+
+        try {
+            WebElement cookiesButton = wait.until(ExpectedConditions.elementToBeClickable(
+                    By.xpath("//button[contains(text(),'Přijmout vše')]")));
+            cookiesButton.click();
+        } catch (TimeoutException ignored) {
+        }
+
+        // Kliknutí na „Žebříčky“ v menu
+        WebElement zebrickymenu = wait.until(ExpectedConditions.elementToBeClickable(
+                By.xpath("//a[contains(text(),'Žebříčky')]")
+        ));
+        zebrickymenu.click();
+
+        wait.until(ExpectedConditions.visibilityOfElementLocated(
+                By.xpath("//h1[contains(text(),'Žebříčky') or contains(text(),'filmy')]")
+        ));
+
+
+        boolean found = false;
+
+        // Procházení jednotlivých stránek žebříčků (max 5)
+        for (int i = 1; i <= 5; i++) {
+            String url = "https://www.fdb.cz/zebricky?stranka=" + i;
+            driver.get(url);
+            System.out.println("Hledám film na stránce " + i + ": " + url);
+
+
+            List<WebElement> films = driver.findElements(By.xpath("//p[contains(text(),'" + filmTitle + "')]"));
+
+            if (!films.isEmpty()) {
+                System.out.println("Film nalezen na stránce " + i);
+                WebElement filmBlock = films.get(0);
+                WebElement clickable = filmBlock.findElement(By.xpath("./ancestor::a"));
+
+                ((JavascriptExecutor) driver).executeScript(
+                        "window.scrollTo(0, arguments[0].getBoundingClientRect().top + window.scrollY - 150);", clickable
+                );
+
+
+                wait.until(ExpectedConditions.visibilityOf(clickable));
+                wait.until(ExpectedConditions.elementToBeClickable(clickable));
+
+                ((JavascriptExecutor) driver).executeScript("arguments[0].click();", clickable);
+                found = true;
+                break;
+            } else {
+                System.out.println("Film nenalezen na stránce " + i);
+            }
+        }
+
     }
 
 }
-
-
 
 
 

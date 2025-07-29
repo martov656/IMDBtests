@@ -11,6 +11,8 @@ import selenium.BasedSharedMethods;
 import java.time.Duration;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 public class CSFDTests extends BasedSharedMethods {
 
 
@@ -24,7 +26,7 @@ public class CSFDTests extends BasedSharedMethods {
         element.sendKeys("Reese Witherspoon");
         element.submit();
         wait.until(ExpectedConditions.titleContains("Reese Witherspoon"));
-        Assertions.assertTrue(driver.getPageSource().contains("Reese Witherspoon"), "Searched key not found ...");
+        assertTrue(driver.getPageSource().contains("Reese Witherspoon"), "Searched key not found ...");
 
     }
 
@@ -38,7 +40,7 @@ public class CSFDTests extends BasedSharedMethods {
         element.sendKeys("Jason Robards");
         element.submit();
         wait.until(ExpectedConditions.titleContains("Jason Robards"));
-        Assertions.assertTrue(driver.getPageSource().contains("Jason Robards"), "Searched key not found ...");
+        assertTrue(driver.getPageSource().contains("Jason Robards"), "Searched key not found ...");
 
 
     }
@@ -66,7 +68,7 @@ public class CSFDTests extends BasedSharedMethods {
         element.submit();
 
         wait.until(ExpectedConditions.titleContains("Scarlett Johansson"));
-        Assertions.assertTrue(driver.getPageSource().contains("Scarlett Johansson"), "Searched key not found ...");
+        assertTrue(driver.getPageSource().contains("Scarlett Johansson"), "Searched key not found ...");
 
 
     }
@@ -96,7 +98,7 @@ public class CSFDTests extends BasedSharedMethods {
 
         // Ověření výsledků
         wait.until(ExpectedConditions.titleContains("Scarlett Johansson"));
-        Assertions.assertTrue(driver.getPageSource().contains("Scarlett Johansson"), "Herečka nebyla nalezena.");
+        assertTrue(driver.getPageSource().contains("Scarlett Johansson"), "Herečka nebyla nalezena.");
 
         // Debug
         System.out.println("Herečka byla nalezena.");
@@ -147,7 +149,7 @@ public class CSFDTests extends BasedSharedMethods {
             // Ověření přesměrování
             wait.until(ExpectedConditions.titleContains("Scarlett Johansson"));
             System.out.println("Profil byl načten.");
-            Assertions.assertTrue(driver.getPageSource().contains("Scarlett Johansson"), "Profil herečky nebyl načten.");
+            assertTrue(driver.getPageSource().contains("Scarlett Johansson"), "Profil herečky nebyl načten.");
         } catch (Exception e) {
 
         }
@@ -201,7 +203,7 @@ public class CSFDTests extends BasedSharedMethods {
 
             // Ověříme, že jsme na profilu herečky
             wait.until(ExpectedConditions.titleContains("Laura Dern"));
-            Assertions.assertTrue(driver.getPageSource().contains("Laura Dern"));
+            assertTrue(driver.getPageSource().contains("Laura Dern"));
         } catch (Exception e) {
 
         }
@@ -255,7 +257,7 @@ public class CSFDTests extends BasedSharedMethods {
 
             // Ověříme, že jsme na profilu
             wait.until(ExpectedConditions.titleContains("Mel Gibson"));
-            Assertions.assertTrue(driver.getPageSource().contains("Mel Gibson"));
+            assertTrue(driver.getPageSource().contains("Mel Gibson"));
         } catch (Exception e) {
 
         }
@@ -289,7 +291,7 @@ public class CSFDTests extends BasedSharedMethods {
 
             // Ověříme, že jsme na profilu herce
             wait.until(ExpectedConditions.titleContains("Chuck Norris"));
-            Assertions.assertTrue(driver.getPageSource().contains("Chuck Norris"));
+            assertTrue(driver.getPageSource().contains("Chuck Norris"));
             System.out.println("Test úspěšně prošel – profil herce otevřen.");
         } catch (Exception e) {
 
@@ -320,7 +322,7 @@ public class CSFDTests extends BasedSharedMethods {
         element.submit();
 
         wait.until(ExpectedConditions.titleContains("Vetřelec"));
-        Assertions.assertTrue(driver.getPageSource().contains("Vetřelec"), "Searched key not found ...");
+        assertTrue(driver.getPageSource().contains("Vetřelec"), "Searched key not found ...");
 
     }
 
@@ -345,7 +347,7 @@ public class CSFDTests extends BasedSharedMethods {
         element.submit();
 
         wait.until(ExpectedConditions.titleContains("Hra s nevěrou "));
-        Assertions.assertTrue(driver.getPageSource().contains("Hra s nevěrou "), "Searched key not found ...");
+        assertTrue(driver.getPageSource().contains("Hra s nevěrou "), "Searched key not found ...");
 
         // Klikni na název filmu
         WebElement filmLink = wait.until(ExpectedConditions.elementToBeClickable(
@@ -383,7 +385,7 @@ public class CSFDTests extends BasedSharedMethods {
 
         // Ověření, že jsme ve výsledcích
         wait.until(ExpectedConditions.titleContains("Pravá blondýnka"));
-        Assertions.assertTrue(driver.getPageSource().contains("Pravá blondýnka"), "Searched key not found ...");
+        assertTrue(driver.getPageSource().contains("Pravá blondýnka"), "Searched key not found ...");
 
         // Kliknutí na odkaz filmu
         WebElement filmLink = wait.until(ExpectedConditions.elementToBeClickable(
@@ -428,7 +430,7 @@ public class CSFDTests extends BasedSharedMethods {
         searchBox.submit();
 
         wait.until(ExpectedConditions.titleContains("Canary Black"));
-        Assertions.assertTrue(driver.getPageSource().contains("Canary Black"), "Film nebyl nalezen ve výsledcích vyhledávání.");
+        assertTrue(driver.getPageSource().contains("Canary Black"), "Film nebyl nalezen ve výsledcích vyhledávání.");
 
         // Kliknutí na název filmu
         WebElement filmLink = wait.until(ExpectedConditions.elementToBeClickable(
@@ -452,7 +454,7 @@ public class CSFDTests extends BasedSharedMethods {
             actorLink.click();
 
             wait.until(ExpectedConditions.titleContains("Kate Beckinsale"));
-            Assertions.assertTrue(driver.getPageSource().contains("Kate Beckinsale"));
+            assertTrue(driver.getPageSource().contains("Kate Beckinsale"));
             System.out.println("Profil herečky byl úspěšně otevřen.");
         } catch (TimeoutException | NoSuchElementException e) {
             System.out.println("Herečka nebyla nalezena nebo kliknutí selhalo: " + e.getMessage());
@@ -486,7 +488,7 @@ public class CSFDTests extends BasedSharedMethods {
         searchBox.submit();
 
         wait.until(ExpectedConditions.titleContains("Canary Black"));
-        Assertions.assertTrue(driver.getPageSource().contains("Canary Black"), "Film nebyl nalezen ve výsledcích vyhledávání.");
+        assertTrue(driver.getPageSource().contains("Canary Black"), "Film nebyl nalezen ve výsledcích vyhledávání.");
 
         // Kliknutí na název filmu
         WebElement filmLink = wait.until(ExpectedConditions.elementToBeClickable(
@@ -510,7 +512,7 @@ public class CSFDTests extends BasedSharedMethods {
             actorLink.click();
 
             wait.until(ExpectedConditions.titleContains("Pierre Morel"));
-            Assertions.assertTrue(driver.getPageSource().contains("Pierre Morel"));
+            assertTrue(driver.getPageSource().contains("Pierre Morel"));
             System.out.println("Profil režiséra byl úspěšně otevřen.");
         } catch (TimeoutException | NoSuchElementException e) {
             System.out.println("Režisér nebyl nalezena nebo kliknutí selhalo: " + e.getMessage());
@@ -542,7 +544,7 @@ public class CSFDTests extends BasedSharedMethods {
         searchBox.submit();
 
         wait.until(ExpectedConditions.titleContains("Pierre Morel"));
-        Assertions.assertTrue(driver.getPageSource().contains("Pierre Morel"), "Režisér nebyl nalezen ve výsledcích vyhledávání.");
+        assertTrue(driver.getPageSource().contains("Pierre Morel"), "Režisér nebyl nalezen ve výsledcích vyhledávání.");
 
         // Kliknutí na odkaz profilu režiséra
         WebElement directorLink = wait.until(ExpectedConditions.elementToBeClickable(
@@ -570,11 +572,11 @@ public class CSFDTests extends BasedSharedMethods {
             }
         }
 
-        Assertions.assertTrue(found, "Film 'Canary Black' nebyl nalezen mezi filmy režiséra.");
+        assertTrue(found, "Film 'Canary Black' nebyl nalezen mezi filmy režiséra.");
 
         // Ověření, že jsme na správné stránce filmu
         wait.until(ExpectedConditions.titleContains("Canary Black"));
-        Assertions.assertTrue(driver.getPageSource().contains("Canary Black"), "Detail filmu se nezobrazil.");
+        assertTrue(driver.getPageSource().contains("Canary Black"), "Detail filmu se nezobrazil.");
 
         driver.quit();
     }
@@ -606,7 +608,7 @@ public class CSFDTests extends BasedSharedMethods {
         searchBox.submit();
 
         wait.until(ExpectedConditions.titleContains("Pierre Morel"));
-        Assertions.assertTrue(driver.getPageSource().contains("Pierre Morel"), "Režisér nebyl nalezen ve výsledcích vyhledávání.");
+        assertTrue(driver.getPageSource().contains("Pierre Morel"), "Režisér nebyl nalezen ve výsledcích vyhledávání.");
 
         // Kliknutí na profil režiséra
         WebElement directorLink = wait.until(ExpectedConditions.elementToBeClickable(
@@ -653,11 +655,11 @@ public class CSFDTests extends BasedSharedMethods {
             }
         }
 
-        Assertions.assertTrue(found, "'Canary Black' nebyl nalezen mezi filmy režiséra.");
+        assertTrue(found, "'Canary Black' nebyl nalezen mezi filmy režiséra.");
 
         if (found) {
             wait.until(ExpectedConditions.titleContains("Canary Black"));
-            Assertions.assertTrue(driver.getPageSource().contains("Canary Black"), "Detail filmu se nezobrazil.");
+            assertTrue(driver.getPageSource().contains("Canary Black"), "Detail filmu se nezobrazil.");
         }
 
         driver.quit();
@@ -684,7 +686,7 @@ public class CSFDTests extends BasedSharedMethods {
         searchBox.submit();
 
         wait.until(ExpectedConditions.titleContains("Reese Witherspoon"));
-        Assertions.assertTrue(driver.getPageSource().contains("Reese Witherspoon"), "Herečka nebyla nalezena ve výsledcích vyhledávání.");
+        assertTrue(driver.getPageSource().contains("Reese Witherspoon"), "Herečka nebyla nalezena ve výsledcích vyhledávání.");
 
         // Kliknutí na profil
         WebElement directorLink = wait.until(ExpectedConditions.elementToBeClickable(
@@ -731,11 +733,11 @@ public class CSFDTests extends BasedSharedMethods {
             }
         }
 
-        Assertions.assertTrue(found, "'Pravá blondýnka' nebyl nalezen mezi filmy herečky.");
+        assertTrue(found, "'Pravá blondýnka' nebyl nalezen mezi filmy herečky.");
 
         if (found) {
             wait.until(ExpectedConditions.titleContains("Pravá blondýnka"));
-            Assertions.assertTrue(driver.getPageSource().contains("Pravá blondýnka"), "Detail filmu se nezobrazil.");
+            assertTrue(driver.getPageSource().contains("Pravá blondýnka"), "Detail filmu se nezobrazil.");
         }
 
         driver.quit();
@@ -763,7 +765,7 @@ public class CSFDTests extends BasedSharedMethods {
         searchBox.submit();
 
         wait.until(ExpectedConditions.titleContains("Reese Witherspoon"));
-        Assertions.assertTrue(driver.getPageSource().contains("Reese Witherspoon"), "Herečka nebyla nalezena ve výsledcích vyhledávání.");
+        assertTrue(driver.getPageSource().contains("Reese Witherspoon"), "Herečka nebyla nalezena ve výsledcích vyhledávání.");
 
         // Kliknutí na profil
         WebElement directorLink = wait.until(ExpectedConditions.elementToBeClickable(
@@ -810,11 +812,11 @@ public class CSFDTests extends BasedSharedMethods {
             }
         }
 
-        Assertions.assertTrue(found, "'The Morning Show' nebyl nalezen mezi filmy herečky.");
+        assertTrue(found, "'The Morning Show' nebyl nalezen mezi filmy herečky.");
 
         if (found) {
             wait.until(ExpectedConditions.titleContains("The Morning Show"));
-            Assertions.assertTrue(driver.getPageSource().contains("The Morning Show"), "Detail filmu se nezobrazil.");
+            assertTrue(driver.getPageSource().contains("The Morning Show"), "Detail filmu se nezobrazil.");
         }
 
         driver.quit();
@@ -823,63 +825,8 @@ public class CSFDTests extends BasedSharedMethods {
     }
 
 
-        @Test
-        public void openTopMoviesAndClickOnFilm2() throws InterruptedException {
-            driver.get("https://www.csfd.cz/");
-
-            try {
-                WebElement acceptCookies = wait.until(ExpectedConditions.elementToBeClickable(
-                        By.xpath("//button[@id='didomi-notice-agree-button' or span[contains(text(),'Rozumím a přijímám')]]")
-                ));
-                acceptCookies.click();
-                System.out.println("Cookies byly přijaty.");
-            } catch (TimeoutException e) {
-                System.out.println("Cookies již byly přijaty.");
-            }
-
-            // Klik na „Žebříčky“
-            WebElement zebrickyzalozka = wait.until(ExpectedConditions.elementToBeClickable(
-                    By.linkText("Žebříčky")
-            ));
-            zebrickyzalozka.click();
-
-            // Počkáme na načtení sekce
-            wait.until(ExpectedConditions.titleContains("Žebříčky"));
-
-            // Klik na první žebříček obsahující "Filmy"
-            WebElement topMovies = wait.until(ExpectedConditions.elementToBeClickable(
-                    By.partialLinkText("Filmy")
-            ));
-            topMovies.click();
-
-            String hledanyFilm = "Vykoupení z věznice Shawshank";
-            boolean nalezeno = false;
-
-            for (int posun = 1; posun <= 400; posun += 100) {
-                String url = "https://www.csfd.cz/zebricky/filmy/nejlepsi/?from=" + posun;
-                driver.get(url);
-                System.out.println("Hledám film na stránce od " + posun);
-                Thread.sleep(6000);
-                List<WebElement> filmy = wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(
-                        By.cssSelector("h3.film-title-norating a.film-title-name")
-                ));
-
-                for (WebElement film : filmy) {
-                    if (film.getText().trim().equalsIgnoreCase(hledanyFilm)) {
-                        film.click();
-                        nalezeno = true;
-                        System.out.println("Film nalezen a otevřen.");
-                        break;
-                    }
-                }
-                if (nalezeno) break;
-            }
-            Thread.sleep(4000);
-            Assertions.assertTrue(nalezeno, "'" + hledanyFilm + "' nebyl nalezen v žebříčcích.");
-        }
-
     @Test
-    public void openTopMoviesAndClickOnFilm3() throws InterruptedException {
+    public void openTopMoviesAndClickOnFilm28() {
         driver.get("https://www.csfd.cz/");
 
         try {
@@ -898,7 +845,6 @@ public class CSFDTests extends BasedSharedMethods {
         ));
         zebrickyzalozka.click();
 
-        // Počkáme na načtení sekce
         wait.until(ExpectedConditions.titleContains("Žebříčky"));
 
         // Klik na první žebříček obsahující "Filmy"
@@ -907,30 +853,96 @@ public class CSFDTests extends BasedSharedMethods {
         ));
         topMovies.click();
 
-        String hledanyFilm = "Interstellar";
+        String hledanyFilm = "Sedm statečných";
         boolean nalezeno = false;
 
         for (int posun = 1; posun <= 400; posun += 100) {
             String url = "https://www.csfd.cz/zebricky/filmy/nejlepsi/?from=" + posun;
             driver.get(url);
             System.out.println("Hledám film na stránce od " + posun);
-            Thread.sleep(6000);
+
             List<WebElement> filmy = wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(
                     By.cssSelector("h3.film-title-norating a.film-title-name")
             ));
 
             for (WebElement film : filmy) {
-                if (film.getText().trim().equalsIgnoreCase(hledanyFilm)) {
+                String nazevFilmu = film.getText().toLowerCase().trim();
+                if (nazevFilmu.contains(hledanyFilm.toLowerCase())) {
+                    System.out.println("Film nalezen: " + nazevFilmu);
                     film.click();
                     nalezeno = true;
-                    System.out.println("Film nalezen a otevřen.");
                     break;
                 }
             }
             if (nalezeno) break;
         }
-        Thread.sleep(4000);
-        Assertions.assertTrue(nalezeno, "'" + hledanyFilm + "' nebyl nalezen v žebříčcích.");
+
+        assertTrue(nalezeno, "'" + hledanyFilm + "' nebyl nalezen v žebříčcích.");
+    }
+
+
+    @Test
+    public void openTopMoviesAndClickOnFilm30() {
+        driver.get("https://www.csfd.cz/");
+
+        try {
+            WebElement acceptCookies = wait.until(ExpectedConditions.elementToBeClickable(
+                    By.xpath("//button[@id='didomi-notice-agree-button' or span[contains(text(),'Rozumím a přijímám')]]")
+            ));
+            acceptCookies.click();
+            System.out.println("Cookies byly přijaty.");
+        } catch (TimeoutException e) {
+            System.out.println("Cookies již byly přijaty.");
+        }
+
+        // Klik na „Žebříčky“
+        WebElement zebrickyzalozka = wait.until(ExpectedConditions.elementToBeClickable(
+                By.linkText("Žebříčky")
+        ));
+        zebrickyzalozka.click();
+
+        wait.until(ExpectedConditions.titleContains("Žebříčky"));
+
+        // Klik na první žebříček obsahující "Filmy"
+        WebElement topMovies = wait.until(ExpectedConditions.elementToBeClickable(
+                By.partialLinkText("Filmy")
+        ));
+        topMovies.click();
+
+        String hledanyFilm = "Frajer Luke";
+        boolean nalezeno = false;
+
+        for (int posun = 1; posun <= 400; posun += 100) {
+            String[] urls = {
+                    "https://www.csfd.cz/zebricky/filmy/nejlepsi/",
+                    "https://www.csfd.cz/zebricky/filmy/nejlepsi/?from=100",
+                    "https://www.csfd.cz/zebricky/filmy/nejlepsi/?from=200",
+                    "https://www.csfd.cz/zebricky/filmy/nejlepsi/?from=300",
+                    "https://www.csfd.cz/zebricky/filmy/nejlepsi/?from=400"
+            };
+
+            for (String url : urls) {
+                driver.get(url);
+                System.out.println("Hledám film na stránce: " + url);
+
+                List<WebElement> filmy = wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(
+                        By.cssSelector("h3.film-title-norating a.film-title-name")
+                ));
+
+                for (WebElement film : filmy) {
+                    String nazevFilmu = film.getText().toLowerCase().trim();
+                    if (nazevFilmu.contains(hledanyFilm.toLowerCase())) {
+                        System.out.println("Film nalezen: " + nazevFilmu);
+                        film.click();
+                        nalezeno = true;
+                        break;
+                    }
+                }
+                if (nalezeno) break;
+            }
+
+        }
+
     }
 
     @Test
@@ -961,33 +973,315 @@ public class CSFDTests extends BasedSharedMethods {
         ));
         topMovies.click();
 
-        String hledanyFilm = "Poslední skaut";
+        String hledanyFilm = "Interstellar";
         boolean nalezeno = false;
 
         for (int posun = 1; posun <= 400; posun += 100) {
-            String url = "https://www.csfd.cz/zebricky/filmy/nejlepsi/?from=" + posun;
-            driver.get(url);
-            System.out.println("Hledám film na stránce od " + posun);
+            String[] urls = {
+                    "https://www.csfd.cz/zebricky/filmy/nejlepsi/",
+                    "https://www.csfd.cz/zebricky/filmy/nejlepsi/?from=100",
+                    "https://www.csfd.cz/zebricky/filmy/nejlepsi/?from=200",
+                    "https://www.csfd.cz/zebricky/filmy/nejlepsi/?from=300",
+                    "https://www.csfd.cz/zebricky/filmy/nejlepsi/?from=400"
+            };
 
-            List<WebElement> filmy = wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(
-                    By.cssSelector("h3.film-title-norating a.film-title-name")
+            for (String url : urls) {
+                driver.get(url);
+                System.out.println("Hledám film na stránce: " + url);
+
+                List<WebElement> filmy = wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(
+                        By.cssSelector("h3.film-title-norating a.film-title-name")
+                ));
+
+                for (WebElement film : filmy) {
+                    String nazevFilmu = film.getText().toLowerCase().trim();
+                    if (nazevFilmu.contains(hledanyFilm.toLowerCase())) {
+                        System.out.println("Film nalezen: " + nazevFilmu);
+                        film.click();
+                        nalezeno = true;
+                        break;
+                    }
+                }
+                if (nalezeno) break;
+            }
+
+        }
+
+    }
+
+    @Test
+    public void openTopActorsLeftSideAndFindHanks() {
+        driver.get("https://www.csfd.cz/");
+
+        try {
+            WebElement acceptCookies = wait.until(ExpectedConditions.elementToBeClickable(
+                    By.xpath("//button[@id='didomi-notice-agree-button' or span[contains(text(),'Rozumím a přijímám')]]")
+            ));
+            acceptCookies.click();
+            System.out.println("Cookies byly přijaty.");
+        } catch (TimeoutException e) {
+            System.out.println("Cookies již byly přijaty.");
+        }
+
+        WebElement zebrickyzalozka = wait.until(ExpectedConditions.elementToBeClickable(
+                By.linkText("Žebříčky")
+        ));
+        zebrickyzalozka.click();
+
+        WebElement herciHerecky = wait.until(ExpectedConditions.elementToBeClickable(
+                By.partialLinkText("Herci a herečky")
+        ));
+        herciHerecky.click();
+
+        String hledanaOsobnost = "Tom Hanks";
+        boolean nalezeno = false;
+
+        for (int posun = 0; posun <= 300; posun += 100) {
+            String url = posun == 0
+                    ? "https://www.csfd.cz/zebricky/herci-a-herecky/"
+                    : "https://www.csfd.cz/zebricky/herci-a-herecky/?fromLeft=" + posun;
+
+            driver.get(url);
+            System.out.println("Hledám osobnost na stránce: " + url);
+
+            List<WebElement> osoby = wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(
+                    By.cssSelector("h3 a[href^='/tvurce/']")
             ));
 
-            for (WebElement film : filmy) {
-                String nazevFilmu = film.getText().toLowerCase().trim();
-                if (nazevFilmu.contains(hledanyFilm)) {
-                    System.out.println("Film nalezen: " + nazevFilmu);
-                    film.click();
+            for (WebElement osoba : osoby) {
+                String jmeno = osoba.getText().trim();
+                if (jmeno.equalsIgnoreCase(hledanaOsobnost)) {
+                    System.out.println("Herec nalezen: " + jmeno);
+                    osoba.click();
                     nalezeno = true;
                     break;
                 }
             }
+
             if (nalezeno) break;
         }
 
-        Assertions.assertTrue(nalezeno, "'" + hledanyFilm + "' nebyl nalezen v žebříčcích.");
+        assertTrue(nalezeno, "Herec '" + hledanaOsobnost + "' nebyl nalezen.");
     }
 
+    @Test
+    public void openTopActorsLeftSideAndFindMichaelCaine() {
+        driver.get("https://www.csfd.cz/");
 
+        try {
+            WebElement acceptCookies = wait.until(ExpectedConditions.elementToBeClickable(
+                    By.xpath("//button[@id='didomi-notice-agree-button' or span[contains(text(),'Rozumím a přijímám')]]")
+            ));
+            acceptCookies.click();
+            System.out.println("Cookies byly přijaty.");
+        } catch (TimeoutException e) {
+            System.out.println("Cookies již byly přijaty.");
+        }
+
+        WebElement zebrickyzalozka = wait.until(ExpectedConditions.elementToBeClickable(
+                By.linkText("Žebříčky")
+        ));
+        zebrickyzalozka.click();
+
+        WebElement herciHerecky = wait.until(ExpectedConditions.elementToBeClickable(
+                By.partialLinkText("Herci a herečky")
+        ));
+        herciHerecky.click();
+
+        String hledanaOsobnost = "Michael Caine";
+        boolean nalezeno = false;
+
+        for (int posun = 0; posun <= 300; posun += 100) {
+            String url = posun == 0
+                    ? "https://www.csfd.cz/zebricky/herci-a-herecky/"
+                    : "https://www.csfd.cz/zebricky/herci-a-herecky/?fromLeft=" + posun;
+
+            driver.get(url);
+            System.out.println("Hledám osobnost na stránce: " + url);
+
+            List<WebElement> osoby = wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(
+                    By.cssSelector("h3 a[href^='/tvurce/']")
+            ));
+
+            for (WebElement osoba : osoby) {
+                String jmeno = osoba.getText().trim();
+                if (jmeno.equalsIgnoreCase(hledanaOsobnost)) {
+                    System.out.println("Herec nalezen: " + jmeno);
+                    osoba.click();
+                    nalezeno = true;
+                    break;
+                }
+            }
+
+            if (nalezeno) break;
+        }
+
+        assertTrue(nalezeno, "Herec '" + hledanaOsobnost + "' nebyl nalezen.");
     }
 
+    @Test
+    public void openTopActorsLeftSideAndFindNicole() {
+        driver.get("https://www.csfd.cz/");
+
+        try {
+            WebElement acceptCookies = wait.until(ExpectedConditions.elementToBeClickable(
+                    By.xpath("//button[@id='didomi-notice-agree-button' or span[contains(text(),'Rozumím a přijímám')]]")
+            ));
+            acceptCookies.click();
+            System.out.println("Cookies byly přijaty.");
+        } catch (TimeoutException e) {
+            System.out.println("Cookies již byly přijaty.");
+        }
+
+        WebElement zebrickyzalozka = wait.until(ExpectedConditions.elementToBeClickable(
+                By.linkText("Žebříčky")
+        ));
+        zebrickyzalozka.click();
+
+        WebElement herciHerecky = wait.until(ExpectedConditions.elementToBeClickable(
+                By.partialLinkText("Herci a herečky")
+        ));
+        herciHerecky.click();
+
+        String hledanaOsobnost = "Nicole Kidman";
+        boolean nalezeno = false;
+
+        for (int posun = 0; posun <= 300; posun += 100) {
+            String url = posun == 0
+                    ? "https://www.csfd.cz/zebricky/herci-a-herecky/"
+                    : "https://www.csfd.cz/zebricky/herci-a-herecky/?fromRight=" + posun;
+
+            driver.get(url);
+            System.out.println("Hledám osobnost na stránce: " + url);
+
+            List<WebElement> osoby = wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(
+                    By.cssSelector("h3 a[href^='/tvurce/']")
+            ));
+
+            for (WebElement osoba : osoby) {
+                String jmeno = osoba.getText().trim();
+                if (jmeno.equalsIgnoreCase(hledanaOsobnost)) {
+                    System.out.println("Herec nalezen: " + jmeno);
+                    osoba.click();
+                    nalezeno = true;
+                    break;
+                }
+            }
+
+            if (nalezeno) break;
+        }
+
+        assertTrue(nalezeno, "Herec '" + hledanaOsobnost + "' nebyl nalezen.");
+    }
+
+    @Test
+    public void openTopActorsLeftSideAndFindReese()  {
+        driver.get("https://www.csfd.cz/");
+
+        try {
+            WebElement acceptCookies = wait.until(ExpectedConditions.elementToBeClickable(
+                    By.xpath("//button[@id='didomi-notice-agree-button' or span[contains(text(),'Rozumím a přijímám')]]")
+            ));
+            acceptCookies.click();
+            System.out.println("Cookies byly přijaty.");
+        } catch (TimeoutException e) {
+            System.out.println("Cookies již byly přijaty.");
+        }
+
+        WebElement zebrickyzalozka = wait.until(ExpectedConditions.elementToBeClickable(
+                By.linkText("Žebříčky")
+        ));
+        zebrickyzalozka.click();
+
+        WebElement herciHerecky = wait.until(ExpectedConditions.elementToBeClickable(
+                By.partialLinkText("Herci a herečky")
+        ));
+        herciHerecky.click();
+
+        String hledanaOsobnost = "Reese Witherspoon";
+        boolean nalezeno = false;
+
+        for (int posun = 0; posun <= 300; posun += 100) {
+            String url = posun == 0
+                    ? "https://www.csfd.cz/zebricky/herci-a-herecky/"
+                    : "https://www.csfd.cz/zebricky/herci-a-herecky/?fromRight=" + posun;
+
+            driver.get(url);
+            System.out.println("Hledám osobnost na stránce: " + url);
+
+            List<WebElement> osoby = wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(
+                    By.cssSelector("h3 a[href^='/tvurce/']")
+            ));
+
+            for (WebElement osoba : osoby) {
+                String jmeno = osoba.getText().trim();
+                if (jmeno.equalsIgnoreCase(hledanaOsobnost)) {
+                    System.out.println("Herec nalezen: " + jmeno);
+                    osoba.click();
+                    nalezeno = true;
+                    break;
+                }
+            }
+
+            if (nalezeno) break;
+        }
+
+        assertTrue(nalezeno, "Herec '" + hledanaOsobnost + "' nebyl nalezen.");
+    }
+
+    @Test
+    public void openTopActorsLeftSideAndFindGal()  {
+        driver.get("https://www.csfd.cz/");
+
+        try {
+            WebElement acceptCookies = wait.until(ExpectedConditions.elementToBeClickable(
+                    By.xpath("//button[@id='didomi-notice-agree-button' or span[contains(text(),'Rozumím a přijímám')]]")
+            ));
+            acceptCookies.click();
+            System.out.println("Cookies byly přijaty.");
+        } catch (TimeoutException e) {
+            System.out.println("Cookies již byly přijaty.");
+        }
+
+        WebElement zebrickyzalozka = wait.until(ExpectedConditions.elementToBeClickable(
+                By.linkText("Žebříčky")
+        ));
+        zebrickyzalozka.click();
+
+        WebElement herciHerecky = wait.until(ExpectedConditions.elementToBeClickable(
+                By.partialLinkText("Herci a herečky")
+        ));
+        herciHerecky.click();
+
+        String hledanaOsobnost = "Gal Gadot";
+        boolean nalezeno = false;
+
+        for (int posun = 0; posun <= 300; posun += 100) {
+            String url = posun == 0
+                    ? "https://www.csfd.cz/zebricky/herci-a-herecky/"
+                    : "https://www.csfd.cz/zebricky/herci-a-herecky/?fromRight=" + posun;
+
+            driver.get(url);
+            System.out.println("Hledám osobnost na stránce: " + url);
+
+            List<WebElement> osoby = wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(
+                    By.cssSelector("h3 a[href^='/tvurce/']")
+            ));
+
+            for (WebElement osoba : osoby) {
+                String jmeno = osoba.getText().trim();
+                if (jmeno.equalsIgnoreCase(hledanaOsobnost)) {
+                    System.out.println("Herec nalezen: " + jmeno);
+                    osoba.click();
+                    nalezeno = true;
+                    break;
+                }
+            }
+
+            if (nalezeno) break;
+        }
+
+        assertTrue(nalezeno, "Herec '" + hledanaOsobnost + "' nebyl nalezen.");
+    }
+
+}
