@@ -3,6 +3,7 @@ package selenium.Functions;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.*;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import selenium.BasedSharedMethods;
@@ -10,7 +11,6 @@ import selenium.BasedSharedMethods;
 import java.time.Duration;
 
 public class ImdbKnownForTest extends BasedSharedMethods {
-
 
 
     @Test
@@ -75,7 +75,6 @@ public class ImdbKnownForTest extends BasedSharedMethods {
                 "Na profil herečky nebyla načtena správná stránka.");
         Thread.sleep(5000);
     }
-
 
 
     @Test
@@ -143,7 +142,7 @@ public class ImdbKnownForTest extends BasedSharedMethods {
         wait.until(ExpectedConditions.titleContains(movieTitle));
         Assertions.assertTrue(driver.getTitle().toLowerCase().contains(movieTitle.toLowerCase()),
                 "Po kliknutí na film nebyla načtena správná stránka.");
-     }
+    }
 
 
     @Test
@@ -194,7 +193,6 @@ public class ImdbKnownForTest extends BasedSharedMethods {
         Assertions.assertTrue(driver.getTitle().toLowerCase().contains(movieTitle.toLowerCase()),
                 "Po kliknutí na film nebyla načtena správná stránka.");
     }
-
 
 
     @Test
@@ -420,8 +418,6 @@ public class ImdbKnownForTest extends BasedSharedMethods {
     }
 
 
-
-
     @Test
     public void imdbTestKnownForXPathClick() throws InterruptedException {
         String actressName = "Kate Beckinsale"; // nebo Reese Witherspoon
@@ -642,7 +638,6 @@ public class ImdbKnownForTest extends BasedSharedMethods {
                 "Po kliknutí na film nebyla načtena správná stránka.");
     }
 
-
 }
 
-
+   

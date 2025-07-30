@@ -214,7 +214,7 @@ public class FDBTests extends BasedSharedMethods {
 
             // Najdi film „Voda pro slony“ podle <h3>
             WebElement filmHeading = wait.until(ExpectedConditions.visibilityOfElementLocated(
-                    By.xpath("//h3[contains(text(),'Kate Beckinsale')]")
+                    By.xpath("//h3[contains(text(),'Pravda je jen slovo')]")
             ));
 
             // Zvýrazni a scrollni na něj
@@ -234,7 +234,7 @@ public class FDBTests extends BasedSharedMethods {
             }
 
             // Počkej, až se načte stránka filmu
-            wait.until(ExpectedConditions.titleContains("Kate Beckinsale"));
+            wait.until(ExpectedConditions.titleContains("Pravda je jen slovo"));
 
             // Scroll dolů, aby byl odkaz viditelný
             ((JavascriptExecutor) driver).executeScript("window.scrollTo(0, document.body.scrollHeight);");
@@ -271,7 +271,7 @@ public class FDBTests extends BasedSharedMethods {
 
             // Najdi film „Voda pro slony“ podle <h3>
             WebElement filmHeading = wait.until(ExpectedConditions.visibilityOfElementLocated(
-                    By.xpath("//h3[contains(text(),'Kate Winslet')]")
+                    By.xpath("//h3[contains(text(),'Titanic')]")
             ));
 
             // Zvýrazni a scrollni na něj
@@ -291,7 +291,7 @@ public class FDBTests extends BasedSharedMethods {
             }
 
             // Počkej, až se načte stránka filmu
-            wait.until(ExpectedConditions.titleContains("Kate Winslet"));
+            wait.until(ExpectedConditions.titleContains("Titanic"));
 
             // Scroll dolů, aby byl odkaz viditelný
             ((JavascriptExecutor) driver).executeScript("window.scrollTo(0, document.body.scrollHeight);");
