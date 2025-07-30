@@ -21,7 +21,6 @@ public class IMDBTestsSignIn {
         driver.manage().window().maximize();
 
 
-
         try {
             // 1. Otevři přihlašovací stránku
             driver.get("https://www.imdb.com/registration/signin");
@@ -58,8 +57,10 @@ public class IMDBTestsSignIn {
         }
     }
 
+
+
     @Test
-    void testImdbLoginAndLogoutWithMenuClick() {
+    void testImdbLoginAndLogoutWithMenuClick2() {
         WebDriver driver = new ChromeDriver();
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
         driver.manage().window().maximize();
@@ -89,24 +90,45 @@ public class IMDBTestsSignIn {
             driver.findElement(By.id("ap_password")).sendKeys("Whitesnake1987");
             driver.findElement(By.id("signInSubmit")).click();
 
+            // 5. Počkej na přihlášení (např. jméno uživatele vpravo nahoře)
+            WebElement userMenuName = wait.until(ExpectedConditions.elementToBeClickable(
+                    By.xpath("//span[contains(@class, 'imdb-header__account-toggle--logged-in')]")
+            ));
+            userMenuName.click(); // Klikni na jméno (např. "Martin")
 
-            // 6. Ověření, že se zobrazilo uživatelské menu (label for navUserMenu)
-            WebElement userMenuToggle = wait.until(ExpectedConditions.elementToBeClickable(
-                    By.cssSelector("label[for='navUserMenu']")));
-            Assertions.assertTrue(userMenuToggle.isDisplayed(), "Uživatelské menu není viditelné.");
-
-            // 7. Otevři uživatelské menu
-            userMenuToggle.click();
-
-            // 8. Klikni na "Sign out"
+            // 6. Klikni na "Sign out"
             WebElement signOutLink = wait.until(ExpectedConditions.elementToBeClickable(
-                    By.xpath("//span[text()='Sign out']/ancestor::a")));
+                    By.xpath("//span[text()='Sign out']/ancestor::a")
+            ));
             signOutLink.click();
 
-            // 9. Ověř, že byl uživatel odhlášen – "Sign In" odkaz je zpět
-            WebElement signInAgain = wait.until(ExpectedConditions.visibilityOfElementLocated(
-                    By.cssSelector("a[href='/registration/signin']")));
-            Assertions.assertTrue(signInAgain.isDisplayed(), "Sign In tlačítko se nezobrazilo – odhlášení možná selhalo.");
+            // 7. Ověř, že se objevil odkaz "Sign In" (může mít různé formy)
+            WebElement signInLink = null;
+
+            try {
+                signInLink = wait.until(ExpectedConditions.visibilityOfElementLocated(
+                        By.cssSelector("a[href='/registration/signin']")));
+            } catch (TimeoutException ignored) {
+            }
+
+            if (signInLink == null) {
+                try {
+                    signInLink = wait.until(ExpectedConditions.visibilityOfElementLocated(
+                            By.linkText("Sign In")));
+                } catch (TimeoutException ignored) {
+                }
+            }
+
+            if (signInLink == null) {
+                try {
+                    signInLink = wait.until(ExpectedConditions.presenceOfElementLocated(
+                            By.xpath("//a[contains(@href,'signin')]")));
+                } catch (TimeoutException ignored) {
+                }
+            }
+
+            Assertions.assertNotNull(signInLink, "Sign In odkaz nebyl nalezen po odhlášení.");
+            Assertions.assertTrue(signInLink.isDisplayed(), "Sign In odkaz není viditelný.");
 
             System.out.println("✅ Test přihlášení a odhlášení byl úspěšný.");
 
@@ -115,10 +137,11 @@ public class IMDBTestsSignIn {
             Assertions.fail("Test selhal: " + e.getMessage());
         } finally {
             driver.quit();
-
         }
     }
+
 }
+
 
 
 
